@@ -1,0 +1,205 @@
+/* Get Theme CSS */
+@import url('theme.css');
+
+.header {
+	background-image: url(images/aqua/head-bg.jpg);
+}
+.header-r {
+	background-image: url(images/aqua/logo-bg.jpg);
+}
+.color-picker select {
+	background-color: #aaa;
+}
+#infobar {
+	background-image: url(images/aqua/info-bg.jpg);
+}
+.info-l {
+	background-image: url(images/aqua/info-l.jpg);
+}
+.inf-r {
+	background-image: url(images/aqua/info-r.jpg);
+}
+.myBlock-tr {
+	background-image: url(images/aqua/b-tm.jpg);
+}
+.myBlock-trl {
+	background-image: url(images/aqua/b-tl.jpg);
+}
+.myBlock-trr {
+	background-image: url(images/aqua/b-tr.jpg);
+}
+.ttable_head {
+	background-color: #176c81;
+	background-image: url(images/aqua/thead.jpg);
+}
+.table_head {
+	background-color: #176c81;
+	background-image: url(images/aqua/thead.jpg);
+}
+.rowTabHead {
+	background-color: #176c81;
+	background-image: url(images/aqua/thead.jpg);
+}
+.error {
+	color: #FF0000;
+}
+.next-prev {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 11px;
+	line-height: 13px;
+	color: #333;
+}
+.f-border {
+	border: 1px solid #555;
+}
+.f-header {
+	background-color: #0f4755;
+	background-image: url(images/aqua/f-header.gif);
+	background-repeat: repeat-x;
+	background-position: top;
+	border: 1px solid #555;
+	color: #000;
+}
+.f-header a {
+	font-weight: bold;
+	color: #FFF;
+	text-shadow: 0px 1px 2px #000;
+	text-decoration: none;
+}
+.f-header a:hover {
+	color: #eee;
+	text-shadow: 0px 1px 1px #000;
+}
+.f-logo {
+	background-repeat: no-repeat;
+	background-position: center top;
+	width: 100%;
+	background-image: url(images/aqua/f-logo.gif);
+}
+.f-location {
+	color: #FFFFFF;
+	background-color: #25adce;
+	background-image: url(images/aqua/f-location.gif);
+	background-repeat: repeat-x;
+	background-position: top;
+	display: block;
+	height: 30px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-shadow: 0px 1px 2px #000;
+	border: 1px solid #555;
+}
+.f-location a {
+	text-shadow: none;
+}
+.f-title {
+	color: #FFFFFF;
+	background-color: #1d88a2;
+	padding: 3px;
+	font-size: 10px;
+	font-weight: normal;
+	background-image: url(images/aqua/p-title.gif);
+	background-repeat: repeat-x;
+	background-position: top;
+	height: 26px;
+	text-shadow: 0px 1px 1px #000;
+}
+.p-title {
+	color: #FFFFFF;
+	background-color: #1d88a2;
+	padding: 3px;
+	font-size: 10px;
+	font-weight: normal;
+	background-image: url(images/aqua/p-title.gif);
+	background-repeat: repeat-x;
+	background-position: top;
+	height: 26px;
+	text-shadow: 0px 1px 1px #000;
+}
+.p-title a {
+	text-shadow: none;
+}
+.p-foot {
+	color: #333;
+	background-color: #ddd;
+	font-size: 10px;
+	font-weight: normal;
+	border-collapse: collapse;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #555;
+	border-bottom-color: #555;
+	border-left-color: #555;
+	border-top-style: none;
+}
+.p-foot img {
+	-moz-box-shadow: 0 1px 2px 0px #444;
+	-webkit-box-shadow: 0 1px 2px 0px#444;
+	box-shadow: 0 11px 2px 0px #444;
+}	
+	
+.f-reply {
+	color: #333;
+	background-color: #ddd;
+	padding: 3px;
+	font-size: 10px;
+	font-weight: normal;
+	border: 1px solid #555;
+}
+.f-cat {
+	background-color: #25adce;
+	font-size: 15px;
+	margin: 0px;
+	background-image: url(images/aqua/f-location.gif);
+	background-repeat: repeat-x;
+	background-position: top;
+	font-weight: bold;
+	text-shadow: 0px 1px 1px #000;
+	color: #ddebf2;
+	padding-top: 4px;
+	padding-right: 0px;
+	padding-bottom: 4px;
+	padding-left: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.f-reply input[type=button], .f-reply input[type=submit] {
+	-moz-box-shadow: 0 1px 2px 0px #444;
+	-webkit-box-shadow: 0 1px 2px 0px#444;
+	box-shadow: 0 11px 2px 0px #444;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	text-shadow: 0px 1px 1px #000;
+	background-image: url(images/aqua/f-location.gif);
+	background-repeat: repeat-x;
+	background-position: center -3px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #bbb;
+	border-right-color: #aaa;
+	border-bottom-color: #555;
+	border-left-color: #aaa;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 2px;
+	background-color: #25adce;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFFFFF;
+}
+.f-reply input[type=button]:hover, .f-reply input[type=submit]:hover {
+}
+.f-reply textarea ,.f-reply input[type=text]{
+	background-color: #eee;
+	border: 1px solid #555;
+}
