@@ -2,5 +2,7 @@ protected/config/main.php
 protected/config/console.php
 protected/config/test.php
 protected/config/sphynx.conf
+protected/run/*
+httpdocs/assets/*
 log/
 run/
