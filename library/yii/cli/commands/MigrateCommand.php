@@ -269,8 +269,8 @@ class MigrateCommand extends CConsoleCommand
 					for($j=0;$j<=$i;++$j)
 					{
 						$command->insert($this->migrationTable, array(
-							'version'=>$migrations[$j],
-							'apply_time'=>time(),
+								'version'=>$migrations[$j],
+								'apply_time'=>time(),
 						));
 					}
 					echo "The migration history is set at $originalVersion.\nNo actual migration was performed.\n";
@@ -386,8 +386,8 @@ class MigrateCommand extends CConsoleCommand
 		if($migration->up()!==false)
 		{
 			$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
-				'version'=>$class,
-				'apply_time'=>time(),
+					'version'=>$class,
+					'apply_time'=>time(),
 			));
 			$time=microtime(true)-$start;
 			echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
@@ -455,11 +455,11 @@ class MigrateCommand extends CConsoleCommand
 			$this->createMigrationHistoryTable();
 		}
 		return CHtml::listData($db->createCommand()
-			->select('version, apply_time')
-			->from($this->migrationTable)
-			->order('version DESC')
-			->limit($limit)
-			->queryAll(), 'version', 'apply_time');
+				->select('version, apply_time')
+				->from($this->migrationTable)
+				->order('version DESC')
+				->limit($limit)
+				->queryAll(), 'version', 'apply_time');
 	}
 
 	protected function createMigrationHistoryTable()
@@ -467,12 +467,12 @@ class MigrateCommand extends CConsoleCommand
 		$db=$this->getDbConnection();
 		echo 'Creating migration history table "'.$this->migrationTable.'"...';
 		$db->createCommand()->createTable($this->migrationTable,array(
-			'version'=>'string NOT NULL PRIMARY KEY',
-			'apply_time'=>'integer',
+				'version'=>'string NOT NULL PRIMARY KEY',
+				'apply_time'=>'integer',
 		));
 		$db->createCommand()->insert($this->migrationTable,array(
-			'version'=>self::BASE_MIGRATION,
-			'apply_time'=>time(),
+				'version'=>self::BASE_MIGRATION,
+				'apply_time'=>time(),
 		));
 		echo "done.\n";
 	}

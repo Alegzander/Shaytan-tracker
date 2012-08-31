@@ -43,7 +43,7 @@ class CDbExpression extends CComponent
 	 * Constructor.
 	 * @param string $expression the DB expression
 	 * @param array $params parameters
-	 */
+	*/
 	public function __construct($expression,$params=array())
 	{
 		$this->expression=$expression;

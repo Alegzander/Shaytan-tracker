@@ -69,7 +69,7 @@ class COciCommandBuilder extends CDbCommandBuilder
 				{$filter}
 EOD;
 
-		return $sql;
+				return $sql;
 	}
 
 	/**

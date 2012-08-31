@@ -54,7 +54,7 @@ class CDbTableSchema extends CComponent
 	public $foreignKeys=array();
 	/**
 	 * @var array column metadata of this table. Each array element is a CDbColumnSchema object, indexed by column names.
-	 */
+	*/
 	public $columns=array();
 
 	/**
@@ -62,7 +62,7 @@ class CDbTableSchema extends CComponent
 	 * This is a convenient method for retrieving a named column even if it does not exist.
 	 * @param string $name column name
 	 * @return CDbColumnSchema metadata of the named column. Null if the named column does not exist.
-	 */
+	*/
 	public function getColumn($name)
 	{
 		return isset($this->columns[$name]) ? $this->columns[$name] : null;

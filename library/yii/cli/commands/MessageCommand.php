@@ -97,7 +97,7 @@ EOD;
 
 		if(!isset($sort))
 			$sort = false;
-		
+
 		$options=array();
 		if(isset($fileTypes))
 			$options['fileTypes']=$fileTypes;

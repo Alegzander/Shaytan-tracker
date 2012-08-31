@@ -68,7 +68,7 @@ Yii::import('system.gii.CCodeForm');
  * @version $Id$
  * @package system.gii
  * @since 1.1.2
- */
+*/
 class GiiModule extends CWebModule
 {
 	/**
@@ -92,13 +92,13 @@ class GiiModule extends CWebModule
 	 * The directory referred by a single path alias may contain multiple code generators, each stored
 	 * under a sub-directory whose name is the generator name.
 	 * Defaults to array('application.gii').
-	 */
+	*/
 	public $generatorPaths=array('application.gii');
 	/**
 	 * @var integer the permission to be set for newly generated code files.
 	 * This value will be used by PHP chmod function.
 	 * Defaults to 0666, meaning the file is read-writable by all users.
-	 */
+	*/
 	public $newFileMode=0666;
 	/**
 	 * @var integer the permission to be set for newly generated directories.
@@ -116,19 +116,19 @@ class GiiModule extends CWebModule
 	{
 		parent::init();
 		Yii::app()->setComponents(array(
-			'errorHandler'=>array(
-				'class'=>'CErrorHandler',
-				'errorAction'=>$this->getId().'/default/error',
-			),
-			'user'=>array(
-				'class'=>'CWebUser',
-				'stateKeyPrefix'=>'gii',
-				'loginUrl'=>Yii::app()->createUrl($this->getId().'/default/login'),
-			),
-			'widgetFactory' => array(
-				'class'=>'CWidgetFactory',
-				'widgets' => array()
-			)
+		'errorHandler'=>array(
+		'class'=>'CErrorHandler',
+		'errorAction'=>$this->getId().'/default/error',
+		),
+		'user'=>array(
+		'class'=>'CWebUser',
+		'stateKeyPrefix'=>'gii',
+		'loginUrl'=>Yii::app()->createUrl($this->getId().'/default/login'),
+		),
+		'widgetFactory' => array(
+		'class'=>'CWidgetFactory',
+		'widgets' => array()
+		)
 		), false);
 		$this->generatorPaths[]='gii.generators';
 		$this->controllerMap=$this->findGenerators();
@@ -169,8 +169,8 @@ class GiiModule extends CWebModule
 				throw new CHttpException(403,"You are not allowed to access this page.");
 
 			$publicPages=array(
-				'default/login',
-				'default/error',
+					'default/login',
+					'default/error',
 			);
 			if($this->password!==false && Yii::app()->user->isGuest && !in_array($route,$publicPages))
 				Yii::app()->user->loginRequired();
@@ -221,7 +221,7 @@ class GiiModule extends CWebModule
 					if(is_file("$path/$name/$className.php"))
 					{
 						$generators[$name]=array(
-							'class'=>"$alias.$name.$className",
+								'class'=>"$alias.$name.$className",
 						);
 					}
 

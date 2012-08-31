@@ -44,7 +44,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	private $_d=array();
 	/**
 	 * @var integer number of items
-	 */
+	*/
 	private $_c=0;
 	/**
 	 * @var boolean whether this list is read-only
@@ -125,7 +125,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			return $this->_d[$index];
 		else
 			throw new CException(Yii::t('yii','List index "{index}" is out of bound.',
-				array('{index}'=>$index)));
+					array('{index}'=>$index)));
 	}
 
 	/**
@@ -160,7 +160,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			}
 			else
 				throw new CException(Yii::t('yii','List index "{index}" is out of bound.',
-					array('{index}'=>$index)));
+						array('{index}'=>$index)));
 		}
 		else
 			throw new CException(Yii::t('yii','The list is read only.'));
@@ -209,7 +209,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			}
 			else
 				throw new CException(Yii::t('yii','List index "{index}" is out of bound.',
-					array('{index}'=>$index)));
+						array('{index}'=>$index)));
 		}
 		else
 			throw new CException(Yii::t('yii','The list is read only.'));

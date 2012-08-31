@@ -12,30 +12,30 @@ class CrudCode extends CCodeModel
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('model, controller', 'filter', 'filter'=>'trim'),
-			array('model, controller, baseControllerClass', 'required'),
-			array('model', 'match', 'pattern'=>'/^\w+[\w+\\.]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
-			array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
-			array('baseControllerClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
-			array('baseControllerClass', 'validateReservedWord', 'skipOnError'=>true),
-			array('model', 'validateModel'),
-			array('baseControllerClass', 'sticky'),
+				array('model, controller', 'filter', 'filter'=>'trim'),
+				array('model, controller, baseControllerClass', 'required'),
+				array('model', 'match', 'pattern'=>'/^\w+[\w+\\.]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
+				array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
+				array('baseControllerClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
+				array('baseControllerClass', 'validateReservedWord', 'skipOnError'=>true),
+				array('model', 'validateModel'),
+				array('baseControllerClass', 'sticky'),
 		));
 	}
 
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(
-			'model'=>'Model Class',
-			'controller'=>'Controller ID',
-			'baseControllerClass'=>'Base Controller Class',
+				'model'=>'Model Class',
+				'controller'=>'Controller ID',
+				'baseControllerClass'=>'Base Controller Class',
 		));
 	}
 
 	public function requiredTemplates()
 	{
 		return array(
-			'controller.php',
+				'controller.php',
 		);
 	}
 
@@ -83,8 +83,8 @@ class CrudCode extends CCodeModel
 		$controllerTemplateFile=$templatePath.DIRECTORY_SEPARATOR.'controller.php';
 
 		$this->files[]=new CCodeFile(
-			$this->controllerFile,
-			$this->render($controllerTemplateFile)
+				$this->controllerFile,
+				$this->render($controllerTemplateFile)
 		);
 
 		$files=scandir($templatePath);
@@ -93,8 +93,8 @@ class CrudCode extends CCodeModel
 			if(is_file($templatePath.'/'.$file) && CFileHelper::getExtension($file)==='php' && $file!=='controller.php')
 			{
 				$this->files[]=new CCodeFile(
-					$this->viewPath.DIRECTORY_SEPARATOR.$file,
-					$this->render($templatePath.'/'.$file)
+						$this->viewPath.DIRECTORY_SEPARATOR.$file,
+						$this->render($templatePath.'/'.$file)
 				);
 			}
 		}

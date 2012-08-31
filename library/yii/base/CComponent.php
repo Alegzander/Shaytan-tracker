@@ -129,7 +129,7 @@ class CComponent
 			}
 		}
 		throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
-			array('{class}'=>get_class($this), '{property}'=>$name)));
+				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
 	/**
@@ -169,10 +169,10 @@ class CComponent
 		}
 		if(method_exists($this,'get'.$name))
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
-				array('{class}'=>get_class($this), '{property}'=>$name)));
+					array('{class}'=>get_class($this), '{property}'=>$name)));
 		else
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
-				array('{class}'=>get_class($this), '{property}'=>$name)));
+					array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
 	/**
@@ -194,8 +194,8 @@ class CComponent
 		}
 		else if(is_array($this->_m))
 		{
- 			if(isset($this->_m[$name]))
- 				return true;
+			if(isset($this->_m[$name]))
+				return true;
 			foreach($this->_m as $object)
 			{
 				if($object->getEnabled() && (property_exists($object,$name) || $object->canGetProperty($name)))
@@ -240,7 +240,7 @@ class CComponent
 		}
 		else if(method_exists($this,'get'.$name))
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
-				array('{class}'=>get_class($this), '{property}'=>$name)));
+					array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
 	/**
@@ -264,7 +264,7 @@ class CComponent
 		if(class_exists('Closure', false) && $this->canGetProperty($name) && $this->$name instanceof Closure)
 			return call_user_func_array($this->$name, $parameters);
 		throw new CException(Yii::t('yii','{class} and its behaviors do not have a method or closure named "{name}".',
-			array('{class}'=>get_class($this), '{name}'=>$name)));
+				array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 
 	/**
@@ -474,7 +474,7 @@ class CComponent
 		}
 		else
 			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
-				array('{class}'=>get_class($this), '{event}'=>$name)));
+					array('{class}'=>get_class($this), '{event}'=>$name)));
 	}
 
 	/**
@@ -559,14 +559,14 @@ class CComponent
 							$object->$method($event);
 						else
 							throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
-								array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>$handler[1])));
+									array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>$handler[1])));
 					}
 					else // PHP 5.3: anonymous function
 						call_user_func($handler,$event);
 				}
 				else
 					throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
-						array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>gettype($handler))));
+							array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>gettype($handler))));
 				// stop further handling if param.handled is set true
 				if(($event instanceof CEvent) && $event->handled)
 					return;
@@ -574,7 +574,7 @@ class CComponent
 		}
 		else if(YII_DEBUG && !$this->hasEvent($name))
 			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
-				array('{class}'=>get_class($this), '{event}'=>$name)));
+					array('{class}'=>get_class($this), '{event}'=>$name)));
 	}
 
 	/**

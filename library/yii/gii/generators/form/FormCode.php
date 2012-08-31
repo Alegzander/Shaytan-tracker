@@ -12,32 +12,32 @@ class FormCode extends CCodeModel
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('model, viewName, scenario', 'filter', 'filter'=>'trim'),
-			array('model, viewName, viewPath', 'required'),
-			array('model, viewPath', 'match', 'pattern'=>'/^\w+[\.\w+]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
-			array('viewName', 'match', 'pattern'=>'/^\w+[\\/\w+]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
-			array('model', 'validateModel'),
-			array('viewPath', 'validateViewPath'),
-			array('scenario', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
-			array('viewPath', 'sticky'),
+				array('model, viewName, scenario', 'filter', 'filter'=>'trim'),
+				array('model, viewName, viewPath', 'required'),
+				array('model, viewPath', 'match', 'pattern'=>'/^\w+[\.\w+]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
+				array('viewName', 'match', 'pattern'=>'/^\w+[\\/\w+]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
+				array('model', 'validateModel'),
+				array('viewPath', 'validateViewPath'),
+				array('scenario', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
+				array('viewPath', 'sticky'),
 		));
 	}
 
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(
-			'model'=>'Model Class',
-			'viewName'=>'View Name',
-			'viewPath'=>'View Path',
-			'scenario'=>'Scenario',
+				'model'=>'Model Class',
+				'viewName'=>'View Name',
+				'viewPath'=>'View Path',
+				'scenario'=>'Scenario',
 		));
 	}
 
 	public function requiredTemplates()
 	{
 		return array(
-			'form.php',
-			'action.php',
+				'form.php',
+				'action.php',
 		);
 	}
 
@@ -76,8 +76,8 @@ EOD;
 	{
 		$templatePath=$this->templatePath;
 		$this->files[]=new CCodeFile(
-			Yii::getPathOfAlias($this->viewPath).'/'.$this->viewName.'.php',
-			$this->render($templatePath.'/form.php')
+				Yii::getPathOfAlias($this->viewPath).'/'.$this->viewName.'.php',
+				$this->render($templatePath.'/form.php')
 		);
 	}
 

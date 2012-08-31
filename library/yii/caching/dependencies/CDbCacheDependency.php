@@ -106,7 +106,7 @@ class CDbCacheDependency extends CCacheDependency
 				return $this->_db;
 			else
 				throw new CException(Yii::t('yii','CDbCacheDependency.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
-					array('{id}'=>$this->connectionID)));
+						array('{id}'=>$this->connectionID)));
 		}
 	}
 }

@@ -42,13 +42,13 @@ abstract class CMessageSource extends CApplicationComponent
 	 * @param string $category the message category
 	 * @param string $language the target language
 	 * @return array the loaded messages
-	 */
+	*/
 	abstract protected function loadMessages($category,$language);
 
 	/**
 	 * @return string the language that the source messages are written in.
 	 * Defaults to {@link CApplication::language application language}.
-	 */
+	*/
 	public function getLanguage()
 	{
 		return $this->_language===null ? Yii::app()->sourceLanguage : $this->_language;

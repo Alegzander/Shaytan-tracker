@@ -22,21 +22,21 @@ class CSqliteSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
-        'string' => 'varchar(255)',
-        'text' => 'text',
-        'integer' => 'integer',
-        'float' => 'float',
-        'decimal' => 'decimal',
-        'datetime' => 'datetime',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'blob',
-        'boolean' => 'tinyint(1)',
-		'money' => 'decimal(19,4)',
-    );
+	public $columnTypes=array(
+			'pk' => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
+			'string' => 'varchar(255)',
+			'text' => 'text',
+			'integer' => 'integer',
+			'float' => 'float',
+			'decimal' => 'decimal',
+			'datetime' => 'datetime',
+			'timestamp' => 'timestamp',
+			'time' => 'time',
+			'date' => 'date',
+			'binary' => 'blob',
+			'boolean' => 'tinyint(1)',
+			'money' => 'decimal(19,4)',
+	);
 
 	/**
 	 * Resets the sequence value of a table's primary key.
@@ -46,7 +46,7 @@ class CSqliteSchema extends CDbSchema
 	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
 	 * @since 1.1
-	 */
+	*/
 	public function resetSequence($table,$value=null)
 	{
 		if($table->sequenceName!==null)

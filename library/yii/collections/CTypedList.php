@@ -47,6 +47,6 @@ class CTypedList extends CList
 			parent::insertAt($index,$item);
 		else
 			throw new CException(Yii::t('yii','CTypedList<{type}> can only hold objects of {type} class.',
-				array('{type}'=>$this->_type)));
+					array('{type}'=>$this->_type)));
 	}
 }

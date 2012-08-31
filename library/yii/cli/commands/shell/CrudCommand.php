@@ -152,31 +152,31 @@ EOD;
 		$fixtureName=$this->pluralize($modelClass);
 		$fixtureName[0]=strtolower($fixtureName);
 		$list=array(
-			basename($controllerFile)=>array(
-				'source'=>$templatePath.'/controller.php',
-				'target'=>$controllerFile,
-				'callback'=>array($this,'generateController'),
-				'params'=>array($controllerClass,$modelClass),
-			),
+				basename($controllerFile)=>array(
+						'source'=>$templatePath.'/controller.php',
+						'target'=>$controllerFile,
+						'callback'=>array($this,'generateController'),
+						'params'=>array($controllerClass,$modelClass),
+				),
 		);
 
 		if($functionalTestPath!==false)
 		{
 			$list[$modelClass.'Test.php']=array(
-				'source'=>$templatePath.'/test.php',
-				'target'=>$functionalTestPath.DIRECTORY_SEPARATOR.$modelClass.'Test.php',
-				'callback'=>array($this,'generateTest'),
-				'params'=>array($controllerID,$fixtureName,$modelClass),
+					'source'=>$templatePath.'/test.php',
+					'target'=>$functionalTestPath.DIRECTORY_SEPARATOR.$modelClass.'Test.php',
+					'callback'=>array($this,'generateTest'),
+					'params'=>array($controllerID,$fixtureName,$modelClass),
 			);
 		}
 
 		foreach($this->actions as $action)
 		{
 			$list[$action.'.php']=array(
-				'source'=>$templatePath.'/'.$action.'.php',
-				'target'=>$viewPath.'/'.$action.'.php',
-				'callback'=>array($this,'generateView'),
-				'params'=>$modelClass,
+					'source'=>$templatePath.'/'.$action.'.php',
+					'target'=>$viewPath.'/'.$action.'.php',
+					'callback'=>array($this,'generateView'),
+					'params'=>$modelClass,
 			);
 		}
 
@@ -205,9 +205,9 @@ EOD;
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 
 		return $this->renderFile($source,array(
-			'ID'=>$id,
-			'controllerClass'=>$controllerClass,
-			'modelClass'=>$modelClass,
+				'ID'=>$id,
+				'controllerClass'=>$controllerClass,
+				'modelClass'=>$modelClass,
 		),true);
 	}
 
@@ -219,9 +219,9 @@ EOD;
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 		return $this->renderFile($source,array(
-			'ID'=>$table->primaryKey,
-			'modelClass'=>$modelClass,
-			'columns'=>$columns),true);
+				'ID'=>$table->primaryKey,
+				'modelClass'=>$modelClass,
+				'columns'=>$columns),true);
 	}
 
 	public function generateTest($source,$params)
@@ -230,9 +230,9 @@ EOD;
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 		return $this->renderFile($source, array(
-			'controllerID'=>$controllerID,
-			'fixtureName'=>$fixtureName,
-			'modelClass'=>$modelClass,
+				'controllerID'=>$controllerID,
+				'fixtureName'=>$fixtureName,
+				'modelClass'=>$modelClass,
 		),true);
 	}
 

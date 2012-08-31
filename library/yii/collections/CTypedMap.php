@@ -47,6 +47,6 @@ class CTypedMap extends CMap
 			parent::add($index,$item);
 		else
 			throw new CException(Yii::t('yii','CTypedMap<{type}> can only hold objects of {type} class.',
-				array('{type}'=>$this->_type)));
+					array('{type}'=>$this->_type)));
 	}
 }

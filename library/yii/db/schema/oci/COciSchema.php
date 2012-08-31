@@ -25,21 +25,21 @@ class COciSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'NUMBER(10) NOT NULL PRIMARY KEY',
-        'string' => 'VARCHAR2(255)',
-        'text' => 'CLOB',
-        'integer' => 'NUMBER(10)',
-        'float' => 'NUMBER',
-        'decimal' => 'NUMBER',
-        'datetime' => 'TIMESTAMP',
-        'timestamp' => 'TIMESTAMP',
-        'time' => 'TIMESTAMP',
-        'date' => 'DATE',
-        'binary' => 'BLOB',
-        'boolean' => 'NUMBER(1)',
-		'money' => 'NUMBER(19,4)',
-    );
+	public $columnTypes=array(
+			'pk' => 'NUMBER(10) NOT NULL PRIMARY KEY',
+			'string' => 'VARCHAR2(255)',
+			'text' => 'CLOB',
+			'integer' => 'NUMBER(10)',
+			'float' => 'NUMBER',
+			'decimal' => 'NUMBER',
+			'datetime' => 'TIMESTAMP',
+			'timestamp' => 'TIMESTAMP',
+			'time' => 'TIMESTAMP',
+			'date' => 'DATE',
+			'binary' => 'BLOB',
+			'boolean' => 'NUMBER(1)',
+			'money' => 'NUMBER(19,4)',
+	);
 
 	/**
 	 * Quotes a table name for use in a query.
@@ -47,7 +47,7 @@ class COciSchema extends CDbSchema
 	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 * @since 1.1.6
-	 */
+	*/
 	public function quoteSimpleTableName($name)
 	{
 		return '"'.$name.'"';
@@ -76,38 +76,38 @@ class COciSchema extends CDbSchema
 	}
 
 	/**
-     * @param string $schema default schema.
-     */
-    public function setDefaultSchema($schema)
-    {
+	 * @param string $schema default schema.
+	 */
+	public function setDefaultSchema($schema)
+	{
 		$this->_defaultSchema=$schema;
-    }
+	}
 
-    /**
-     * @return string default schema.
-     */
-    public function getDefaultSchema()
-    {
+	/**
+	 * @return string default schema.
+	 */
+	public function getDefaultSchema()
+	{
 		if (!strlen($this->_defaultSchema))
 		{
 			$this->setDefaultSchema(strtoupper($this->getDbConnection()->username));
 		}
 
 		return $this->_defaultSchema;
-    }
+	}
 
-    /**
-     * @param string $table table name with optional schema name prefix, uses default schema name prefix is not provided.
-     * @return array tuple as ($schemaName,$tableName)
-     */
-    protected function getSchemaTableName($table)
-    {
+	/**
+	 * @param string $table table name with optional schema name prefix, uses default schema name prefix is not provided.
+	 * @return array tuple as ($schemaName,$tableName)
+	 */
+	protected function getSchemaTableName($table)
+	{
 		$table = strtoupper($table);
 		if(count($parts= explode('.', str_replace('"','',$table))) > 1)
 			return array($parts[0], $parts[1]);
 		else
 			return array($this->getDefaultSchema(),$parts[0]);
-    }
+	}
 
 	/**
 	 * Loads the metadata for the specified table.
@@ -331,8 +331,8 @@ EOD;
 	{
 		$type=$this->getColumnType($type);
 		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' MODIFY '
-			. $this->quoteColumnName($column) . ' '
-			. $this->getColumnType($type);
+				. $this->quoteColumnName($column) . ' '
+						. $this->getColumnType($type);
 		return $sql;
 	}
 

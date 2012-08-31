@@ -17,7 +17,7 @@
  * One can also retrieve the rows of data in CDbDataReader by using foreach:
  * <pre>
  * foreach($reader as $row)
- *     // $row represents a row of data
+ 	*     // $row represents a row of data
  * </pre>
  * Since CDbDataReader is a forward-only stream, you can only traverse it once.
  *

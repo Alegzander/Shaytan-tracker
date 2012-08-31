@@ -165,7 +165,7 @@ class CConsoleApplication extends CApplication
 	{
 		if(($this->_commandPath=realpath($value))===false || !is_dir($this->_commandPath))
 			throw new CException(Yii::t('yii','The command path "{path}" is not a valid directory.',
-				array('{path}'=>$value)));
+					array('{path}'=>$value)));
 	}
 
 	/**

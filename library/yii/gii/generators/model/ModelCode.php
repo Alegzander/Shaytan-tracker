@@ -19,36 +19,36 @@ class ModelCode extends CCodeModel
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('tablePrefix, baseClass, tableName, modelClass, modelPath, connectionId', 'filter', 'filter'=>'trim'),
-			array('connectionId, tableName, modelPath, baseClass', 'required'),
-			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending asterisk.'),
-			array('connectionId', 'validateConnectionId', 'skipOnError'=>true),
-			array('tableName', 'validateTableName', 'skipOnError'=>true),
-			array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
-			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
-			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
-			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
-			array('connectionId, tablePrefix, modelPath, baseClass, buildRelations', 'sticky'),
+				array('tablePrefix, baseClass, tableName, modelClass, modelPath, connectionId', 'filter', 'filter'=>'trim'),
+				array('connectionId, tableName, modelPath, baseClass', 'required'),
+				array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending asterisk.'),
+				array('connectionId', 'validateConnectionId', 'skipOnError'=>true),
+				array('tableName', 'validateTableName', 'skipOnError'=>true),
+				array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
+				array('modelPath', 'validateModelPath', 'skipOnError'=>true),
+				array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
+				array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
+				array('connectionId, tablePrefix, modelPath, baseClass, buildRelations', 'sticky'),
 		));
 	}
 
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(
-			'tablePrefix'=>'Table Prefix',
-			'tableName'=>'Table Name',
-			'modelPath'=>'Model Path',
-			'modelClass'=>'Model Class',
-			'baseClass'=>'Base Class',
-			'buildRelations'=>'Build Relations',
-			'connectionId'=>'Database Connection',
+				'tablePrefix'=>'Table Prefix',
+				'tableName'=>'Table Name',
+				'modelPath'=>'Model Path',
+				'modelClass'=>'Model Class',
+				'baseClass'=>'Base Class',
+				'buildRelations'=>'Build Relations',
+				'connectionId'=>'Database Connection',
 		));
 	}
 
 	public function requiredTemplates()
 	{
 		return array(
-			'model.php',
+				'model.php',
 		);
 	}
 
@@ -96,17 +96,17 @@ class ModelCode extends CCodeModel
 			$tableName=$this->removePrefix($table->name);
 			$className=$this->generateClassName($table->name);
 			$params=array(
-				'tableName'=>$schema==='' ? $tableName : $schema.'.'.$tableName,
-				'modelClass'=>$className,
-				'columns'=>$table->columns,
-				'labels'=>$this->generateLabels($table),
-				'rules'=>$this->generateRules($table),
-				'relations'=>isset($this->relations[$className]) ? $this->relations[$className] : array(),
-				'connectionId'=>$this->connectionId,
+					'tableName'=>$schema==='' ? $tableName : $schema.'.'.$tableName,
+					'modelClass'=>$className,
+					'columns'=>$table->columns,
+					'labels'=>$this->generateLabels($table),
+					'rules'=>$this->generateRules($table),
+					'relations'=>isset($this->relations[$className]) ? $this->relations[$className] : array(),
+					'connectionId'=>$this->connectionId,
 			);
 			$this->files[]=new CCodeFile(
-				Yii::getPathOfAlias($this->modelPath).'/'.$className.'.php',
-				$this->render($templatePath.'/model.php', $params)
+					Yii::getPathOfAlias($this->modelPath).'/'.$className.'.php',
+					$this->render($templatePath.'/model.php', $params)
 			);
 		}
 	}
@@ -147,7 +147,7 @@ class ModelCode extends CCodeModel
 				$this->addError('modelClass','Model Class cannot be blank.');
 
 			if(!$this->hasErrors($attribute) && ($invalidColumn=$this->checkColumns($table))!==null)
-					$invalidColumns[]=$invalidColumn;
+				$invalidColumns[]=$invalidColumn;
 		}
 
 		if($invalidTables!=array())
@@ -158,10 +158,10 @@ class ModelCode extends CCodeModel
 
 	/*
 	 * Check that all database field names conform to PHP variable naming rules
-	 * For example mysql allows field name like "2011aa", but PHP does not allow variable like "$model->2011aa"
-	 * @param CDbTableSchema $table the table schema object
-	 * @return string the invalid table column name. Null if no error.
-	 */
+	* For example mysql allows field name like "2011aa", but PHP does not allow variable like "$model->2011aa"
+	* @param CDbTableSchema $table the table schema object
+	* @return string the invalid table column name. Null if no error.
+	*/
 	public function checkColumns($table)
 	{
 		foreach($table->columns as $column)
@@ -348,9 +348,9 @@ class ModelCode extends CCodeModel
 	{
 		$pk=$table->primaryKey;
 		return (count($pk) === 2 // we want 2 columns
-			&& isset($table->foreignKeys[$pk[0]]) // pk column 1 is also a foreign key
-			&& isset($table->foreignKeys[$pk[1]]) // pk column 2 is also a foriegn key
-			&& $table->foreignKeys[$pk[0]][0] !== $table->foreignKeys[$pk[1]][0]); // and the foreign keys point different tables
+				&& isset($table->foreignKeys[$pk[0]]) // pk column 1 is also a foreign key
+				&& isset($table->foreignKeys[$pk[1]]) // pk column 2 is also a foriegn key
+				&& $table->foreignKeys[$pk[0]][0] !== $table->foreignKeys[$pk[1]][0]); // and the foreign keys point different tables
 	}
 
 	protected function generateClassName($tableName)

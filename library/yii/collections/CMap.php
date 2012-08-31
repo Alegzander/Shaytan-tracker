@@ -41,7 +41,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	private $_d=array();
 	/**
 	 * @var boolean whether this list is read-only
-	 */
+	*/
 	private $_r=false;
 
 	/**

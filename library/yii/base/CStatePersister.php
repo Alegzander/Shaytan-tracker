@@ -68,7 +68,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 		$dir=dirname($this->stateFile);
 		if(!is_dir($dir) || !is_writable($dir))
 			throw new CException(Yii::t('yii','Unable to create application state file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.',
-				array('{file}'=>$this->stateFile)));
+					array('{file}'=>$this->stateFile)));
 	}
 
 	/**

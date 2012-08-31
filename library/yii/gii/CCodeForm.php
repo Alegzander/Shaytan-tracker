@@ -49,8 +49,8 @@ EOD;
 			$templates[$i]=basename($template).' ('.$template.')';
 
 		$this->renderFile(Yii::getPathOfAlias('gii.views.common.generator').'.php',array(
-			'model'=>$this->model,
-			'templates'=>$templates,
+				'model'=>$this->model,
+				'templates'=>$templates,
 		));
 
 		parent::run();

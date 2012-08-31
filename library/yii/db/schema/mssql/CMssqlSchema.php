@@ -25,20 +25,20 @@ class CMssqlSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'int IDENTITY PRIMARY KEY',
-        'string' => 'varchar(255)',
-        'text' => 'text',
-        'integer' => 'int',
-        'float' => 'float',
-        'decimal' => 'decimal',
-        'datetime' => 'datetime',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'binary',
-        'boolean' => 'bit',
-    );
+	public $columnTypes=array(
+			'pk' => 'int IDENTITY PRIMARY KEY',
+			'string' => 'varchar(255)',
+			'text' => 'text',
+			'integer' => 'int',
+			'float' => 'float',
+			'decimal' => 'decimal',
+			'datetime' => 'datetime',
+			'timestamp' => 'timestamp',
+			'time' => 'time',
+			'date' => 'date',
+			'binary' => 'binary',
+			'boolean' => 'bit',
+	);
 
 	/**
 	 * Quotes a table name for use in a query.
@@ -46,7 +46,7 @@ class CMssqlSchema extends CDbSchema
 	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 * @since 1.1.6
-	 */
+	*/
 	public function quoteSimpleTableName($name)
 	{
 		return '['.$name.']';
@@ -103,11 +103,11 @@ class CMssqlSchema extends CDbSchema
 
 	private $_normalTables=array();  // non-view tables
 	/**
-	 * Enables or disables integrity check.
-	 * @param boolean $check whether to turn on or off the integrity check.
-	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
-	 * @since 1.1.6
-	 */
+	* Enables or disables integrity check.
+	* @param boolean $check whether to turn on or off the integrity check.
+	* @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	* @since 1.1.6
+	*/
 	public function checkIntegrity($check=true,$schema='')
 	{
 		$enable=$check ? 'CHECK' : 'NOCHECK';
@@ -325,7 +325,7 @@ EOD;
 			$c->scale=$column['NUMERIC_SCALE']!==null?(int)$column['NUMERIC_SCALE']:null;
 		}
 		elseif ($column['DATA_TYPE']=='image' || $column['DATA_TYPE']=='text')
-			$c->size=$c->precision=null;
+		$c->size=$c->precision=null;
 		else
 			$c->size=$c->precision=($column['CHARACTER_MAXIMUM_LENGTH']!== null)?(int)$column['CHARACTER_MAXIMUM_LENGTH']:null;
 		$c->autoIncrement=$column['IsIdentity']==1;
@@ -417,8 +417,8 @@ EOD;
 	{
 		$type=$this->getColumnType($type);
 		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' ALTER COLUMN '
-			. $this->quoteColumnName($column) . ' '
-			. $this->getColumnType($type);
+				. $this->quoteColumnName($column) . ' '
+						. $this->getColumnType($type);
 		return $sql;
 	}
 }

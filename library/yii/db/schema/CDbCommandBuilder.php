@@ -267,7 +267,7 @@ class CDbCommandBuilder extends CComponent
 		}
 		if($fields===array())
 			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
-				array('{table}'=>$table->name)));
+					array('{table}'=>$table->name)));
 		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
@@ -316,7 +316,7 @@ class CDbCommandBuilder extends CComponent
 		}
 		else
 			throw new CDbException(Yii::t('yii','No counter columns are being updated for table "{table}".',
-				array('{table}'=>$table->name)));
+					array('{table}'=>$table->name)));
 	}
 
 	/**
@@ -568,7 +568,7 @@ class CDbCommandBuilder extends CComponent
 			}
 			else
 				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
-					array('{table}'=>$table->name,'{column}'=>$name)));
+						array('{table}'=>$table->name,'{column}'=>$name)));
 		}
 		$criteria->params=array_merge($values,$criteria->params);
 		if(isset($conditions[0]))
@@ -607,7 +607,7 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(($column=$table->getColumn($name))===null)
 				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
-					array('{table}'=>$table->name,'{column}'=>$name)));
+						array('{table}'=>$table->name,'{column}'=>$name)));
 			$condition=array();
 			foreach($keywords as $keyword)
 			{
@@ -650,7 +650,7 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(!isset($table->columns[$columnName]))
 				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
-				array('{table}'=>$table->name, '{column}'=>$columnName)));
+						array('{table}'=>$table->name, '{column}'=>$columnName)));
 			$column=$table->columns[$columnName];
 
 			foreach($values as &$value)
@@ -670,7 +670,7 @@ class CDbCommandBuilder extends CComponent
 			{
 				if(!isset($table->columns[$name]))
 					throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
-					array('{table}'=>$table->name, '{column}'=>$name)));
+							array('{table}'=>$table->name, '{column}'=>$name)));
 
 				for($i=0;$i<$n;++$i)
 				{
@@ -684,7 +684,7 @@ class CDbCommandBuilder extends CComponent
 					}
 					else
 						throw new CDbException(Yii::t('yii','The value for the column "{column}" is not supplied when querying the table "{table}".',
-							array('{table}'=>$table->name,'{column}'=>$name)));
+								array('{table}'=>$table->name,'{column}'=>$name)));
 				}
 			}
 			if(count($values)===1)
@@ -730,6 +730,6 @@ class CDbCommandBuilder extends CComponent
 	{
 		if(is_string($table) && ($table=$this->_schema->getTable($tableName=$table))===null)
 			throw new CDbException(Yii::t('yii','Table "{table}" does not exist.',
-				array('{table}'=>$tableName)));
+					array('{table}'=>$tableName)));
 	}
 }

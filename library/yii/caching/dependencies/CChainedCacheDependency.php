@@ -91,7 +91,7 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 		{
 			foreach($this->_dependencies as $dependency)
 				if($dependency->getHasChanged())
-					return true;
+				return true;
 		}
 		return false;
 	}

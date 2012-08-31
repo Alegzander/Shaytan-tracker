@@ -9,30 +9,30 @@ class ControllerCode extends CCodeModel
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('controller, actions, baseClass', 'filter', 'filter'=>'trim'),
-			array('controller, baseClass', 'required'),
-			array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
-			array('actions', 'match', 'pattern'=>'/^\w+[\w\s,]*$/', 'message'=>'{attribute} should only contain word characters, spaces and commas.'),
-			array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
-			array('baseClass', 'validateReservedWord', 'skipOnError'=>true),
-			array('baseClass, actions', 'sticky'),
+				array('controller, actions, baseClass', 'filter', 'filter'=>'trim'),
+				array('controller, baseClass', 'required'),
+				array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
+				array('actions', 'match', 'pattern'=>'/^\w+[\w\s,]*$/', 'message'=>'{attribute} should only contain word characters, spaces and commas.'),
+				array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
+				array('baseClass', 'validateReservedWord', 'skipOnError'=>true),
+				array('baseClass, actions', 'sticky'),
 		));
 	}
 
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(
-			'baseClass'=>'Base Class',
-			'controller'=>'Controller ID',
-			'actions'=>'Action IDs',
+				'baseClass'=>'Base Class',
+				'controller'=>'Controller ID',
+				'actions'=>'Action IDs',
 		));
 	}
 
 	public function requiredTemplates()
 	{
 		return array(
-			'controller.php',
-			'view.php',
+				'controller.php',
+				'view.php',
 		);
 	}
 
@@ -48,15 +48,15 @@ class ControllerCode extends CCodeModel
 		$templatePath=$this->templatePath;
 
 		$this->files[]=new CCodeFile(
-			$this->controllerFile,
-			$this->render($templatePath.'/controller.php')
+				$this->controllerFile,
+				$this->render($templatePath.'/controller.php')
 		);
 
 		foreach($this->getActionIDs() as $action)
 		{
 			$this->files[]=new CCodeFile(
-				$this->getViewFile($action),
-				$this->render($templatePath.'/view.php', array('action'=>$action))
+					$this->getViewFile($action),
+					$this->render($templatePath.'/view.php', array('action'=>$action))
 			);
 		}
 	}

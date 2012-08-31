@@ -68,7 +68,7 @@ class CPhpMessageSource extends CMessageSource
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by preprocessing
 	 * the user request data.
-	 */
+	*/
 	public function init()
 	{
 		parent::init();

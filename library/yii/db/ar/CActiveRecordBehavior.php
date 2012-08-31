@@ -30,12 +30,12 @@ class CActiveRecordBehavior extends CModelBehavior
 	public function events()
 	{
 		return array_merge(parent::events(), array(
-			'onBeforeSave'=>'beforeSave',
-			'onAfterSave'=>'afterSave',
-			'onBeforeDelete'=>'beforeDelete',
-			'onAfterDelete'=>'afterDelete',
-			'onBeforeFind'=>'beforeFind',
-			'onAfterFind'=>'afterFind',
+				'onBeforeSave'=>'beforeSave',
+				'onAfterSave'=>'afterSave',
+				'onBeforeDelete'=>'beforeDelete',
+				'onAfterDelete'=>'afterDelete',
+				'onBeforeFind'=>'beforeFind',
+				'onAfterFind'=>'afterFind',
 		));
 	}
 

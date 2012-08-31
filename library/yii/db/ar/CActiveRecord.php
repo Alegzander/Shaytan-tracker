@@ -247,7 +247,7 @@ abstract class CActiveRecord extends CModel
 		$md=$this->getMetaData();
 		if(!isset($md->relations[$name]))
 			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
-				array('{class}'=>get_class($this), '{name}'=>$name)));
+					array('{class}'=>get_class($this), '{name}'=>$name)));
 
 		Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
 		$relation=$md->relations[$name];
@@ -1901,7 +1901,7 @@ class CBaseActiveRelation extends CComponent
 	/**
 	 * @var string GROUP BY clause. For {@link CActiveRelation} descendant classes, column names
 	 * referenced in this property should be disambiguated with prefix 'relationName.'.
-	 */
+	*/
 	public $group='';
 	/**
 	 * @var string how to join with other tables. This refers to the JOIN clause in an SQL statement.
@@ -2074,7 +2074,7 @@ class CActiveRelation extends CBaseActiveRelation
 	 * with the primary table, no matter the primary table is limited or not.
 	 * If this property is not set, the corresponding table will be joined with the primary table
 	 * only when the primary table is not limited.
-	 */
+	*/
 	public $together;
 	/**
 	 * @var mixed scopes to apply
@@ -2085,7 +2085,7 @@ class CActiveRelation extends CBaseActiveRelation
 	 * </ul>
 	 * @since 1.1.9
 	 */
-	 public $scopes;
+	public $scopes;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
@@ -2263,7 +2263,7 @@ class CManyManyRelation extends CHasManyRelation
 	{
 		if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
 			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
-				array('{class}'=>$this->className,'{relation}'=>$this->name)));
+					array('{class}'=>$this->className,'{relation}'=>$this->name)));
 		$this->_junctionTableName=$matches[1];
 		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
 	}
@@ -2294,7 +2294,7 @@ class CActiveRecordMetaData
 	public $relations=array();
 	/**
 	 * @var array attribute default values
-	 */
+	*/
 	public $attributeDefaults=array();
 
 	private $_model;
@@ -2310,7 +2310,7 @@ class CActiveRecordMetaData
 		$tableName=$model->tableName();
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
-				array('{class}'=>get_class($model),'{table}'=>$tableName)));
+					array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		if($table->primaryKey===null)
 		{
 			$table->primaryKey=$model->primaryKey();
@@ -2349,7 +2349,7 @@ class CActiveRecordMetaData
 	 * @throws CDbException
 	 * @param string $name $name Name of the relation.
 	 * @param array $config $config Relation parameters.
-     * @return void
+	 * @return void
 	 * @since 1.1.2
 	 */
 	public function addRelation($name,$config)

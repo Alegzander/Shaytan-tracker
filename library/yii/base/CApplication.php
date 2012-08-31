@@ -117,7 +117,7 @@ abstract class CApplication extends CModule
 	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
-	 */
+	*/
 	public function __construct($config=null)
 	{
 		Yii::setApplication($this);
@@ -242,7 +242,7 @@ abstract class CApplication extends CModule
 	{
 		if(($this->_basePath=realpath($path))===false || !is_dir($this->_basePath))
 			throw new CException(Yii::t('yii','Application base path "{path}" is not a valid directory.',
-				array('{path}'=>$path)));
+					array('{path}'=>$path)));
 	}
 
 	/**
@@ -269,7 +269,7 @@ abstract class CApplication extends CModule
 	{
 		if(($runtimePath=realpath($path))===false || !is_dir($runtimePath) || !is_writable($runtimePath))
 			throw new CException(Yii::t('yii','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
-				array('{path}'=>$path)));
+					array('{path}'=>$path)));
 		$this->_runtimePath=$runtimePath;
 	}
 
@@ -290,7 +290,7 @@ abstract class CApplication extends CModule
 	{
 		if(($extensionPath=realpath($path))===false || !is_dir($extensionPath))
 			throw new CException(Yii::t('yii','Extension path "{path}" does not exist.',
-				array('{path}'=>$path)));
+					array('{path}'=>$path)));
 		Yii::setPathOfAlias('ext',$extensionPath);
 	}
 
@@ -935,35 +935,35 @@ abstract class CApplication extends CModule
 	protected function registerCoreComponents()
 	{
 		$components=array(
-			'coreMessages'=>array(
-				'class'=>'CPhpMessageSource',
-				'language'=>'en_us',
-				'basePath'=>YII_PATH.DIRECTORY_SEPARATOR.'messages',
-			),
-			'db'=>array(
-				'class'=>'CDbConnection',
-			),
-			'messages'=>array(
-				'class'=>'CPhpMessageSource',
-			),
-			'errorHandler'=>array(
-				'class'=>'CErrorHandler',
-			),
-			'securityManager'=>array(
-				'class'=>'CSecurityManager',
-			),
-			'statePersister'=>array(
-				'class'=>'CStatePersister',
-			),
-			'urlManager'=>array(
-				'class'=>'CUrlManager',
-			),
-			'request'=>array(
-				'class'=>'CHttpRequest',
-			),
-			'format'=>array(
-				'class'=>'CFormatter',
-			),
+				'coreMessages'=>array(
+						'class'=>'CPhpMessageSource',
+						'language'=>'en_us',
+						'basePath'=>YII_PATH.DIRECTORY_SEPARATOR.'messages',
+				),
+				'db'=>array(
+						'class'=>'CDbConnection',
+				),
+				'messages'=>array(
+						'class'=>'CPhpMessageSource',
+				),
+				'errorHandler'=>array(
+						'class'=>'CErrorHandler',
+				),
+				'securityManager'=>array(
+						'class'=>'CSecurityManager',
+				),
+				'statePersister'=>array(
+						'class'=>'CStatePersister',
+				),
+				'urlManager'=>array(
+						'class'=>'CUrlManager',
+				),
+				'request'=>array(
+						'class'=>'CHttpRequest',
+				),
+				'format'=>array(
+						'class'=>'CFormatter',
+				),
 		);
 
 		$this->setComponents($components);

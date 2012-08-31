@@ -40,7 +40,7 @@ class CCodeGenerator extends CController
 	 * @var string the code model class. This can be either a class name (if it can be autoloaded)
 	 * or a path alias referring to the class file.
 	 * Child classes must configure this property with a concrete value.
-	 */
+	*/
 	public $codeModel;
 
 	private $_viewPath;
@@ -69,7 +69,7 @@ class CCodeGenerator extends CController
 		}
 
 		$this->render('index',array(
-			'model'=>$model,
+				'model'=>$model,
 		));
 	}
 
@@ -84,7 +84,7 @@ class CCodeGenerator extends CController
 		if(isset($_GET['id']) && isset($model->files[$_GET['id']]))
 		{
 			$this->renderPartial('/common/code', array(
-				'file'=>$model->files[$_GET['id']],
+					'file'=>$model->files[$_GET['id']],
 			));
 		}
 		else
@@ -112,8 +112,8 @@ class CCodeGenerator extends CController
 				$diff='';
 
 			$this->renderPartial('/common/diff',array(
-				'file'=>$file,
-				'diff'=>$diff,
+					'file'=>$file,
+					'diff'=>$diff,
 			));
 		}
 		else

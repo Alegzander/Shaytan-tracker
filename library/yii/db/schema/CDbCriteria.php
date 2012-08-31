@@ -55,7 +55,7 @@ class CDbCriteria extends CComponent
 	public $params=array();
 	/**
 	 * @var integer maximum number of records to be returned. If less than 0, it means no limit.
-	 */
+	*/
 	public $limit=-1;
 	/**
 	 * @var integer zero-based offset from where the records are to be returned. If less than 0, it means starting from the beginning.
@@ -125,19 +125,19 @@ class CDbCriteria extends CComponent
 	 */
 	public $index;
 	/**
-     * @var mixed scopes to apply
+	 * @var mixed scopes to apply
 	 *
-     * This property is effective only when passing criteria to
+	 * This property is effective only when passing criteria to
 	 * the one of the following methods:
-     * <ul>
-     * <li>{@link CActiveRecord::find()}</li>
-     * <li>{@link CActiveRecord::findAll()}</li>
-     * <li>{@link CActiveRecord::findByPk()}</li>
-     * <li>{@link CActiveRecord::findAllByPk()}</li>
-     * <li>{@link CActiveRecord::findByAttributes()}</li>
-     * <li>{@link CActiveRecord::findAllByAttributes()}</li>
-     * <li>{@link CActiveRecord::count()}</li>
-     * </ul>
+	 * <ul>
+	 * <li>{@link CActiveRecord::find()}</li>
+	 * <li>{@link CActiveRecord::findAll()}</li>
+	 * <li>{@link CActiveRecord::findByPk()}</li>
+	 * <li>{@link CActiveRecord::findAllByPk()}</li>
+	 * <li>{@link CActiveRecord::findByAttributes()}</li>
+	 * <li>{@link CActiveRecord::findAllByAttributes()}</li>
+	 * <li>{@link CActiveRecord::count()}</li>
+	 * </ul>
 	 *
 	 * Can be set to one of the following:
 	 * <ul>
@@ -586,7 +586,7 @@ class CDbCriteria extends CComponent
 							$excludes[$opt]=$this->with[$k][$opt];
 						if(isset($v[$opt]))
 							$excludes[$opt]= ($opt==='on' && isset($excludes[$opt]) && $v[$opt]!==$excludes[$opt]) ?
-								"($excludes[$opt]) AND $v[$opt]" : $v[$opt];
+							"($excludes[$opt]) AND $v[$opt]" : $v[$opt];
 						unset($this->with[$k][$opt]);
 						unset($v[$opt]);
 					}

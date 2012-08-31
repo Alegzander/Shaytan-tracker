@@ -8,14 +8,10 @@
 ?>
 <?php echo "<?php\n"; ?>
 
-class <?php echo $className; ?>Test extends CDbTestCase
-{
-	public $fixtures=array(
-		'<?php echo $fixtureName; ?>'=>'<?php echo $className; ?>',
-	);
-
-	public function testCreate()
-	{
-
-	}
-}
+class
+<?php echo $className; ?>
+Test extends CDbTestCase { public $fixtures=array( '
+<?php echo $fixtureName; ?>
+'=>'
+<?php echo $className; ?>
+', ); public function testCreate() { } }

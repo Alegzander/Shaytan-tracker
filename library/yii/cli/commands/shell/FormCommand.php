@@ -81,17 +81,17 @@ EOD;
 		$viewName=basename($viewPath);
 		$viewPath.='.php';
 		$params=array(
-			'modelClass'=>$modelClass,
-			'viewName'=>$viewName,
-			'attributes'=>$attributes,
+				'modelClass'=>$modelClass,
+				'viewName'=>$viewName,
+				'attributes'=>$attributes,
 		);
 		$list=array(
-			basename($viewPath)=>array(
-				'source'=>$templatePath.'/form.php',
-				'target'=>$viewPath,
-				'callback'=>array($this,'generateForm'),
-				'params'=>$params,
-			),
+				basename($viewPath)=>array(
+						'source'=>$templatePath.'/form.php',
+						'target'=>$viewPath,
+						'callback'=>array($this,'generateForm'),
+						'params'=>$params,
+				),
 		);
 
 		$this->copyFiles($list);

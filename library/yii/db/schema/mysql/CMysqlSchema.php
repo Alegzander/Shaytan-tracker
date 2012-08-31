@@ -23,19 +23,19 @@ class CMysqlSchema extends CDbSchema
 	 * @since 1.1.6
 	 */
 	public $columnTypes=array(
-		'pk' => 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY',
-		'string' => 'varchar(255)',
-		'text' => 'text',
-		'integer' => 'int(11)',
-		'float' => 'float',
-		'decimal' => 'decimal',
-		'datetime' => 'datetime',
-		'timestamp' => 'timestamp',
-		'time' => 'time',
-		'date' => 'date',
-		'binary' => 'blob',
-		'boolean' => 'tinyint(1)',
-		'money' => 'decimal(19,4)',
+			'pk' => 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY',
+			'string' => 'varchar(255)',
+			'text' => 'text',
+			'integer' => 'int(11)',
+			'float' => 'float',
+			'decimal' => 'decimal',
+			'datetime' => 'datetime',
+			'timestamp' => 'timestamp',
+			'time' => 'time',
+			'date' => 'date',
+			'binary' => 'blob',
+			'boolean' => 'tinyint(1)',
+			'money' => 'decimal(19,4)',
 	);
 
 	/**
@@ -44,7 +44,7 @@ class CMysqlSchema extends CDbSchema
 	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 * @since 1.1.6
-	 */
+	*/
 	public function quoteSimpleTableName($name)
 	{
 		return '`'.$name.'`';
@@ -283,15 +283,15 @@ class CMysqlSchema extends CDbSchema
 				if($c===$name)
 				{
 					return "ALTER TABLE ".$db->quoteTableName($table)
-						. " CHANGE ".$db->quoteColumnName($name)
-						. ' '.$db->quoteColumnName($newName).' '.$matches[2][$i];
+					. " CHANGE ".$db->quoteColumnName($name)
+					. ' '.$db->quoteColumnName($newName).' '.$matches[2][$i];
 				}
 			}
 		}
 
 		// try to give back a SQL anyway
 		return "ALTER TABLE ".$db->quoteTableName($table)
-			. " CHANGE ".$db->quoteColumnName($name).' '.$newName;
+		. " CHANGE ".$db->quoteColumnName($name).' '.$newName;
 	}
 
 	/**
@@ -304,6 +304,6 @@ class CMysqlSchema extends CDbSchema
 	public function dropForeignKey($name, $table)
 	{
 		return 'ALTER TABLE '.$this->quoteTableName($table)
-			.' DROP FOREIGN KEY '.$this->quoteColumnName($name);
+		.' DROP FOREIGN KEY '.$this->quoteColumnName($name);
 	}
 }

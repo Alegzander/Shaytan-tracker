@@ -82,7 +82,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	{
 		if(($dir=@opendir($directory))===false)
 			throw new CException(Yii::t('yii','"{path}" is not a valid directory.',
-				array('{path}'=>$directory)));
+					array('{path}'=>$directory)));
 		$timestamps=array();
 		while(($file=readdir($dir))!==false)
 		{

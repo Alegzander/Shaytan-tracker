@@ -181,7 +181,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 		if ($this->serializer === null)
 			$value = serialize(array($value,$dependency));
 		elseif ($this->serializer !== false)
-			$value = call_user_func($this->serializer[0], array($value,$dependency));
+		$value = call_user_func($this->serializer[0], array($value,$dependency));
 
 		return $this->setValue($this->generateUniqueKey($id), $value, $expire);
 	}
@@ -205,7 +205,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 		if ($this->serializer === null)
 			$value = serialize(array($value,$dependency));
 		elseif ($this->serializer !== false)
-			$value = call_user_func($this->serializer[0], array($value,$dependency));
+		$value = call_user_func($this->serializer[0], array($value,$dependency));
 
 		return $this->addValue($this->generateUniqueKey($id), $value, $expire);
 	}
@@ -245,7 +245,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	protected function getValue($key)
 	{
 		throw new CException(Yii::t('yii','{className} does not support get() functionality.',
-			array('{className}'=>get_class($this))));
+				array('{className}'=>get_class($this))));
 	}
 
 	/**
@@ -281,7 +281,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	protected function setValue($key,$value,$expire)
 	{
 		throw new CException(Yii::t('yii','{className} does not support set() functionality.',
-			array('{className}'=>get_class($this))));
+				array('{className}'=>get_class($this))));
 	}
 
 	/**
@@ -300,7 +300,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	protected function addValue($key,$value,$expire)
 	{
 		throw new CException(Yii::t('yii','{className} does not support add() functionality.',
-			array('{className}'=>get_class($this))));
+				array('{className}'=>get_class($this))));
 	}
 
 	/**
@@ -313,7 +313,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	protected function deleteValue($key)
 	{
 		throw new CException(Yii::t('yii','{className} does not support delete() functionality.',
-			array('{className}'=>get_class($this))));
+				array('{className}'=>get_class($this))));
 	}
 
 	/**
@@ -326,7 +326,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	protected function flushValues()
 	{
 		throw new CException(Yii::t('yii','{className} does not support flushValues() functionality.',
-			array('{className}'=>get_class($this))));
+				array('{className}'=>get_class($this))));
 	}
 
 	/**

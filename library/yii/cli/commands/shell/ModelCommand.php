@@ -116,9 +116,9 @@ EOD;
 	{
 		$pk=$table->primaryKey;
 		return (count($pk) === 2 // we want 2 columns
-			&& isset($table->foreignKeys[$pk[0]]) // pk column 1 is also a foreign key
-			&& isset($table->foreignKeys[$pk[1]]) // pk column 2 is also a foriegn key
-			&& $table->foreignKeys[$pk[0]][0] !== $table->foreignKeys[$pk[1]][0]); // and the foreign keys point different tables
+				&& isset($table->foreignKeys[$pk[0]]) // pk column 1 is also a foreign key
+				&& isset($table->foreignKeys[$pk[1]]) // pk column 2 is also a foriegn key
+				&& $table->foreignKeys[$pk[0]][0] !== $table->foreignKeys[$pk[1]][0]); // and the foreign keys point different tables
 	}
 
 	/**
@@ -188,11 +188,11 @@ EOD;
 	protected function generateClassName($tableName)
 	{
 		return str_replace(' ','',
-			ucwords(
-				trim(
-					strtolower(
-						str_replace(array('-','_'),' ',
-							preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $tableName))))));
+				ucwords(
+						trim(
+								strtolower(
+										str_replace(array('-','_'),' ',
+												preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $tableName))))));
 	}
 
 	/**
@@ -332,18 +332,18 @@ EOD;
 		{
 			$files[$className]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 			$list['models/'.$className.'.php']=array(
-				'source'=>$templatePath.DIRECTORY_SEPARATOR.'model.php',
-				'target'=>$classFile,
-				'callback'=>array($this,'generateModel'),
-				'params'=>array($className,$tableName),
+					'source'=>$templatePath.DIRECTORY_SEPARATOR.'model.php',
+					'target'=>$classFile,
+					'callback'=>array($this,'generateModel'),
+					'params'=>array($className,$tableName),
 			);
 			if($fixturePath!==false)
 			{
 				$list['fixtures/'.$tableName.'.php']=array(
-					'source'=>$templatePath.DIRECTORY_SEPARATOR.'fixture.php',
-					'target'=>$fixturePath.DIRECTORY_SEPARATOR.$tableName.'.php',
-					'callback'=>array($this,'generateFixture'),
-					'params'=>$this->_schema->getTable($tableName),
+						'source'=>$templatePath.DIRECTORY_SEPARATOR.'fixture.php',
+						'target'=>$fixturePath.DIRECTORY_SEPARATOR.$tableName.'.php',
+						'callback'=>array($this,'generateFixture'),
+						'params'=>$this->_schema->getTable($tableName),
 				);
 			}
 			if($unitTestPath!==false)
@@ -351,10 +351,10 @@ EOD;
 				$fixtureName=$this->pluralize($className);
 				$fixtureName[0]=strtolower($fixtureName);
 				$list['unit/'.$className.'Test.php']=array(
-					'source'=>$templatePath.DIRECTORY_SEPARATOR.'test.php',
-					'target'=>$unitTestPath.DIRECTORY_SEPARATOR.$className.'Test.php',
-					'callback'=>array($this,'generateTest'),
-					'params'=>array($className,$fixtureName),
+						'source'=>$templatePath.DIRECTORY_SEPARATOR.'test.php',
+						'target'=>$unitTestPath.DIRECTORY_SEPARATOR.$className.'Test.php',
+						'callback'=>array($this,'generateTest'),
+						'params'=>array($className,$fixtureName),
 				);
 			}
 		}
@@ -438,12 +438,12 @@ EOD;
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
 		return $this->renderFile($source,array(
-			'className'=>$className,
-			'tableName'=>$this->removePrefix($tableName,true),
-			'columns'=>isset($table) ? $table->columns : array(),
-			'rules'=>$rules,
-			'labels'=>$labels,
-			'relations'=>$relations,
+				'className'=>$className,
+				'tableName'=>$this->removePrefix($tableName,true),
+				'columns'=>isset($table) ? $table->columns : array(),
+				'rules'=>$rules,
+				'labels'=>$labels,
+				'relations'=>$relations,
 		),true);
 	}
 
@@ -452,7 +452,7 @@ EOD;
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
 		return $this->renderFile($source, array(
-			'table'=>$table,
+				'table'=>$table,
 		),true);
 	}
 
@@ -462,8 +462,8 @@ EOD;
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
 		return $this->renderFile($source, array(
-			'className'=>$className,
-			'fixtureName'=>$fixtureName,
+				'className'=>$className,
+				'fixtureName'=>$fixtureName,
 		),true);
 	}
 

@@ -296,14 +296,14 @@ abstract class CConsoleCommand extends CComponent
 	{
 		$options=array();
 		$class=new ReflectionClass(get_class($this));
-        foreach($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
-        {
-        	$name=$method->getName();
-        	if(!strncasecmp($name,'action',6) && strlen($name)>6)
-        	{
-        		$name=substr($name,6);
-        		$name[0]=strtolower($name[0]);
-        		$help=$name;
+		foreach($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
+		{
+			$name=$method->getName();
+			if(!strncasecmp($name,'action',6) && strlen($name)>6)
+			{
+				$name=substr($name,6);
+				$name[0]=strtolower($name[0]);
+				$help=$name;
 
 				foreach($method->getParameters() as $param)
 				{
@@ -316,9 +316,9 @@ abstract class CConsoleCommand extends CComponent
 						$help.=" --$name=value";
 				}
 				$options[]=$help;
-        	}
-        }
-        return $options;
+			}
+		}
+		return $options;
 	}
 
 	/**
@@ -490,23 +490,23 @@ abstract class CConsoleCommand extends CComponent
 	public function pluralize($name)
 	{
 		$rules=array(
-			'/move$/i' => 'moves',
-			'/foot$/i' => 'feet',
-			'/child$/i' => 'children',
-			'/human$/i' => 'humans',
-			'/man$/i' => 'men',
-			'/tooth$/i' => 'teeth',
-			'/person$/i' => 'people',
-			'/([m|l])ouse$/i' => '\1ice',
-			'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
-			'/([^aeiouy]|qu)y$/i' => '\1ies',
-			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
-			'/(shea|lea|loa|thie)f$/i' => '\1ves',
-			'/([ti])um$/i' => '\1a',
-			'/(tomat|potat|ech|her|vet)o$/i' => '\1oes',
-			'/(bu)s$/i' => '\1ses',
-			'/(ax|test)is$/i' => '\1es',
-			'/s$/' => 's',
+				'/move$/i' => 'moves',
+				'/foot$/i' => 'feet',
+				'/child$/i' => 'children',
+				'/human$/i' => 'humans',
+				'/man$/i' => 'men',
+				'/tooth$/i' => 'teeth',
+				'/person$/i' => 'people',
+				'/([m|l])ouse$/i' => '\1ice',
+				'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
+				'/([^aeiouy]|qu)y$/i' => '\1ies',
+				'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
+				'/(shea|lea|loa|thie)f$/i' => '\1ves',
+				'/([ti])um$/i' => '\1a',
+				'/(tomat|potat|ech|her|vet)o$/i' => '\1oes',
+				'/(bu)s$/i' => '\1ses',
+				'/(ax|test)is$/i' => '\1es',
+				'/s$/' => 's',
 		);
 		foreach($rules as $rule=>$replacement)
 		{

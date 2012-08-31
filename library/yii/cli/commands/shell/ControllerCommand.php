@@ -124,22 +124,22 @@ EOD;
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/controller':$this->templatePath;
 
 		$list=array(
-			basename($controllerFile)=>array(
-				'source'=>$templatePath.DIRECTORY_SEPARATOR.'controller.php',
-				'target'=>$controllerFile,
-				'callback'=>array($this,'generateController'),
-				'params'=>array($controllerClass, $actions),
-			),
+				basename($controllerFile)=>array(
+						'source'=>$templatePath.DIRECTORY_SEPARATOR.'controller.php',
+						'target'=>$controllerFile,
+						'callback'=>array($this,'generateController'),
+						'params'=>array($controllerClass, $actions),
+				),
 		);
 
 		$viewPath=$module->viewPath.DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,$controllerID);
 		foreach($actions as $name)
 		{
 			$list[$name.'.php']=array(
-				'source'=>$templatePath.DIRECTORY_SEPARATOR.'view.php',
-				'target'=>$viewPath.DIRECTORY_SEPARATOR.$name.'.php',
-				'callback'=>array($this,'generateAction'),
-				'params'=>array('controller'=>$controllerClass, 'action'=>$name),
+					'source'=>$templatePath.DIRECTORY_SEPARATOR.'view.php',
+					'target'=>$viewPath.DIRECTORY_SEPARATOR.$name.'.php',
+					'callback'=>array($this,'generateAction'),
+					'params'=>array('controller'=>$controllerClass, 'action'=>$name),
 			);
 		}
 

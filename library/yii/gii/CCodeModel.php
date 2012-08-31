@@ -43,87 +43,87 @@ abstract class CCodeModel extends CFormModel
 	const STATUS_ERROR=4;
 
 	static $keywords=array(
-		'__class__',
-		'__dir__',
-		'__file__',
-		'__function__',
-		'__line__',
-		'__method__',
-		'__namespace__',
-		'abstract',
-		'and',
-		'array',
-		'as',
-		'break',
-		'case',
-		'catch',
-		'cfunction',
-		'class',
-		'clone',
-		'const',
-		'continue',
-		'declare',
-		'default',
-		'die',
-		'do',
-		'echo',
-		'else',
-		'elseif',
-		'empty',
-		'enddeclare',
-		'endfor',
-		'endforeach',
-		'endif',
-		'endswitch',
-		'endwhile',
-		'eval',
-		'exception',
-		'exit',
-		'extends',
-		'final',
-		'final',
-		'for',
-		'foreach',
-		'function',
-		'global',
-		'goto',
-		'if',
-		'implements',
-		'include',
-		'include_once',
-		'instanceof',
-		'interface',
-		'isset',
-		'list',
-		'namespace',
-		'new',
-		'old_function',
-		'or',
-		'parent',
-		'php_user_filter',
-		'print',
-		'private',
-		'protected',
-		'public',
-		'require',
-		'require_once',
-		'return',
-		'static',
-		'switch',
-		'this',
-		'throw',
-		'try',
-		'unset',
-		'use',
-		'var',
-		'while',
-		'xor',
+			'__class__',
+			'__dir__',
+			'__file__',
+			'__function__',
+			'__line__',
+			'__method__',
+			'__namespace__',
+			'abstract',
+			'and',
+			'array',
+			'as',
+			'break',
+			'case',
+			'catch',
+			'cfunction',
+			'class',
+			'clone',
+			'const',
+			'continue',
+			'declare',
+			'default',
+			'die',
+			'do',
+			'echo',
+			'else',
+			'elseif',
+			'empty',
+			'enddeclare',
+			'endfor',
+			'endforeach',
+			'endif',
+			'endswitch',
+			'endwhile',
+			'eval',
+			'exception',
+			'exit',
+			'extends',
+			'final',
+			'final',
+			'for',
+			'foreach',
+			'function',
+			'global',
+			'goto',
+			'if',
+			'implements',
+			'include',
+			'include_once',
+			'instanceof',
+			'interface',
+			'isset',
+			'list',
+			'namespace',
+			'new',
+			'old_function',
+			'or',
+			'parent',
+			'php_user_filter',
+			'print',
+			'private',
+			'protected',
+			'public',
+			'require',
+			'require_once',
+			'return',
+			'static',
+			'switch',
+			'this',
+			'throw',
+			'try',
+			'unset',
+			'use',
+			'var',
+			'while',
+			'xor',
 	);
 
 	/**
 	 * @var array user confirmations on whether to overwrite existing code files with the newly generated ones.
 	 * The value of this property is internally managed by this class and {@link CCodeGenerator}.
-	 */
+	*/
 	public $answers;
 	/**
 	 * @var string the name of the code template that the user has selected.
@@ -138,7 +138,7 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * @var integer the status of this model. T
 	 * The value of this property is internally managed by {@link CCodeGenerator}.
-	 */
+	*/
 	public $status=self::STATUS_NEW;
 
 	private $_stickyAttributes=array();
@@ -147,7 +147,7 @@ abstract class CCodeModel extends CFormModel
 	 * Prepares the code files to be generated.
 	 * This is the main method that child classes should implement. It should contain the logic
 	 * that populates the {@link files} property with a list of code files to be generated.
-	 */
+	*/
 	abstract public function prepare();
 
 	/**
@@ -159,13 +159,13 @@ abstract class CCodeModel extends CFormModel
 	 * ));
 	 * </pre>
 	 * @return array validation rules
-	 */
+	*/
 	public function rules()
 	{
 		return array(
-			array('template', 'required'),
-			array('template', 'validateTemplate', 'skipOnError'=>true),
-			array('template', 'sticky'),
+				array('template', 'required'),
+				array('template', 'validateTemplate', 'skipOnError'=>true),
+				array('template', 'sticky'),
 		);
 	}
 
@@ -215,7 +215,7 @@ abstract class CCodeModel extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'template'=>'Code Template',
+				'template'=>'Code Template',
 		);
 	}
 
@@ -296,7 +296,7 @@ abstract class CCodeModel extends CFormModel
 	public function confirmed($file)
 	{
 		return $this->answers===null && $file->operation===CCodeFile::OP_NEW
-			|| is_array($this->answers) && isset($this->answers[md5($file->path)]);
+		|| is_array($this->answers) && isset($this->answers[md5($file->path)]);
 	}
 
 	/**
@@ -405,23 +405,23 @@ abstract class CCodeModel extends CFormModel
 	public function pluralize($name)
 	{
 		$rules=array(
-			'/move$/i' => 'moves',
-			'/foot$/i' => 'feet',
-			'/child$/i' => 'children',
-			'/human$/i' => 'humans',
-			'/man$/i' => 'men',
-			'/tooth$/i' => 'teeth',
-			'/person$/i' => 'people',
-			'/([m|l])ouse$/i' => '\1ice',
-			'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
-			'/([^aeiouy]|qu)y$/i' => '\1ies',
-			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
-			'/(shea|lea|loa|thie)f$/i' => '\1ves',
-			'/([ti])um$/i' => '\1a',
-			'/(tomat|potat|ech|her|vet)o$/i' => '\1oes',
-			'/(bu)s$/i' => '\1ses',
-			'/(ax|test)is$/i' => '\1es',
-			'/s$/' => 's',
+				'/move$/i' => 'moves',
+				'/foot$/i' => 'feet',
+				'/child$/i' => 'children',
+				'/human$/i' => 'humans',
+				'/man$/i' => 'men',
+				'/tooth$/i' => 'teeth',
+				'/person$/i' => 'people',
+				'/([m|l])ouse$/i' => '\1ice',
+				'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
+				'/([^aeiouy]|qu)y$/i' => '\1ies',
+				'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
+				'/(shea|lea|loa|thie)f$/i' => '\1ves',
+				'/([ti])um$/i' => '\1a',
+				'/(tomat|potat|ech|her|vet)o$/i' => '\1oes',
+				'/(bu)s$/i' => '\1ses',
+				'/(ax|test)is$/i' => '\1es',
+				'/s$/' => 's',
 		);
 		foreach($rules as $rule=>$replacement)
 		{

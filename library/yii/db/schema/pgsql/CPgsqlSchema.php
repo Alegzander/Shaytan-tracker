@@ -24,21 +24,21 @@ class CPgsqlSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'serial NOT NULL PRIMARY KEY',
-        'string' => 'character varying (255)',
-        'text' => 'text',
-        'integer' => 'integer',
-        'float' => 'double precision',
-        'decimal' => 'numeric',
-        'datetime' => 'timestamp',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'bytea',
-        'boolean' => 'boolean',
-		'money' => 'decimal(19,4)',
-    );
+	public $columnTypes=array(
+			'pk' => 'serial NOT NULL PRIMARY KEY',
+			'string' => 'character varying (255)',
+			'text' => 'text',
+			'integer' => 'integer',
+			'float' => 'double precision',
+			'decimal' => 'numeric',
+			'datetime' => 'timestamp',
+			'timestamp' => 'timestamp',
+			'time' => 'time',
+			'date' => 'date',
+			'binary' => 'bytea',
+			'boolean' => 'boolean',
+			'money' => 'decimal(19,4)',
+	);
 
 	private $_sequences=array();
 
@@ -48,7 +48,7 @@ class CPgsqlSchema extends CDbSchema
 	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 * @since 1.1.6
-	 */
+	*/
 	public function quoteSimpleTableName($name)
 	{
 		return '"'.$name.'"';
@@ -387,8 +387,8 @@ EOD;
 	{
 		$type=$this->getColumnType($type);
 		$sql='ALTER TABLE ' . $this->quoteTableName($table)
-			. ' ADD COLUMN ' . $this->quoteColumnName($column) . ' '
-			. $this->getColumnType($type);
+		. ' ADD COLUMN ' . $this->quoteColumnName($column) . ' '
+				. $this->getColumnType($type);
 		return $sql;
 	}
 
@@ -406,7 +406,7 @@ EOD;
 	{
 		$type=$this->getColumnType($type);
 		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' ALTER COLUMN '
-			. $this->quoteColumnName($column) . ' TYPE ' . $this->getColumnType($type);
+				. $this->quoteColumnName($column) . ' TYPE ' . $this->getColumnType($type);
 		return $sql;
 	}
 

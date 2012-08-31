@@ -66,7 +66,7 @@ class CNumberFormatter extends CComponent
 	/**
 	 * Constructor.
 	 * @param mixed $locale locale ID (string) or CLocale instance
-	 */
+	*/
 	public function __construct($locale)
 	{
 		if(is_string($locale))

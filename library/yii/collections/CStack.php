@@ -40,7 +40,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * number of items
 	 * @var integer
-	 */
+	*/
 	private $_c=0;
 
 	/**

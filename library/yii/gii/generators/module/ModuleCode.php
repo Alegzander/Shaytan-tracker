@@ -7,16 +7,16 @@ class ModuleCode extends CCodeModel
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('moduleID', 'filter', 'filter'=>'trim'),
-			array('moduleID', 'required'),
-			array('moduleID', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
+				array('moduleID', 'filter', 'filter'=>'trim'),
+				array('moduleID', 'required'),
+				array('moduleID', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
 		));
 	}
 
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(
-			'moduleID'=>'Module ID',
+				'moduleID'=>'Module ID',
 		));
 	}
 
@@ -50,15 +50,15 @@ EOD;
 		$moduleTemplateFile=$templatePath.DIRECTORY_SEPARATOR.'module.php';
 
 		$this->files[]=new CCodeFile(
-			$modulePath.'/'.$this->moduleClass.'.php',
-			$this->render($moduleTemplateFile)
+				$modulePath.'/'.$this->moduleClass.'.php',
+				$this->render($moduleTemplateFile)
 		);
 
 		$files=CFileHelper::findFiles($templatePath,array(
-			'exclude'=>array(
-				'.svn',
-				'.gitignore'
-			),
+				'exclude'=>array(
+						'.svn',
+						'.gitignore'
+				),
 		));
 
 		foreach($files as $file)
@@ -75,8 +75,8 @@ EOD;
 				else
 					$content=file_get_contents($file);
 				$this->files[]=new CCodeFile(
-					$modulePath.substr($file,strlen($templatePath)),
-					$content
+						$modulePath.substr($file,strlen($templatePath)),
+						$content
 				);
 			}
 		}
