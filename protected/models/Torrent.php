@@ -49,17 +49,17 @@
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License version 3
  * @version    Release: 0.1
  */
-class Torrent extends CModel {
+class Torrent extends CApplicationComponent {
 
     static public $errors = array();
-
+    
     /** Read and decode torrent file/data OR build a torrent from source folder/file(s)
      * Supported signatures:
      *  - Torrent( string $torrent );
      *  - Torrent( string $torrent, string $announce );
      *  - Torrent( string $torrent, array  $meta );
-     *  - Torrent( string $file_or_folder );
      *  - Torrent( string $file_or_folder, string $announce_url, [int $piece_length] );
+     *  - Torrent( string $file_or_folder );
      *  - Torrent( string $file_or_folder, array $meta, [int $piece_length] );
      *  - Torrent( array $files_list );
      *  - Torrent( array $files_list, string $announce_url, [int $piece_length] );
@@ -68,22 +68,38 @@ class Torrent extends CModel {
      * @param string|array announce url or meta informations (optional)
      * @param int piece length (optional)
      */
-    public function __construct ( $data, $meta = array(), $piece_length = 256 ) 
+    public function __set($name, $value)
     {
-        if ( $piece_length < 32 || $piece_length > 4096 ) {
+    	$this->$name = $value;
+    }
+    
+    public function getTorrent($data, $meta = array(), $piece_length = 256)
+    {
+    	if ( $piece_length < 32 || $piece_length > 4096 )
+        {
             throw new Exception( __( 'Invalid piece lenth, must be between 32 and 4096' ) );
         }
-        if ( is_string( $meta ) ) {
+        
+        if ( is_string( $meta ) )
+        {
             $meta =  array( 'announce' => $meta );
         }
-        if ( $this->build( $data, $piece_length * 1024 ) ) {
+        
+        if ( $this->build( $data, $piece_length * 1024 ) )
+        {
             $this->touch();
-        } else {
+        }
+        else
+       {
             $meta = array_merge( $meta, $this->decode( $data ) );
         }
-        foreach( $meta as $key => $value ) {
+        
+        foreach( $meta as $key => $value )
+        {
             $this->{$key} = $value;
         }
+        
+        return $this;
     }
 
     /** Convert the current Torrent instance in torrent format
@@ -112,7 +128,8 @@ class Torrent extends CModel {
      */
     static protected function encode ( $mixed ) 
     {
-        switch ( gettype( $mixed ) ) {
+        switch ( gettype( $mixed ) )
+        {
             case 'integer':
             case 'double':
                 return self::encode_integer( $mixed );
@@ -149,15 +166,19 @@ class Torrent extends CModel {
      */
     static private function encode_array ( $array ) 
     {
-        if ( self::is_list( (array) $array ) ) {
+        if ( self::is_list( (array) $array ) )
+        {
             $return = 'l';
             foreach ( $array as $value ) {
                 $return .= self::encode( $value );
             }
-        } else {
+        }
+        else
+       {
             ksort( $array, SORT_STRING );
             $return = 'd';
-            foreach ( $array as $key => $value ) {
+            foreach ( $array as $key => $value )
+            {
                 $return .= self::encode( strval( $key ) ) . self::encode( $value );
             }
         }
@@ -170,11 +191,14 @@ class Torrent extends CModel {
      */
     static protected function is_list ( $array ) 
     {
-        foreach ( array_keys( $array ) as $key ) {
-            if ( ! is_int( $key ) ) {
+        foreach ( array_keys( $array ) as $key )
+        {
+            if ( ! is_int( $key ) )
+            {
                 return false;
             }
         }
+        
         return true;
     }
 
@@ -189,6 +213,7 @@ class Torrent extends CModel {
         $data = is_file( $string ) ? 
             file_get_contents( $string ) :
             $string;
+        
         return self::decode_data( $data );
     }
 
@@ -198,7 +223,8 @@ class Torrent extends CModel {
      */
     static protected function decode_data ( & $data ) 
     {
-        switch( self::char( $data ) ) {
+        switch( self::char( $data ) )
+        {
         case 'i':
             $data = substr( $data, 1 );
             return self::decode_integer( $data );
@@ -221,24 +247,36 @@ class Torrent extends CModel {
     {
         $dictionary = array();
         $previous = null;
-        while ( ( $char = self::char( $data ) ) != 'e' ) {
-            if ( $char === false ) {
+        while ( ( $char = self::char( $data ) ) != 'e' )
+        {
+            if ( $char === false )
+            {
                 throw new Exception( __( 'Unterminated dictionary' ) );
             }
-            if ( ! ctype_digit( $char ) ) {
+            
+            if ( ! ctype_digit( $char ) )
+            {
                 throw new Exception( __( 'Invalid dictionary key' ) );
             }
+            
             $key = self::decode_string( $data );
-            if ( isset( $dictionary[$key] ) ) {
+            
+            if ( isset( $dictionary[$key] ) )
+            {
                 throw new Exception( __( 'Duplicate dictionary key' ) );
             }
-            if ( $key < $previous ) {
+            
+            if ( $key < $previous )
+            {
                 throw new Exception( __( 'Missorted dictionary key' ) );
             }
+            
             $dictionary[$key] = self::decode_data( $data );
             $previous = $key;
         }
+        
         $data = substr( $data, 1 );
+        
         return $dictionary;
     }
 
@@ -249,13 +287,18 @@ class Torrent extends CModel {
     static private function decode_list ( & $data ) 
     {
         $list = array();
-        while ( ( $char = self::char( $data ) ) != 'e' ) {
-            if ( $char === false )  {
+        while ( ( $char = self::char( $data ) ) != 'e' )
+        {
+            if ( $char === false )
+            {
                 throw new Exception( 'Unterminated list' );
             }
+            
             $list[] = self::decode_data( $data );
         }
+        
         $data = substr( $data, 1 );
+        
         return $list;
     }
 
@@ -265,18 +308,26 @@ class Torrent extends CModel {
      */
     static private function decode_string ( & $data ) 
     {
-        if ( self::char( $data ) === '0' && substr( $data, 1, 1 ) != ':' ) {
+        if ( self::char( $data ) === '0' && substr( $data, 1, 1 ) != ':' )
+        {
             self::$errors[] = new Exception( 'Invalid string length, leading zero' );
         }
-        if ( ! $colon = @strpos( $data, ':' ) ) {
+        
+        if ( ! $colon = @strpos( $data, ':' ) )
+        {
             throw new Exception( 'Invalid string length, colon not found' );
         }
+        
         $length = intval( substr( $data, 0, $colon ) );
-        if ( $length + $colon + 1 > strlen( $data ) ) {
+        
+        if ( $length + $colon + 1 > strlen( $data ) )
+        {
             throw new Exception( 'Invalid string, input too short for string length' );
         }
+        
         $string = substr( $data, $colon + 1, $length );
         $data = substr( $data, $colon + $length + 1 );
+        
         return $string;
     }
 
@@ -288,16 +339,22 @@ class Torrent extends CModel {
     {
         $start  = 0;
         $end    = strpos( $data, 'e');
+        
         if ( $end === 0 )
             self::$errors[] = new Exception( 'Empty integer' );
+        
         if ( self::char( $data ) == '-' )
             $start++;
+        
         if ( substr( $data, $start, 1 ) == '0' && ( $start != 0 || $end > $start + 1 ) )
             self::$errors[] = new Exception( 'Leading zero in integer' );
+        
         if ( ! ctype_digit( substr( $data, $start, $end ) ) )
             self::$errors[] = new Exception( 'Non-digit characters in integer' );
+        
         $integer = substr( $data, 0, $end );
         $data = substr( $data, $end + 1 );
+        
         return $integer + 0;
     }
 
@@ -440,13 +497,16 @@ class Torrent extends CModel {
      */
     private function file ( $file, $piece_length ) 
     {
-        if ( ! $handle = self::fopen( $file, $size = self::filesize( $file ) ) ) {
+        if ( ! $handle = self::fopen( $file, $size = self::filesize( $file ) ) )
+        {
             return ! self::$errors[] = new Exception( 'Failed to open file: "' . $file . '"' );
         }
         $pieces = '';
         while ( ! feof( $handle ) )
             $pieces .= self::pack( fread( $handle, $piece_length ) );
+        
         fclose( $handle );
+        
         return array(
             'length'        => $size,
             'name'          => basename( $file ),
@@ -468,27 +528,40 @@ class Torrent extends CModel {
         $path   = explode( DIRECTORY_SEPARATOR, dirname( realpath( current( $files ) ) ) );
         $length = $piece_length;
         $piece  = $pieces = '';
-        foreach ( $files as $i => $file ) {
-            if ( $path != array_intersect_assoc( $file_path = explode( DIRECTORY_SEPARATOR, $file ), $path ) ) {
+        foreach ( $files as $i => $file )
+        {
+            if ( $path != array_intersect_assoc( $file_path = explode( DIRECTORY_SEPARATOR, $file ), $path ) )
+            {
                 continue self::$errors[] = new Exception( 'Files must be in the same folder: "' . $file . '" discarded' );
             }
-            if ( ! $handle = self::fopen( $file, $filesize = self::filesize( $file ) ) ) {
+            
+            if ( ! $handle = self::fopen( $file, $filesize = self::filesize( $file ) ) )
+            {
                 continue self::$errors[] = new Exception( 'Failed to open file: "' . $file . '" discarded' );
             }
-            while ( ! feof( $handle ) ) {
-                if ( ( $length = strlen( $piece .= fread( $handle, $length ) ) ) == $piece_length ) {
+            
+            while ( ! feof( $handle ) )
+            {
+                if ( ( $length = strlen( $piece .= fread( $handle, $length ) ) ) == $piece_length )
+                {
                     $pieces .= self::pack( $piece );
-                } else {
+                }
+                else
+              {
                     $length = $piece_length - $length;
                 }
             }
+            
             fclose( $handle );
+            
             $info_files[$i] = array(
                 'length'    => $filesize,
                 'path'      => array_diff( $file_path, $path )
             );
         }
-        switch ( count( $info_files ) ) {
+        
+        switch ( count( $info_files ) )
+        {
             case 0:
                 return false;
             case 1:
@@ -535,7 +608,8 @@ class Torrent extends CModel {
      * @param integer|double file size (optional)
      * @return ressource|boolean file handle or false if error
      */
-    static public function fopen ( $file, $size = null ) {
+    static public function fopen ( $file, $size = null )
+    {
         if ( ( is_null( $size ) ? self::filesize( $file ) : $size )  <= 2 * pow( 1024, 3 ) )
             return fopen( $file, 'r' );
         elseif ( PHP_OS != 'Linux' )
@@ -652,12 +726,18 @@ class Torrent extends CModel {
      * @param string torrent hash info (optional: ONLY for static call)
      * @return array tracker torrent statistics
      */
-    /* static */ public function scrape ( $announce = null, $hash_info = null ) {
+    /* static */ 
+    public function scrape ( $announce = null, $hash_info = null )
+    {
         if ( ! ini_get( 'allow_url_fopen' ) )
             return ! self::$errors[] = new Exception( '"allow_url_fopen" must be enabled' );
+        
         $packed_hash = pack('H*', $hash_info ? $hash_info : sha1( self::encode( $this->info ) ) );
+        
         $scrape_data = file_get_contents( str_ireplace( '/announce', '/scrape', $announce ? $announce : $this->announce ) . '?info_hash=' . urlencode( $packed_hash ) );
+        
         $stats = self::decode_data( $scrape_data );
+        
         return isset( $stats['files'][$packed_hash] ) ?
             $stats['files'][$packed_hash] :
             ! self::$errors[] = new Exception( 'Invalid scrape data' );
@@ -670,6 +750,7 @@ class Torrent extends CModel {
      */
     static private function path ( $path, $folder ) {
         array_unshift( $path, $folder );
+        
         return join( DIRECTORY_SEPARATOR, $path );
     }
 
@@ -680,11 +761,11 @@ class Torrent extends CModel {
      */
     static public function format ( $size, $precision = 2 ) {
         $units = array ('octets', 'Ko', 'Mo', 'Go', 'To');
+        
         while( ( $next = next( $units ) ) && $size > 1024 )
             $size /= 1024;
+        
         return round( $size, $precision ) . ' ' . ( $next ? prev( $units ) : end( $units ) );
     }
 
 }
-
-?>
