@@ -1,0 +1,23 @@
+#content 
+{
+	margin-top:60px;
+}
+
+#accept-rules
+{
+	border:1px dashed #000;
+}
+
+ul.accept-rules
+{
+	margin: 0px auto;
+	padding: 0px;
+}
+
+ul.accept-rules li
+{
+	text-align: left;
+	float: left;
+	list-style: none;
+	padding-left: 10px;
+}

@@ -5,6 +5,9 @@ class SiteController extends Controller
 	/**
 	 * Declares class-based actions.
 	 */
+	
+	public $listNum = 1;
+	
 	public function actions()
 	{
 		return array(
@@ -27,6 +30,12 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+		if (Yii::app()->request->getParam("list") &&
+			is_numeric(Yii::app()->request->getParam("list")))
+			$this->listNum = Yii::app()->request->getParam("list");
+			
+			
+			
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'		
 		$this->render('index');

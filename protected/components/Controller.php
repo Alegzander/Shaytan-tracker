@@ -40,9 +40,18 @@ class Controller extends CController
 			{
 				foreach ($resourceList as $groupName => $resourceGroup)
 				{
+					if (is_array($resourceGroup) && count($resourceGroup) == 0)
+					{
+						$dirName = Yii::app()->assetManager->publish(
+								Yii::getPathOfAlias('webroot.themes.'.Yii::app()->theme->getName().'.views.'.$groupName)
+						);
+						
+						$this->resources[$groupName] = $dirName;
+					}
+					
 					foreach ($resourceGroup as $resource)
 					{
-						$this->resources[$resource] = Yii::app()->assetManager->publish(
+						$this->resources[$groupName] = Yii::app()->assetManager->publish(
 													Yii::getPathOfAlias('webroot.themes.'.Yii::app()->theme->getName().'.views.'.$groupName).'/'.$resource
 												);
 					}

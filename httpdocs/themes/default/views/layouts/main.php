@@ -1,59 +1,42 @@
-<?php /* @var $this Controller */ ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
+<!-- tracker.anime.uz -->
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title><?=CHtml::encode($this->pageTitle); ?></title>
+    <link rel="stylesheet" href="<?=$this->resources["resources"]."/css/bootstrap.css" ?>" />
+    <link rel="stylesheet" href="<?=$this->resources["resources"]."/css/bootstrap.min.css" ?>" />
+    <link rel="stylesheet" href="<?=$this->resources["resources"]."/css/bootstrap-responsive.css" ?>" />
+    <link rel="stylesheet" href="<?=$this->resources["resources"]."/css/bootstrap-responsive.min.css" ?>" />
+    <link rel="stylesheet" href="<?=$this->resources["resources"]."/css/style.css" ?>" />
+    <script type="text/javascript" src="<?=$this->resources["resources"]."/js/bootstrap.js" ?>"></script>
+    <script type="text/javascript" src="<?=$this->resources["resources"]."/js/bootstrap.min.js" ?>"></script>
+    <script type="text/javascript" src="<?=$this->resources["resources"]."/js/bootstrap-typeahead.js" ?>"></script>
+  </head>
+  <body style="padding: 5px;">
 
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?=$this->resources["screen.css"] ?>" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?=$this->resources["print.css"] ?>" media="print" />
-	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?=$this->resources["ie.css"] ?>" media="screen, projection" />
-	<![endif]-->
-
-	<link rel="stylesheet" type="text/css" href="<?=$this->resources["main.css"] ?>" />
-	<link rel="stylesheet" type="text/css" href="<?=$this->resources["form.css"] ?>" />
-
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-</head>
-
-<body>
-
-<div class="container" id="page">
-
-	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-	</div><!-- header -->
-
-	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+        	<?php $this->widget('zii.widgets.CMenu',array(
+			'htmlOptions' => array('class' => 'nav'),
 			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page/view/about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+				array('label'=>Yii::t('app', 'Торренты'), 'url'=>array('/site/index')),
+				array('label'=>Yii::t('app', 'Загрузить'), 'url'=>array('/torrent/new')),
+				array('label'=>Yii::t('app', 'Форум'), 'url'=>'http://anigari.anime.uz/'),
+				array('label'=>Yii::t('app', 'Правила/FAQ'), 'url'=>array('/site/page/view/faq')),
+
+				/**
+				 * Search form
+				 */
+				array('template' => '<form class="form-search">
+                <input type="text" class="input-medium search-query">
+                <button type="submit" class="btn">Search</button>
+              </form>')
 			),
 		)); ?>
-	</div><!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
-
-	<?php echo $content; ?>
-
-	<div class="clear"></div>
-
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
-
-</div><!-- page -->
-
-</body>
+        </div>
+    </div>
+    <div id="content">
+		<?=$content;?>
+	</div>
+  </body>
 </html>
