@@ -104,6 +104,7 @@ return array(
 			'resources' => array()
 		),
 		'categories' => require_once(__DIR__.DIRECTORY_SEPARATOR."categories.php"),
+		'tmpDir'	 => dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."tmp",
 		// this is used in contact page
 		'baseUrl' => 'http://tracker.loc',
 		'adminEmail'=>'anime@anime.uz',

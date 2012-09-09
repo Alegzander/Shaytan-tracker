@@ -5,12 +5,40 @@
  */
 class Torrent extends EMongoDocument
 {
-	private $announce = array();
-	private $name;
-	private $piece_length = array();
-	private $pieces = array();
-	private $length;
-	private $files = array();
+	public $name;
+	public $email;
+	public $category;
+	public $infoUrl;
+	public $description;
+	
+	/**
+	 * read only data
+	 */
+	private $announce;
+	private $announceList;
+	private $comment;
+	private $created_by;
+	private $creation_date;
+	private $encoding;
+	private $info;
+	private $publisher;
+	private $publisherUrl;
+	/**
+	 * read only data
+	 */
+	
+	public function __get($name)
+	{
+		if (isset($this->$name))
+			return $this->$name;
+		else
+			throw new Exception(Yii::t("yii", 'Property "{class}.{property}" is not defined.', array(
+						"{class}" => __CLASS__,
+						"{property}" => $name
+					)));
+	}
+	
+	public $errors = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -37,7 +65,7 @@ class Torrent extends EMongoDocument
 		return 'torrents';
 	}
 	
-	public function setTorrentFile($file)
+	public function fromTorrentFile($file, $meta = array(), $piece_length = 256)
 	{
 		if ($piece_length < 32 || $piece_length > 4096)
 		{
@@ -49,21 +77,33 @@ class Torrent extends EMongoDocument
 			$meta =  array('announce' => $meta);
 		}
 		
-		if ( $this->build($data, $piece_length * 1024))
+		if ( $this->build($file, $piece_length * 1024))
 		{
 			$this->touch();
 		}
 		else
 		{
-			$meta = array_merge($meta, $this->decode($data));
+			$meta = array_merge($meta, $this->decode($file));
 		}
-		
-		die ($meta);
-		
-		/*foreach( $meta as $key => $value )
-		 {
-		$this->{$key} = $value;
-		}*/
+
+		/**
+		 * @todo Make full data check. Replacing origin announce and announce-list
+		 */		
+		foreach( $meta as $key => $value )
+		{
+			$frontendKey = $key;
+			
+			if (strpos($frontendKey, "-") !== FALSE)
+			{
+				$parts = explode("-", $frontendKey);
+				$frontendKey = $parts[0];
+				$frontendKey .= ucfirst($parts[1]);
+			}
+			
+			$frontendKey = str_replace(" ", "_", $frontendKey);
+			
+			$this->$frontendKey = $value;
+		}
 		
 		return $this;
 	}
@@ -195,7 +235,7 @@ class Torrent extends EMongoDocument
     {
     	if ($this->char($data) === '0' && substr($data, 1, 1) != ':')
     	{
-    		$this->$errors[] = new Exception('Invalid string length, leading zero');
+    		$this->errors[] = new Exception('Invalid string length, leading zero');
     	}
     
     	if (!$colon = @strpos( $data, ':' ))
@@ -226,16 +266,16 @@ class Torrent extends EMongoDocument
     	$end    = strpos($data, 'e');
     
     	if ($end === 0)
-    		$this->$errors[] = new Exception('Empty integer');
+    		$this->errors[] = new Exception('Empty integer');
     
     	if ($this->char($data) == '-')
     		$start++;
     
     	if (substr($data, $start, 1) == '0' && ($start != 0 || $end > $start + 1))
-    		$this->$errors[] = new Exception('Leading zero in integer');
+    		$this->errors[] = new Exception('Leading zero in integer');
     
     	if (!ctype_digit(substr($data, $start, $end)))
-    		$this->$errors[] = new Exception('Non-digit characters in integer');
+    		$this->errors[] = new Exception('Non-digit characters in integer');
     
     	$integer = substr($data, 0, $end);
     	$data = substr($data, $end + 1);

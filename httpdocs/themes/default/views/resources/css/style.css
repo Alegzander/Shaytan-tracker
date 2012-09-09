@@ -21,3 +21,23 @@ ul.accept-rules li
 	list-style: none;
 	padding-left: 10px;
 }
+
+div.errorSummary
+{
+	border: 1px solid #000;
+	float: left;
+}
+
+div.errorSummary p
+{
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+	color: #B94A48;
+}
+
+div.errorSummary ul li
+{
+	list-style: none;
+	color: #B94A48;
+}
