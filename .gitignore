@@ -6,3 +6,4 @@ protected/run/*
 httpdocs/assets/*
 log/
 run/
+.idea

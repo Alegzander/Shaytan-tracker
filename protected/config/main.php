@@ -13,7 +13,10 @@ return array(
 	'language' => 'ru',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array(
+		'log',
+		'bootstrap'
+	),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -30,7 +33,8 @@ return array(
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 			'generatorPaths' => array(
-				'ext.YiiMongoDbSuite.gii'
+				'ext.YiiMongoDbSuite.gii',
+				'bootstrap.gii'
 			)
 		),
 	),
@@ -95,6 +99,9 @@ return array(
 		'assetManager'=>array(
 				'basePath'=>realpath(dirname(dirname((__DIR__))).'/httpdocs/assets'),
 		),
+		'bootstrap' => array(
+			'class' => 'ext.yii-bootstrap.components.Bootstrap'
+		)
 	),
 
 	// application-level parameters that can be accessed
@@ -108,5 +115,6 @@ return array(
 		// this is used in contact page
 		'baseUrl' => 'http://tracker.loc',
 		'adminEmail'=>'anime@anime.uz',
+		'displayTorrents' => 25,
 	),
 );

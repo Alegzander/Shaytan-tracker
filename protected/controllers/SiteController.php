@@ -33,12 +33,53 @@ class SiteController extends Controller
 		if (Yii::app()->request->getParam("list") &&
 			is_numeric(Yii::app()->request->getParam("list")))
 			$this->listNum = Yii::app()->request->getParam("list");
-			
-			
-			
+		
+		$displayTorrents = Yii::app()->getParams()->displayTorrents;
+		
+		$criteria = Torrent::model()->setCriteria();
+		$criteria->limit($displayTorrents)->sort("_id", Torrent::SORT_DESC);
+		
+		$torrentsList = Torrent::model()->findAll($criteria);
+
+        $tableRows = array();
+
+        foreach ($torrentsList as $num => $torrent)
+        {
+            $rawCategory = explode("-", $torrent->category);
+
+            $categoryIndex = count($rawCategory)-1;
+
+            $displayCategory = $rawCategory[$categoryIndex];
+            $url = Yii::app()->getParams()->baseUrl."/torrent/view/id/".$torrent->_id;
+
+            array_push($tableRows, array(
+                "id" => $num,
+                "category" => $displayCategory,
+                "name" => $torrent->name,
+                "download" => $url,
+                "size" => $torrent->getTotalSize(),
+                "seeders" => 0,
+                "leachers" => 0,
+                "downloaded" => 0,
+                "comments" => 0
+            ));
+        }
+		
+		$paginatorParams = array(
+				"pagingAction" => Yii::app()->getParams()->baseUrl."/site/index/list",
+				"dataSize" => count($torrentsList),
+				"pageNum" => $this->listNum,
+				"displayLimit" => $displayTorrents
+        );
+		
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'		
-		$this->render('index');
+		$this->render('index', array(
+				"torrentsList" => $torrentsList, 
+				"displayTorrents" => $displayTorrents,
+				"paginatorParams" => $paginatorParams,
+                "tableRows" => $tableRows
+				));
 	}
 
 	/**
@@ -53,32 +94,6 @@ class SiteController extends Controller
 			else
 				$this->render('error', $error);
 		}
-	}
-
-	/**
-	 * Displays the contact page
-	 */
-	public function actionContact()
-	{
-		$model=new ContactForm;
-		if(isset($_POST['ContactForm']))
-		{
-			$model->attributes=$_POST['ContactForm'];
-			if($model->validate())
-			{
-				$name='=?UTF-8?B?'.base64_encode($model->name).'?=';
-				$subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
-				$headers="From: $name <{$model->email}>\r\n".
-					"Reply-To: {$model->email}\r\n".
-					"MIME-Version: 1.0\r\n".
-					"Content-type: text/plain; charset=UTF-8";
-
-				mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers);
-				Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
-				$this->refresh();
-			}
-		}
-		$this->render('contact',array('model'=>$model));
 	}
 
 	/**

@@ -7,38 +7,136 @@ class Torrent extends EMongoDocument
 {
 	public $name;
 	public $email;
+	public $torrent;
 	public $category;
 	public $infoUrl;
 	public $description;
+	public $acceptRules;
+	
+	public $announce;
+	public $announceList = array();
+	public $comment = array();
+	public $created_by;
+	public $creation_date;
+	public $encoding;
+	public $info = array();
+	public $publisher;
+	public $publisherUrl;
+	
+	public $checked = false;
+	public $peers = array(
+				"seeders" => array(),
+				"leachers" => array()				
+			);
+	
+	private $criteria;
+	
+	const SORT_DESC = EMongoCriteria::SORT_DESC;
+	const SORT_ASC = EMongoCriteria::SORT_ASC;
 	
 	/**
-	 * read only data
+	 * @return array validation rules for model attributes.
 	 */
-	private $announce;
-	private $announceList;
-	private $comment;
-	private $created_by;
-	private $creation_date;
-	private $encoding;
-	private $info;
-	private $publisher;
-	private $publisherUrl;
-	/**
-	 * read only data
-	 */
-	
-	public function __get($name)
+	public function rules()
 	{
-		if (isset($this->$name))
-			return $this->$name;
-		else
-			throw new Exception(Yii::t("yii", 'Property "{class}.{property}" is not defined.', array(
-						"{class}" => __CLASS__,
-						"{property}" => $name
-					)));
-	}
+		$rawCategories = Yii::app()->getParams()->categories;
+		$categories = array();
 	
-	public $errors = array();
+		foreach ($rawCategories as $groupName => $group)
+		{
+			foreach ($group as $item)
+			{
+				array_push($categories, $groupName."-".$item);
+			}
+		}
+	
+		sort($categories);
+	
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+				array("category, acceptRules", "required"),
+				array("name", "length", "allowEmpty" => false, "min" => 3, "max" => 32),
+				array("email", "email", "allowEmpty" => false, "checkMX" => false, "checkPort" => false),
+				array(
+						"torrent",
+						"file",
+						"allowEmpty" => false,
+						"maxSize" => 1048576,
+						"tooLarge" => Yii::t("app", "Размер загружаемого торрент файла больше 1 МБ. Удостоверьтесь что вы загружаете торрент файл."),
+						"tooMany" => Yii::t("app", "Торрент-файл может быть только один."),
+						"types" => array("torrent", "txt"),
+						"wrongType" => Yii::t("app", "Не верное расширение файла (не torrent и не txt). Загружаете ли вы торрент файл?")
+				),
+				array(
+						"category",
+						"in",
+						"range" => $categories,
+						"strict" => true
+				),
+				array(
+						"acceptRules",
+						"acceptedRules"
+				)
+		);
+	}
+
+	public function acceptedRules()
+	{
+		if ($this->acceptRules !== "1")
+			$this->addError("acceptRules", "Вы не приняли условия работы с торрентом.");
+	}
+
+    public function getTotalSize($raw = false)
+    {
+        $totalCount = 0;
+        $result = "";
+
+        if (isset($this->info["files"]))
+            foreach ($this->info["files"] as $file)
+                $totalCount += $file["length"];
+
+        $result = $totalCount;
+
+        if (!$raw)
+        {
+            $index = 0;
+            $mesure = array(
+                Yii::t("app", "Б"),
+                Yii::t("app", "КБ"),
+                Yii::t("app", "МБ"),
+                Yii::t("app", "ГБ"),
+                Yii::t("app", "ТБ"),
+                Yii::t("app", "ПБ"),
+            );
+
+            while (round($totalCount/1024, 2) > 1)
+            {
+                $totalCount /= 1024;
+                $index++;
+            }
+
+            $result = round($totalCount, 2)." ".$mesure[$index];
+
+            return $result;
+        }
+    }
+	
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+				"name"			=> Yii::t("app", "Название торрента"),
+				"email"			=> Yii::t("app", "Электронная почта"),
+				"torrent"		=> Yii::t("app", "Торрент-файл"),
+				"category"		=> Yii::t("app", "Категория"),
+				"infoUrl"		=> Yii::t("app", "Дополнительная информация"),
+				"description"	=> Yii::t("app", "Описание"),
+				"acceptRules"	=> Yii::t("app", "о принятии правил")
+		);
+	}
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -65,7 +163,14 @@ class Torrent extends EMongoDocument
 		return 'torrents';
 	}
 	
-	public function fromTorrentFile($file, $meta = array(), $piece_length = 256)
+	public function setCriteria()
+	{
+		$this->criteria = new EMongoCriteria();
+		
+		return $this->criteria;
+	}
+	
+	public function parseTorrentFile($file, $meta = array(), $piece_length = 256)
 	{
 		if ($piece_length < 32 || $piece_length > 4096)
 		{
@@ -88,7 +193,7 @@ class Torrent extends EMongoDocument
 
 		/**
 		 * @todo Make full data check. Replacing origin announce and announce-list
-		 */		
+		 */	
 		foreach( $meta as $key => $value )
 		{
 			$frontendKey = $key;
@@ -102,10 +207,40 @@ class Torrent extends EMongoDocument
 			
 			$frontendKey = str_replace(" ", "_", $frontendKey);
 			
+			/**
+			 * @todo Определение находится ли на сайте гость или зарегистрированный пользователь
+			 */
+			
+			if ($frontendKey == "info")
+			{
+				$value["pieces"] = base64_encode($value["pieces"]);
+			}
+			else if ($frontendKey == "announce")
+			{
+				$value = Yii::app()->getParams()->baseUrl."/announce";
+			}
+			else if ($frontendKey == "announceList")
+			{
+				$value = array();
+				array_push($value, Yii::app()->getParams()->baseUrl."/announce", "http://re-tracker.uz/announce");
+			}
+			else if ($frontendKey == "publisher")
+			{
+				$rawPublisher = Yii::app()->getParams()->baseUrl;
+				$rawPublisher = str_replace("http://", "", $rawPublisher);
+				
+				if ($rawPublisher[(count($rawPublisher) - 1)] == "/")
+					$rawPublisher = substr($rawPublisher, 0, (count($rawPublisher) - 1));
+				
+				$value = $rawPublisher;
+			}
+			else if ($frontendKey == "publisherUrl")
+			{
+				$value = "";
+			}
+			
 			$this->$frontendKey = $value;
 		}
-		
-		return $this;
 	}
 	
 	private function build ($data, $piece_length) 
@@ -122,12 +257,7 @@ class Torrent extends EMongoDocument
 			return false;
     }
     
-    private function touch () {
-    	$this->{'created by'}       = 'Anime Tracker tracker.anime.uz';
-    	$this->{'creation date'}    = time();
-    }
-    
-    /*** Decode BitTorrent ***/
+	/*** Decode BitTorrent ***/
     
     /** Decode torrent data or file
      * @param string data or file path to decode
@@ -292,5 +422,10 @@ class Torrent extends EMongoDocument
     	return empty($data) ?
     	false :
     	substr($data, 0, 1);
+    }
+    
+    public function __destruct()
+    {
+    	
     }
 }

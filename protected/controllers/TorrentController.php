@@ -1,28 +1,41 @@
 <?php
-
 class TorrentController extends Controller
 {
 	public function actionNew()
 	{
-		$formModel = CreateTorrentForm::model();
+		$torrent = new Torrent;
+		$modelClass = get_class($torrent);
 		
-		if (Yii::app()->request->getPost("CreateTorrentForm") !== null)
+		if (Yii::app()->request->getPost($modelClass) !== null)
 		{
-			$formModel->attributes = Yii::app()->request->getPost("CreateTorrentForm");
+			$torrent->attributes = Yii::app()->request->getPost($modelClass);
 			
-			if ($formModel->validate())
+			$tmpTorrent = Yii::app()->getParams()->tmpDir.DIRECTORY_SEPARATOR."tmp-".time().md5(rand(0, 999999999999)).".torrent";
+			
+			$torrentFile = CUploadedFile::getInstance($torrent, "torrent");
+			
+			if ($torrentFile !== NULL)
 			{
-				$tmpTorrent = Yii::app()->getParams()->tmpDir.DIRECTORY_SEPARATOR."tmp-".time().md5(rand(0, 999999999999)).".torrent";
-				move_uploaded_file($_FILES["CreateTorrentForm"]["tmp_name"]["torrent"], $tmpTorrent);
-				$torrent = Torrent::model()->fromTorrentFile($tmpTorrent);
+				$torrentFile->saveAs($tmpTorrent);
 				
-				unlink($tmpTorrent);
+				$torrent->parseTorrentFile($tmpTorrent);
+				
+				if (file_exists($tmpTorrent))
+					unlink($tmpTorrent);
+				
+				if ($torrent->save())
+					Yii::app()->request->redirect(Yii::app()->getParams()->baseUrl);
+			}
+			else
+			{
+				$torrent->addError("torrent", Yii::t("app", "Произошла ошибка при чтении файла, загрузите пожалуйста файл раз."));
 			}
 		}
 		
 		$this->render("create", array(
 			"categories" => Yii::app()->getParams()->categories,
-			"model" => $formModel 
+			"model" => $torrent,
+			"modelClass" => $modelClass,	
 		));
 	}
 }

@@ -1,4 +1,3 @@
-<!-- наладить вид форм -->
 <?=CHtml::beginForm("/torrent/new", "post", array("class" => "form-horizontal", "enctype" => "multipart/form-data")); ?>
   <div class="control-group <?=CHtml::$errorCss;?>">
   	<div class="controls">
@@ -32,13 +31,13 @@
   <div class="control-group<?=CHtml::error($model, "category") ? " ".CHtml::$errorCss:"";?>">
     <?=CHtml::activeLabel($model, "category", array("class" => "control-label", "for" => "category"))."\n"; ?>
     <div class="controls">
-      <select name="CreateTorrentForm[category]" id="CreateTorrentForm_category" class="span3">
+      <select name="<?=$modelClass;?>[category]" id="<?=$modelClass;?>_category" class="span3">
         <option value="#" selected disabled><?=Yii::t("app", "Выберите категорию"); ?></option>
         <?php foreach ($categories as $groupName => $group) : ?>
         <optgroup label="<?=$groupName;?>">
         	<?php foreach ($group as $item): 
 		        	$selected = ""; 
-		        	if (isset($_POST["CreateTorrentForm"]["category"]) && $_POST["CreateTorrentForm"]["category"] == $groupName."-".$item)
+		        	if (isset($_POST[$modelClass]["category"]) && $_POST[$modelClass]["category"] == $groupName."-".$item)
 		        		$selected = " selected";
         	?>
         	<option value="<?=$groupName;?>-<?=$item;?>"<?=$selected;?>><?=$item;?></option>
@@ -72,7 +71,7 @@
   <div class="control-group<?=CHtml::error($model, "acceptRules") ? " ".CHtml::$errorCss:"";?>" id="accept-rules">
     <div class="controls">
     	<ul class="accept-rules">
-    		<li><input type="checkbox" name="CreateTorrentForm[acceptRules]" value="1" /></li>
+    		<li><input type="checkbox" name="<?=$modelClass;?>[acceptRules]" value="1" /></li>
     		<li>
     			<p><?=Yii::t("app", "Я полностью прочитал раздел"); ?> <a href="/site/page/view/faq"><?=Yii::t("app", "Правила/FAQ"); ?></a><?=Yii::t("app", ", и полностью, и безоговорочно принимаю правила указанные там."); ?></p>
         		<p><?=Yii::t("app", "В случае их не соблюдения мной, даю согласие на удаление загружаемого мною торрент фйала с данного трекера."); ?></p>

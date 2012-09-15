@@ -1,10 +1,10 @@
 <?php
 
 // change the following paths if necessary
-$yiit=dirname(__FILE__).'/../../../../../Всякая всячина/Yii/yii-1.1.12.b600af/framework/yiit.php';
-$config=dirname(__FILE__).'/../config/test.php';
+$yiit=dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.'yii'.DIRECTORY_SEPARATOR.'yiit.php';
+$config=dirname(__DIR__).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'test.php';
 
 require_once($yiit);
-require_once(dirname(__FILE__).'/WebTestCase.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'WebTestCase.php');
 
-Yii::createWebApplication($config);
+Yii::createWebApplication($config)->run();

@@ -23,9 +23,15 @@ class Paginator extends CWidget
 		
 		$range = floor($this->pagesLimit/2);
 		
+		if ($this->pageNum > $this->countPages)
+			$this->pageNum = $this->countPages;
+		
+		if ($this->pageNum < 1)
+			$this->pageNum = 1;
+		
 		$this->startPage = $this->pageNum - $range;
 		
-		if ($this->startPage <= 0)
+		if ($this->startPage < 1)
 			$this->startPage = 1;
 		else if (($this->startPage - 1) + $this->pagesLimit > $this->countPages)
 			$this->startPage = ($this->countPages - $this->pagesLimit + 1);

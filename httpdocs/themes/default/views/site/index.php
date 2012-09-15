@@ -1,7 +1,7 @@
 <?php
 /* @var $this SiteController */
 ?>
-<ul class="nav nav-pills">
+    <!-- ul class="nav nav-pills">
       <li style="padding: 8px 12px 8px 5px;">Сортировать по:</li>
       <li class="active"><a href="#">дате</a></li>
       <li><a href="#">раздающим</a></li>
@@ -11,22 +11,10 @@
       <li><a href="#">названию</a></li>
       <li class="active"><a href="#">по убыванию</a></li>
       <li><a href="#">по возрастанию</a></li>
-    </ul>
+    </ul -->
 
-    <!-- div class="pagination pagination-centered">
-      <ul>
-        <li class="disabled"><a href="#">Назад</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">Далее</a></li>
-      </ul>
-    </div -->
-    
-    <?php $this->widget("Paginator", array(
-    		"pagingAction" => Yii::app()->getParams()->baseUrl."/site/index/list",
-    		"dataSize" => 275,
-    		"pageNum" => $this->listNum)) ?>
+    <?php
+    $this->widget("Paginator", $paginatorParams);?>
 
     <table class="table">
       <thead>
@@ -145,7 +133,4 @@
       <tbody>
     </table>
 
-    <?php $this->widget("Paginator", array(
-    		"pagingAction" => Yii::app()->getParams()->baseUrl."/site/index/list",
-    		"dataSize" => 275,
-    		"pageNum" => $this->listNum)) ?>
+    <?php $this->widget("Paginator", $paginatorParams); ?>
