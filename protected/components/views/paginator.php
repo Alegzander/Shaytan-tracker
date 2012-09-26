@@ -10,8 +10,15 @@
       ?>>
        	<li<?php
 	        if (($this->pageNum - $this->pagesLimit) < 1)
-	        	echo " class=\"disabled\"";	        
-       	?>><a href="<?=$this->pagingAction."/".($this->pageNum-$this->pagesLimit);?>">Назад</a></li>
+            {
+	        	echo " class=\"disabled\"";
+                $url = "#";
+            }
+            else
+            {
+                $url = $this->pagingAction."/".($this->pageNum-$this->pagesLimit);
+            }
+       	?>><a href="<?=$url;?>">Назад</a></li>
         <?php
         	$tmp = "";
         
@@ -43,7 +50,14 @@
         ?>
         <li<?php
         	if (($this->pageNum + $this->pagesLimit) > $this->countPages)
+            {
         		echo " class=\"disabled\"";
-        ?>><a href="<?=$this->pagingAction."/".($this->pageNum+$this->pagesLimit);?>">Далее</a></li>
+                $url = "#";
+            }
+            else
+            {
+                $url = $this->pagingAction."/".($this->pageNum+$this->pagesLimit);
+            }
+        ?>><a href="<?=$url?>">Далее</a></li>
       </ul>
 </div>

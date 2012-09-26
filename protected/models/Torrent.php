@@ -15,26 +15,28 @@ class Torrent extends EMongoDocument
 	
 	public $announce;
 	public $announceList = array();
-	public $comment = array();
-	public $created_by;
-	public $creation_date;
 	public $encoding;
 	public $info = array();
-	public $publisher;
-	public $publisherUrl;
-	
-	public $checked = false;
+
+    public $comments = array();
 	public $peers = array(
 				"seeders" => array(),
 				"leachers" => array()				
 			);
-	
-	private $criteria;
+        public $downloaded = 0;
+    public $approved = true;
+    public $type;
+    public $raiting;
+    public $uploaded;
 	
 	const SORT_DESC = EMongoCriteria::SORT_DESC;
 	const SORT_ASC = EMongoCriteria::SORT_ASC;
-	
-	/**
+
+    const GOOD = 0;
+    const TRUSTED = 1;
+    const REFACTOR = 2;
+
+    /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -55,7 +57,7 @@ class Torrent extends EMongoDocument
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-				array("category, acceptRules", "required"),
+				array("name, email, category, acceptRules", "required"),
 				array("name", "length", "allowEmpty" => false, "min" => 3, "max" => 32),
 				array("email", "email", "allowEmpty" => false, "checkMX" => false, "checkPort" => false),
 				array(
@@ -87,14 +89,25 @@ class Torrent extends EMongoDocument
 			$this->addError("acceptRules", "Вы не приняли условия работы с торрентом.");
 	}
 
+    private function torrentFileAttributes()
+    {
+        return array(
+            "announce",
+            "announce-list",
+            "encoding",
+            "info",
+        );
+    }
+
     public function getTotalSize($raw = false)
     {
         $totalCount = 0;
-        $result = "";
 
         if (isset($this->info["files"]))
             foreach ($this->info["files"] as $file)
                 $totalCount += $file["length"];
+        else
+            $totalCount = $this->info["length"];
 
         $result = $totalCount;
 
@@ -121,7 +134,18 @@ class Torrent extends EMongoDocument
             return $result;
         }
     }
-	
+
+    public function getById($id)
+    {
+        $criteria = $this->setCriteria();
+        $criteria->_id = new MongoId($id);
+
+        if ($this->count($criteria) > 0)
+            return $this->find($criteria);
+        else
+            return null;
+    }
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -169,79 +193,89 @@ class Torrent extends EMongoDocument
 		
 		return $this->criteria;
 	}
+
+    private function normalizeName($rawName)
+    {
+        $normalName = $rawName;
+
+        if (strpos($normalName, "-") !== FALSE)
+        {
+            $parts = explode("-", $normalName);
+            $normalName = $parts[0];
+            $normalName .= ucfirst($parts[1]);
+        }
+
+        $normalName = str_replace(" ", "_", $normalName);
+
+        return $normalName;
+    }
 	
 	public function parseTorrentFile($file, $meta = array(), $piece_length = 256)
 	{
 		if ($piece_length < 32 || $piece_length > 4096)
 		{
-			throw new Exception(__('Invalid piece lenth, must be between 32 and 4096'));
+			throw new CException(Yii::t("app", "Неверная длина куска, должен быть не менее 32 и не более 4096"));
 		}
 		
 		if (is_string($meta))
-		{
-			$meta =  array('announce' => $meta);
-		}
+            $meta =  array('announce' => $meta);
 		
-		if ( $this->build($file, $piece_length * 1024))
-		{
-			$this->touch();
-		}
-		else
-		{
-			$meta = array_merge($meta, $this->decode($file));
-		}
+		if ( !$this->build($file, $piece_length * 1024))
+            $meta = array_merge($meta, $this->decode($file));
 
-		/**
-		 * @todo Make full data check. Replacing origin announce and announce-list
-		 */	
-		foreach( $meta as $key => $value )
+		foreach( $meta as $key => $value)
 		{
-			$frontendKey = $key;
-			
-			if (strpos($frontendKey, "-") !== FALSE)
-			{
-				$parts = explode("-", $frontendKey);
-				$frontendKey = $parts[0];
-				$frontendKey .= ucfirst($parts[1]);
-			}
-			
-			$frontendKey = str_replace(" ", "_", $frontendKey);
-			
-			/**
+            $frontendKey = $this->normalizeName($key);
+
+            /**
 			 * @todo Определение находится ли на сайте гость или зарегистрированный пользователь
 			 */
-			
-			if ($frontendKey == "info")
+            if ($frontendKey == "announce" ||
+                $frontendKey == "announceList"  ||
+                $frontendKey == "publisher")
 			{
-				$value["pieces"] = base64_encode($value["pieces"]);
+				continue;
 			}
-			else if ($frontendKey == "announce")
-			{
-				$value = Yii::app()->getParams()->baseUrl."/announce";
-			}
-			else if ($frontendKey == "announceList")
-			{
-				$value = array();
-				array_push($value, Yii::app()->getParams()->baseUrl."/announce", "http://re-tracker.uz/announce");
-			}
-			else if ($frontendKey == "publisher")
-			{
-				$rawPublisher = Yii::app()->getParams()->baseUrl;
-				$rawPublisher = str_replace("http://", "", $rawPublisher);
-				
-				if ($rawPublisher[(count($rawPublisher) - 1)] == "/")
-					$rawPublisher = substr($rawPublisher, 0, (count($rawPublisher) - 1));
-				
-				$value = $rawPublisher;
-			}
-			else if ($frontendKey == "publisherUrl")
-			{
-				$value = "";
-			}
-			
-			$this->$frontendKey = $value;
+
+            if ($frontendKey == "info")
+            {
+                if (isset($value["pieces"]))
+                    $value["pieces"] = base64_encode($value["pieces"]);
+            }
+
+            if (isset($this->$frontendKey))
+               $this->$frontendKey = $value;
 		}
+
+        $this->announce = Yii::app()->getParams()->baseUrl."/announce";
+
+        array_push($this->announceList,
+            Yii::app()->getParams()->baseUrl."/announce",
+            "http://re-tracker.uz/announce"
+        );
+
+        if (strlen($this->encoding) == 0)
+            $this->encoding = "UTF-8";
+
+        $this->uploaded = time();
 	}
+
+    public function getFile()
+    {
+        $fileParameters = $this->torrentFileAttributes();
+        $fileData = array();
+
+        foreach ($fileParameters as $fileParameter)
+        {
+            $fileData[$fileParameter] = $this->{$this->normalizeName($fileParameter)};
+        }
+
+        $fileData["info"]["pieces"] = base64_decode($fileData["info"]["pieces"]);
+        $fileData["publisher"] = Yii::app()->getParams()->domain;
+        $fileData["publisher-url"] = Yii::app()->getParams()->baseUrl."/torrent/download/id/".$this->_id;
+
+        return $this->encode( $fileData );
+    }
 	
 	private function build ($data, $piece_length) 
     {
@@ -396,16 +430,16 @@ class Torrent extends EMongoDocument
     	$end    = strpos($data, 'e');
     
     	if ($end === 0)
-    		$this->errors[] = new Exception('Empty integer');
+    		$this->errors[] = new CException(Yii::t("app", "Число отсутствует."));
     
     	if ($this->char($data) == '-')
     		$start++;
     
     	if (substr($data, $start, 1) == '0' && ($start != 0 || $end > $start + 1))
-    		$this->errors[] = new Exception('Leading zero in integer');
+    		$this->errors[] = new CException(Yii::t("app", "Число начинается с нуля."));
     
     	if (!ctype_digit(substr($data, $start, $end)))
-    		$this->errors[] = new Exception('Non-digit characters in integer');
+    		$this->errors[] = new CException(Yii::t("app", "В числе присутствуют не численные значения"));
     
     	$integer = substr($data, 0, $end);
     	$data = substr($data, $end + 1);
@@ -423,9 +457,86 @@ class Torrent extends EMongoDocument
     	false :
     	substr($data, 0, 1);
     }
-    
-    public function __destruct()
+
+    /**** Encode BitTorrent ****/
+
+    /** Encode torrent data
+     * @param mixed data to encode
+     * @return string torrent encoded data
+     */
+    private function encode ( $mixed )
     {
-    	
+        switch ( gettype( $mixed ) )
+        {
+            case 'integer':
+            case 'double':
+                return $this->encode_integer( $mixed );
+            case 'object':
+                $mixed = (array) $mixed; //Bugfix by W-Shadow. Objects can't be ksort'ed anyway (see encode_array()).
+            case 'array':
+                return $this->encode_array( $mixed );
+            default:
+                return $this->encode_string( (string) $mixed );
+        }
+    }
+
+    /** Encode torrent string
+     * @param string string to encode
+     * @return string encoded string
+     */
+    private function encode_string ( $string )
+    {
+        return strlen( $string ) . ':' . $string;
+    }
+
+    /** Encode torrent integer
+     * @param integer integer to encode
+     * @return string encoded integer
+     */
+    private function encode_integer ( $integer )
+    {
+        return 'i' . $integer . 'e';
+    }
+
+    /** Encode torrent dictionary or list
+     * @param array array to encode
+     * @return string encoded dictionary or list
+     */
+    private function encode_array ( $array )
+    {
+        if ( self::is_list( (array) $array ) )
+        {
+            $return = 'l';
+            foreach ( $array as $value ) {
+                $return .= self::encode( $value );
+            }
+        }
+        else
+        {
+            ksort( $array, SORT_STRING );
+            $return = 'd';
+            foreach ( $array as $key => $value )
+            {
+                $return .= self::encode( strval( $key ) ) . self::encode( $value );
+            }
+        }
+        return $return . 'e';
+    }
+
+    /** Helper to test if an array is a list
+     * @param array array to test
+     * @return boolean is the array a list
+     */
+    private function is_list ( $array )
+    {
+        foreach ( array_keys( $array ) as $key )
+        {
+            if ( ! is_int( $key ) )
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

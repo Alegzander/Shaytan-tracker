@@ -37,12 +37,19 @@ class SiteController extends Controller
 		$displayTorrents = Yii::app()->getParams()->displayTorrents;
 		
 		$criteria = Torrent::model()->setCriteria();
-		$criteria->limit($displayTorrents)->sort("_id", Torrent::SORT_DESC);
+        $criteria->approved = true;
+
+        $numTorrents = Torrent::model()->count($criteria);
+
+        $criteria->limit($displayTorrents)->sort("_id", Torrent::SORT_DESC)->offset((($this->listNum-1) * $displayTorrents));
 		
 		$torrentsList = Torrent::model()->findAll($criteria);
 
         $tableRows = array();
 
+        /**
+         * @var $torrent Torrent
+         */
         foreach ($torrentsList as $num => $torrent)
         {
             $rawCategory = explode("-", $torrent->category);
@@ -50,24 +57,26 @@ class SiteController extends Controller
             $categoryIndex = count($rawCategory)-1;
 
             $displayCategory = $rawCategory[$categoryIndex];
-            $url = Yii::app()->getParams()->baseUrl."/torrent/view/id/".$torrent->_id;
+            $downloadUrl = Yii::app()->getParams()->baseUrl."/torrent/download/id/".$torrent->_id;
+            $viewUrl = Yii::app()->getParams()->baseUrl."/torrent/view/id/".$torrent->_id;
 
             array_push($tableRows, array(
                 "id" => $num,
                 "category" => $displayCategory,
                 "name" => $torrent->name,
-                "download" => $url,
+                "view" => $viewUrl,
+                "download" => $downloadUrl,
                 "size" => $torrent->getTotalSize(),
-                "seeders" => 0,
-                "leachers" => 0,
-                "downloaded" => 0,
-                "comments" => 0
+                "seeders" => count($torrent->peers["seeders"]),
+                "leachers" => count($torrent->peers["leachers"]),
+                "downloaded" => $torrent->downloaded,
+                "comments" => count($torrent->comments)
             ));
         }
-		
-		$paginatorParams = array(
+
+        $paginatorParams = array(
 				"pagingAction" => Yii::app()->getParams()->baseUrl."/site/index/list",
-				"dataSize" => count($torrentsList),
+				"dataSize" => $numTorrents,
 				"pageNum" => $this->listNum,
 				"displayLimit" => $displayTorrents
         );

@@ -38,4 +38,66 @@ class TorrentController extends Controller
 			"modelClass" => $modelClass,	
 		));
 	}
+
+    public function actionView()
+    {
+        $id = Yii::app()->request->getQuery("id");
+
+        if ($id === null)
+            Yii::app()->request->redirect(Yii::app()->getParams()->baseUrl);
+
+        $torrent = Torrent::model()->getById($id);
+
+        if ($torrent === null)
+            Yii::app()->request->redirect(Yii::app()->getParams()->baseUrl);
+
+        $category = explode("-", $torrent->category);
+
+        $filesList = array();
+
+        if (isset($torrent->info["files"]))
+            foreach ($torrent->info["files"] as $file)
+                array_push($filesList, implode("/", $file["path"]));
+        else
+            array_push($filesList, $torrent->info["name"]);
+
+        $uploadedTime = new CDateFormatter("ru_RU");
+
+        $downloadLink = Yii::app()->getParams()->baseUrl."/torrent/download/id/".$torrent->_id;
+
+        $this->render("view", array(
+            "torrent" => $torrent,
+            "category" => $category,
+            "filesList" => $filesList,
+            "uploadedTime" => $uploadedTime,
+            "downloadLink" => $downloadLink
+        ));
+    }
+
+    public function actionDownload()
+    {
+        $id = Yii::app()->request->getQuery("id");
+        $fileType = Yii::app()->request->getQuery("filetype");
+        $contentType = "application/x-bittorrent";
+
+        if ($id === null)
+            Yii::app()->request->redirect(Yii::app()->getParams()->baseUrl);
+
+        if ($fileType != "torrent" && $fileType != "txt")
+            $fileType = "torrent";
+
+        if ($fileType == "txt")
+            $contentType = "plain/text";
+
+        $torrent = Torrent::model()->getById($id);
+
+        if ($torrent === null)
+            throw new CHttpException(404, Yii::t("app", "Торрент не найден. Проверьте правильность ссылки."));
+
+        header("Content-type: ".$contentType);
+        header("Content-Disposition: attachment; filename=\"".$torrent->name.".".$fileType."\"");
+        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+
+        echo $torrent->getFile();
+    }
 }
