@@ -105,9 +105,9 @@ class Torrent extends EMongoDocument
 
         if (isset($this->info["files"]))
             foreach ($this->info["files"] as $file)
-                $totalCount += $file["length"];
+                $totalCount += (int)$file["length"];
         else
-            $totalCount = $this->info["length"];
+            $totalCount = (int)$this->info["length"];
 
         $result = $totalCount;
 
@@ -186,13 +186,6 @@ class Torrent extends EMongoDocument
 	{
 		return 'torrents';
 	}
-	
-	public function setCriteria()
-	{
-		$this->criteria = new EMongoCriteria();
-		
-		return $this->criteria;
-	}
 
     private function normalizeName($rawName)
     {
@@ -241,6 +234,18 @@ class Torrent extends EMongoDocument
             {
                 if (isset($value["pieces"]))
                     $value["pieces"] = base64_encode($value["pieces"]);
+
+                /**
+                 * @desc эта небольшая хитрость нужна для того чтобы в базу попадало полноценное нормальное значение.
+                 * Поскольку численное значение имеет ограничение от (-1)*2^16 до 2^16. И всё что больше 2^16 получает
+                 * отрицательное значение. Это свойство mongodb
+                 */
+                if (isset($value["length"]))
+                    $value["length"] = (string)$value["length"];
+
+                if (isset($value["files"]))
+                    foreach ($value["files"] as $index => $contentFile)
+                        $value["files"][$index]["length"] = (string)$contentFile["length"];
             }
 
             if (isset($this->$frontendKey))
@@ -273,6 +278,12 @@ class Torrent extends EMongoDocument
         $fileData["info"]["pieces"] = base64_decode($fileData["info"]["pieces"]);
         $fileData["publisher"] = Yii::app()->getParams()->domain;
         $fileData["publisher-url"] = Yii::app()->getParams()->baseUrl."/torrent/download/id/".$this->_id;
+
+        if (isset($fileData["info"]["length"]))
+            $fileData["info"]["length"] = (int)$fileData["info"]["length"];
+        else if (isset($fileData["info"]["files"]))
+            foreach ($fileData["info"]["files"] as $index => $downloadFile)
+                $fileData["info"]["files"][$index] = (int)$downloadFile["length"];
 
         return $this->encode( $fileData );
     }

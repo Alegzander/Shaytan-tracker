@@ -7029,3 +7029,347 @@ in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php
 in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
 in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
 in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 21:59:44 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoDB failed to open connection: Transport endpoint is not connected' in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php:152
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#1 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#2 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): EMongoDocument->getDb()
+#3 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(957): EMongoDocument->getCollection()
+#4 /home/alegz/WebServer/tracker.loc/protected/controllers/SiteController.php(42): EMongoDocument->count(Object(EMongoCriteria))
+#5 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3812): SiteController->actionIndex()
+#6 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3324): CInlineAction->runWithParams(Array)
+#7 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3309): CController->runAction(Object(CInlineAction))
+#8 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3299): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1699): CController->run('')
+#10 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1619): CWebApplication->runController('')
+#11 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1144): CWebApplication->processRequest()
+#12 /home/alegz/WebServer/tracker.loc/httpdocs/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/
+---
+2012/10/02 21:59:59 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoDB failed to open connection: Transport endpoint is not connected' in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php:152
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#1 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#2 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): EMongoDocument->getDb()
+#3 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(957): EMongoDocument->getCollection()
+#4 /home/alegz/WebServer/tracker.loc/protected/controllers/SiteController.php(42): EMongoDocument->count(Object(EMongoCriteria))
+#5 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3812): SiteController->actionIndex()
+#6 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3324): CInlineAction->runWithParams(Array)
+#7 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3309): CController->runAction(Object(CInlineAction))
+#8 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3299): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1699): CController->run('')
+#10 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1619): CWebApplication->runController('')
+#11 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1144): CWebApplication->processRequest()
+#12 /home/alegz/WebServer/tracker.loc/httpdocs/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/
+---
+2012/10/02 22:00:00 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoDB failed to open connection: Transport endpoint is not connected' in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php:152
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#1 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#2 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): EMongoDocument->getDb()
+#3 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(957): EMongoDocument->getCollection()
+#4 /home/alegz/WebServer/tracker.loc/protected/controllers/SiteController.php(42): EMongoDocument->count(Object(EMongoCriteria))
+#5 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3812): SiteController->actionIndex()
+#6 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3324): CInlineAction->runWithParams(Array)
+#7 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3309): CController->runAction(Object(CInlineAction))
+#8 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3299): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1699): CController->run('')
+#10 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1619): CWebApplication->runController('')
+#11 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1144): CWebApplication->processRequest()
+#12 /home/alegz/WebServer/tracker.loc/httpdocs/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/
+---
+2012/10/02 22:00:27 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoDB failed to open connection: Transport endpoint is not connected' in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php:152
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#1 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#2 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): EMongoDocument->getDb()
+#3 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(957): EMongoDocument->getCollection()
+#4 /home/alegz/WebServer/tracker.loc/protected/controllers/SiteController.php(42): EMongoDocument->count(Object(EMongoCriteria))
+#5 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3812): SiteController->actionIndex()
+#6 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3324): CInlineAction->runWithParams(Array)
+#7 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3309): CController->runAction(Object(CInlineAction))
+#8 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3299): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1699): CController->run('')
+#10 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1619): CWebApplication->runController('')
+#11 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1144): CWebApplication->processRequest()
+#12 /home/alegz/WebServer/tracker.loc/httpdocs/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/
+---
+2012/10/02 22:00:29 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoDB failed to open connection: Transport endpoint is not connected' in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php:152
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#1 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#2 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): EMongoDocument->getDb()
+#3 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(957): EMongoDocument->getCollection()
+#4 /home/alegz/WebServer/tracker.loc/protected/controllers/SiteController.php(42): EMongoDocument->count(Object(EMongoCriteria))
+#5 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3812): SiteController->actionIndex()
+#6 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3324): CInlineAction->runWithParams(Array)
+#7 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3309): CController->runAction(Object(CInlineAction))
+#8 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3299): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1699): CController->run('')
+#10 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1619): CWebApplication->runController('')
+#11 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1144): CWebApplication->processRequest()
+#12 /home/alegz/WebServer/tracker.loc/httpdocs/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/
+---
+2012/10/02 22:00:32 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoDB failed to open connection: Transport endpoint is not connected' in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php:152
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#1 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#2 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): EMongoDocument->getDb()
+#3 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(957): EMongoDocument->getCollection()
+#4 /home/alegz/WebServer/tracker.loc/protected/controllers/SiteController.php(42): EMongoDocument->count(Object(EMongoCriteria))
+#5 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3812): SiteController->actionIndex()
+#6 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3324): CInlineAction->runWithParams(Array)
+#7 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3309): CController->runAction(Object(CInlineAction))
+#8 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3299): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1699): CController->run('')
+#10 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1619): CWebApplication->runController('')
+#11 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1144): CWebApplication->processRequest()
+#12 /home/alegz/WebServer/tracker.loc/httpdocs/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/
+---
+2012/10/02 22:00:35 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoDB failed to open connection: Transport endpoint is not connected' in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php:152
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#1 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#2 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): EMongoDocument->getDb()
+#3 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(957): EMongoDocument->getCollection()
+#4 /home/alegz/WebServer/tracker.loc/protected/controllers/SiteController.php(42): EMongoDocument->count(Object(EMongoCriteria))
+#5 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3812): SiteController->actionIndex()
+#6 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3324): CInlineAction->runWithParams(Array)
+#7 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3309): CController->runAction(Object(CInlineAction))
+#8 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3299): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1699): CController->run('')
+#10 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1619): CWebApplication->runController('')
+#11 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1144): CWebApplication->processRequest()
+#12 /home/alegz/WebServer/tracker.loc/httpdocs/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/
+---
+2012/10/02 22:00:36 [error] [exception.EMongoException] exception 'EMongoException' with message 'EMongoDB failed to open connection: Transport endpoint is not connected' in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php:152
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#1 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#2 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): EMongoDocument->getDb()
+#3 /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(957): EMongoDocument->getCollection()
+#4 /home/alegz/WebServer/tracker.loc/protected/controllers/SiteController.php(42): EMongoDocument->count(Object(EMongoCriteria))
+#5 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3812): SiteController->actionIndex()
+#6 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3324): CInlineAction->runWithParams(Array)
+#7 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3309): CController->runAction(Object(CInlineAction))
+#8 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(3299): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1699): CController->run('')
+#10 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1619): CWebApplication->runController('')
+#11 /home/alegz/WebServer/tracker.loc/library/yii/yiilite.php(1144): CWebApplication->processRequest()
+#12 /home/alegz/WebServer/tracker.loc/httpdocs/index.php(13): CApplication->run()
+#13 {main}
+REQUEST_URI=/
+---
+2012/10/02 22:01:56 [warning] [application] Не удалось присвоить небезопасный атрибут "torrent" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:01:56 [warning] [application] Не удалось присвоить небезопасный атрибут "infoUrl" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:01:56 [warning] [application] Не удалось присвоить небезопасный атрибут "description" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:03:58 [warning] [application] Не удалось присвоить небезопасный атрибут "torrent" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:03:58 [warning] [application] Не удалось присвоить небезопасный атрибут "infoUrl" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:03:58 [warning] [application] Не удалось присвоить небезопасный атрибут "description" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:10:59 [warning] [application] Не удалось присвоить небезопасный атрибут "torrent" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:10:59 [warning] [application] Не удалось присвоить небезопасный атрибут "infoUrl" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:10:59 [warning] [application] Не удалось присвоить небезопасный атрибут "description" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:11:40 [warning] [application] Не удалось присвоить небезопасный атрибут "torrent" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:11:40 [warning] [application] Не удалось присвоить небезопасный атрибут "infoUrl" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:11:40 [warning] [application] Не удалось присвоить небезопасный атрибут "description" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:15:24 [warning] [application] Не удалось присвоить небезопасный атрибут "torrent" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:15:24 [warning] [application] Не удалось присвоить небезопасный атрибут "infoUrl" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:15:24 [warning] [application] Не удалось присвоить небезопасный атрибут "description" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:19:10 [warning] [application] Не удалось присвоить небезопасный атрибут "torrent" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:19:10 [warning] [application] Не удалось присвоить небезопасный атрибут "infoUrl" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 22:19:10 [warning] [application] Не удалось присвоить небезопасный атрибут "description" класса "Torrent".
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (371)
+in /home/alegz/WebServer/tracker.loc/protected/extensions/YiiMongoDbSuite/EMongoEmbeddedDocument.php (194)
+in /home/alegz/WebServer/tracker.loc/protected/controllers/TorrentController.php (11)
+2012/10/02 23:29:17 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:19
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(19): DOMElement->__construct('sphinx:docset')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:33:16 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:19
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(19): DOMElement->__construct('sphinx:docset')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:34:54 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:19
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(19): DOMElement->__construct('sphinx:docset')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:35:07 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:21
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(21): DOMElement->__construct('sphinx:schema')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:35:20 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:19
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(19): DOMElement->__construct('sphinx:docset', '')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:36:20 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:19
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(19): DOMElement->__construct('sphinx:docset')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:36:40 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:19
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(19): DOMElement->__construct('sphinx:docset')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:42:20 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:21
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(21): DOMElement->__construct('sphinx:schema')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:45:45 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:21
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(21): DOMElement->__construct('sphinx:schema')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/02 23:47:22 [error] [exception.DOMException] exception 'DOMException' with message 'Namespace Error' in /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:26
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(26): DOMElement->__construct('sphinx:field')
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run(Array)
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run(Array)
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once('/home/alegz/Web...')
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once('/home/alegz/Web...')
+#7 {main}
+---
+2012/10/03 00:05:41 [error] [php] include(Torrent.php): failed to open stream: No such file or directory (/home/alegz/WebServer/tracker.loc/library/yii/YiiBase.php:423)
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php(43): spl_autoload_call()
+#1 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php(68): sphinxDataCommand->run()
+#2 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run()
+#3 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#4 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CConsoleApplication->run()
+#5 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once()
+#6 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once()
+
+2012/10/03 00:06:42 [error] [php] Argument 1 passed to DOMNode::appendChild() must be an instance of DOMNode, string given, called in /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleCommandRunner.php on line 68 and defined (/home/alegz/WebServer/tracker.loc/protected/commands/sphinxDataCommand.php:54)
+Stack trace:
+#0 /home/alegz/WebServer/tracker.loc/library/yii/console/CConsoleApplication.php(92): CConsoleCommandRunner->run()
+#1 /home/alegz/WebServer/tracker.loc/library/yii/base/CApplication.php(162): CConsoleApplication->processRequest()
+#2 /home/alegz/WebServer/tracker.loc/library/yii/yiic.php(34): CConsoleApplication->run()
+#3 /home/alegz/WebServer/tracker.loc/protected/yiic.php(7): require_once()
+#4 /home/alegz/WebServer/tracker.loc/protected/yiic(4): require_once()
+

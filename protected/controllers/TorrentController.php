@@ -22,8 +22,8 @@ class TorrentController extends Controller
 				
 				if (file_exists($tmpTorrent))
 					unlink($tmpTorrent);
-				
-				if ($torrent->save())
+
+                if ($torrent->save())
 					Yii::app()->request->redirect(Yii::app()->getParams()->baseUrl);
 			}
 			else

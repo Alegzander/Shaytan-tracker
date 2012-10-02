@@ -1,7 +1,7 @@
 <?php
 
 // change the following paths if necessary
-$yiic=dirname(__FILE__).'/../../../../Всякая всячина/Yii/yii-1.1.12.b600af/framework/yiic.php';
-$config=dirname(__FILE__).'/config/console.php';
+$yiic=dirname(__DIR__).DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.'yii'.DIRECTORY_SEPARATOR.'yiic.php';
+$config=dirname(__FILE__).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'console.php';
 
 require_once($yiic);

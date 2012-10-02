@@ -36,7 +36,7 @@ class SiteController extends Controller
 		
 		$displayTorrents = Yii::app()->getParams()->displayTorrents;
 		
-		$criteria = Torrent::model()->setCriteria();
+		$criteria = Torrent::model()->getDbCriteria();
         $criteria->approved = true;
 
         $numTorrents = Torrent::model()->count($criteria);
