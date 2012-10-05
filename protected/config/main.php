@@ -118,6 +118,15 @@ return array(
 		'baseUrl' => 'http://tracker.loc',
         'domain' => 'tracker.loc',
 		'adminEmail'=>'anime@anime.uz',
+        /**
+         * @var array
+         * WARNING!!!
+         * No keys should be set.
+         * Use like list/
+         */
+        'extraTrackers' => array(
+            "http://re-tracker.uz/announce"
+        ),
 		'displayTorrents' => 25,
 	),
 );

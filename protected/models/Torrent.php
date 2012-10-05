@@ -13,9 +13,6 @@ class Torrent extends EMongoDocument
 	public $description;
 	public $acceptRules;
 	
-	public $announce;
-	public $announceList = array();
-	public $encoding;
 	public $info = array();
 
     public $comments = array();
@@ -89,16 +86,6 @@ class Torrent extends EMongoDocument
 			$this->addError("acceptRules", "Вы не приняли условия работы с торрентом.");
 	}
 
-    private function torrentFileAttributes()
-    {
-        return array(
-            "announce",
-            "announce-list",
-            "encoding",
-            "info",
-        );
-    }
-
     public function getTotalSize($raw = false)
     {
         $totalCount = 0;
@@ -137,7 +124,7 @@ class Torrent extends EMongoDocument
 
     public function getById($id)
     {
-        $criteria = $this->setCriteria();
+        $criteria = $this->getDbCriteria();
         $criteria->_id = new MongoId($id);
 
         if ($this->count($criteria) > 0)
@@ -223,13 +210,6 @@ class Torrent extends EMongoDocument
             /**
 			 * @todo Определение находится ли на сайте гость или зарегистрированный пользователь
 			 */
-            if ($frontendKey == "announce" ||
-                $frontendKey == "announceList"  ||
-                $frontendKey == "publisher")
-			{
-				continue;
-			}
-
             if ($frontendKey == "info")
             {
                 if (isset($value["pieces"]))
@@ -238,7 +218,7 @@ class Torrent extends EMongoDocument
                 /**
                  * @desc эта небольшая хитрость нужна для того чтобы в базу попадало полноценное нормальное значение.
                  * Поскольку численное значение имеет ограничение от (-1)*2^16 до 2^16. И всё что больше 2^16 получает
-                 * отрицательное значение. Это свойство mongodb
+                 * отрицательное значение.
                  */
                 if (isset($value["length"]))
                     $value["length"] = (string)$value["length"];
@@ -252,16 +232,6 @@ class Torrent extends EMongoDocument
                $this->$frontendKey = $value;
 		}
 
-        $this->announce = Yii::app()->getParams()->baseUrl."/announce";
-
-        array_push($this->announceList,
-            Yii::app()->getParams()->baseUrl."/announce",
-            "http://re-tracker.uz/announce"
-        );
-
-        if (strlen($this->encoding) == 0)
-            $this->encoding = "UTF-8";
-
         $this->uploaded = time();
 	}
 
@@ -270,12 +240,26 @@ class Torrent extends EMongoDocument
         $fileParameters = $this->torrentFileAttributes();
         $fileData = array();
 
-        foreach ($fileParameters as $fileParameter)
+        $fileData["info"] = $this->info;
+        $fileData["info"]["pieces"] = base64_decode($fileData["info"]["pieces"]);
+
+        $fileData["announce"] = Yii::app()->getParams()->baseUrl."/announce";
+
+        if (
+            isset(Yii::app()->getParams()->extraTrackers) &&
+            is_array(Yii::app()->getParams()->extraTrackers)
+        )
         {
-            $fileData[$fileParameter] = $this->{$this->normalizeName($fileParameter)};
+            $fileData["announce-list"] = array();
+
+            array_push($fileData["announce-list"], $fileData["announce"]);
+
+            foreach (Yii::app()->getParams()->extraTrackers as $tracker)
+                array_push($fileData["announce-list"], $tracker);
         }
 
-        $fileData["info"]["pieces"] = base64_decode($fileData["info"]["pieces"]);
+        $fileData["encoding"] = "UTF-8";
+
         $fileData["publisher"] = Yii::app()->getParams()->domain;
         $fileData["publisher-url"] = Yii::app()->getParams()->baseUrl."/torrent/download/id/".$this->_id;
 
@@ -515,11 +499,11 @@ class Torrent extends EMongoDocument
      */
     private function encode_array ( $array )
     {
-        if ( self::is_list( (array) $array ) )
+        if ( $this->is_list( (array) $array ) )
         {
             $return = 'l';
             foreach ( $array as $value ) {
-                $return .= self::encode( $value );
+                $return .= $this->encode( $value );
             }
         }
         else
@@ -528,7 +512,7 @@ class Torrent extends EMongoDocument
             $return = 'd';
             foreach ( $array as $key => $value )
             {
-                $return .= self::encode( strval( $key ) ) . self::encode( $value );
+                $return .= $this->encode( strval( $key ) ) . $this->encode( $value );
             }
         }
         return $return . 'e';
