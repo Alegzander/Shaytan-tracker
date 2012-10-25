@@ -14,7 +14,10 @@ class Torrent extends EMongoDocument
 	public $acceptRules;
 	
 	public $info = array();
+    public $created_by;
+    public $creation_date;
 
+    public $infoHash;
     public $comments = array();
 	public $peers = array(
 				"seeders" => array(),
@@ -133,6 +136,17 @@ class Torrent extends EMongoDocument
             return null;
     }
 
+    public function getByInfoHash(string $infoHash)
+    {
+        $criteria = $this->getDbCriteria();
+        $criteria->infoHash = base64_encode($infoHash);
+
+        if ($this->count($criteria) > 0)
+            return $this->find($criteria);
+        else
+            return null;
+    }
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -212,6 +226,9 @@ class Torrent extends EMongoDocument
 			 */
             if ($frontendKey == "info")
             {
+                /*if(isset($value["name"]))
+                    $this->name = $value["name"];*/
+
                 if (isset($value["pieces"]))
                     $value["pieces"] = base64_encode($value["pieces"]);
 
@@ -233,43 +250,102 @@ class Torrent extends EMongoDocument
 		}
 
         $this->uploaded = time();
+        
+        $tmpInfo = $this->info;
+        if (isset($tmpInfo["length"]))
+            $tmpInfo["length"] = (int)$tmpInfo["length"];
+        else if (isset($tmpInfo["files"]))
+            foreach ($tmpInfo["files"] as $index => $fileLength)
+                $tmpInfo["files"][$index]["length"] = (int)$fileLength["length"];
+
+        $tmpInfo["pieces"] = base64_decode($tmpInfo["pieces"]);
+
+        $this->infoHash = base64_encode(
+            sha1(
+                $this->encode($tmpInfo),
+                true
+            )
+        );
 	}
 
     public function getFile()
     {
-        $fileParameters = $this->torrentFileAttributes();
         $fileData = array();
 
+        /**
+         * @desc Записываем данные о файле или файлах
+         * который будут раздаватся/скачиваться
+         * при помощи данного торрента и мета информацию
+         */
         $fileData["info"] = $this->info;
         $fileData["info"]["pieces"] = base64_decode($fileData["info"]["pieces"]);
 
+        /**
+         * @desc Указываем трекер
+         */
         $fileData["announce"] = Yii::app()->getParams()->baseUrl."/announce";
 
+        /**
+         * @desc Если у нас указаны дополнительные трекеры создаём announce-list
+         * и вносим их туда.
+         */
         if (
             isset(Yii::app()->getParams()->extraTrackers) &&
             is_array(Yii::app()->getParams()->extraTrackers)
         )
         {
-            $fileData["announce-list"] = array();
+            $data = array();
 
-            array_push($fileData["announce-list"], $fileData["announce"]);
+            array_push($data, $fileData["announce"]);
 
+            /**
+             * Читаем данные из конфига
+             */
             foreach (Yii::app()->getParams()->extraTrackers as $tracker)
-                array_push($fileData["announce-list"], $tracker);
+                array_push($data, $tracker);
+
+            $fileData["announce-list"] = array($data);
         }
 
+        /**
+         * @desc Задаём кодировку, она у нас всегда UTF-8
+         */
         $fileData["encoding"] = "UTF-8";
 
+        /**
+         * @desc Указываем информацию о публикации. По сути указывается трекер
+         * где был опубликован файл и ссылка собственно на саму публикацию
+         */
         $fileData["publisher"] = Yii::app()->getParams()->domain;
         $fileData["publisher-url"] = Yii::app()->getParams()->baseUrl."/torrent/download/id/".$this->_id;
 
+        /**
+         * @desc Данный костылёк служит для обхода заподлянки
+         * с ограничением на число которое накладывает СУБД mongodb
+         * Это описывалось ранее в методе parseTorrentFile на
+         * на строке примерно 220 на момент написания коммента.
+         */
         if (isset($fileData["info"]["length"]))
             $fileData["info"]["length"] = (int)$fileData["info"]["length"];
         else if (isset($fileData["info"]["files"]))
             foreach ($fileData["info"]["files"] as $index => $downloadFile)
-                $fileData["info"]["files"][$index] = (int)$downloadFile["length"];
+                $fileData["info"]["files"][$index]["length"] = (int)$downloadFile["length"];
+
+        /**
+         * @desc указываем кем был создан и когда, если задано
+         */
+        if (isset($this->created_by))
+            $fileData["created by"] = $this->created_by;
+
+        if (isset($this->creation_date))
+            $fileData["creation date"] = $this->creation_date;
 
         return $this->encode( $fileData );
+    }
+
+    public function announce()
+    {
+
     }
 	
 	private function build ($data, $piece_length) 
@@ -289,7 +365,7 @@ class Torrent extends EMongoDocument
 	/*** Decode BitTorrent ***/
     
     /** Decode torrent data or file
-     * @param string data or file path to decode
+     * @param string $string or file path to decode
      * @return array decoded torrent data
      */
     private function decode ($string)
