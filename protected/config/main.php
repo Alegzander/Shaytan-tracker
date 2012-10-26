@@ -118,6 +118,8 @@ return array(
 		'baseUrl' => 'http://tracker.loc',
         'domain' => 'tracker.loc',
 		'adminEmail'=>'anime@anime.uz',
+        'interval' => 600,
+        'min interval' => 300,
         /**
          * @var array
          * WARNING!!!

@@ -136,7 +136,7 @@ class Torrent extends EMongoDocument
             return null;
     }
 
-    public function getByInfoHash(string $infoHash)
+    public function findByInfoHash(string $infoHash)
     {
         $criteria = $this->getDbCriteria();
         $criteria->infoHash = base64_encode($infoHash);
@@ -343,9 +343,9 @@ class Torrent extends EMongoDocument
         return $this->encode( $fileData );
     }
 
-    public function announce()
+    public function announceResponce(array $array)
     {
-
+        return $this->encode($array);
     }
 	
 	private function build ($data, $piece_length) 
