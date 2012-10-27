@@ -36,7 +36,7 @@ class AnnounceController extends Controller
         * @todo Запилить обработку параметра compact пока игнорится
         */
 
-        $responce = array();
+        $response = array();
         $announceForm = new AnnounceForm();
 
         $announceForm->attributes = $_REQUEST;
@@ -49,9 +49,9 @@ class AnnounceController extends Controller
                 $errorString .= implode(" ", $error)." ";
 
             $errorString = trim($errorString);
-            $responce = array("failure reason" => $errorString);
+            $response = array("failure reason" => $errorString);
 
-            echo Torrent::model()->announceResponce($responce);
+            echo Torrent::model()->announceResponce($response);
 
             Yii::app()->end();
         }
@@ -82,14 +82,15 @@ class AnnounceController extends Controller
         if ($torrentModel === null)
         {
             //Формируем ответ
-            $responce = array("failure reason" => Yii::t("app", "Торрент-файла с указанным хэшем не существует."));
+            $response = array("failure reason" => Yii::t("app", "Торрент-файла с указанным хэшем не существует."));
 
             //Возвращаем ответ
-            echo Torrent::model()->announceResponce($responce);
+            echo Torrent::model()->announceResponce($response);
+            Yii::app()->end();
         }
 
-        $leachers = $torrentModel->peers["leachers"];
-        $seeders = $torrentModel->peers["seeders"];
+        $response["interval"] = Yii::app()->getParams()->interval;
+        $response["min interval"] = Yii::app()->getParams()->interval;
 
         /**
          * @desc Данные которые пишутся в пиры
@@ -99,16 +100,33 @@ class AnnounceController extends Controller
          * key
          * trackerid
          */
-        //Если есть ещё что качать, он личер
-        if ((int)$announceForm->left > 0)
+        try
         {
+            /**
+             * @var $peer Peer
+             */
+            $peer = Peer::model()->findById($torrentModel, $announceForm->peer_id);
 
+            if (isset($announceForm->event))
+                $peer->changeState($announceForm->event);
+        }
+        catch (CException $error)
+        {
+            if (!isset($announceForm->event))
+            {
+                $response = array("failure reason" => Yii::t("app", "Свойство event не задано."));
+
+                echo $torrentModel->announceResponce($response);
+                Yii::app()->end();
+            }
+
+            /**
+             * @var $peer Peer
+             */
+            $peer = Peer::model()->create($announceForm);
+
+            $peer->changeState($announceForm->event);
         }
 
-        //Первым делом сохраним и запомним нашего пира, или проверим не был ли он у нас в записях до этого
-
-
-        $responce["interval"] = Yii::app()->getParams()->interval;
-        $responce["min interval"] = Yii::app()->getParams()->interval;
     }
 }

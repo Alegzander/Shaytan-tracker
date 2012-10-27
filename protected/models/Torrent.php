@@ -23,7 +23,7 @@ class Torrent extends EMongoDocument
 				"seeders" => array(),
 				"leachers" => array()				
 			);
-        public $downloaded = 0;
+    public $downloaded = 0;
     public $approved = true;
     public $type;
     public $raiting;
