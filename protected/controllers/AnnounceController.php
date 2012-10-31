@@ -14,6 +14,12 @@ class AnnounceController extends Controller
      */
     public function actionIndex()
     {
+    	$get = $_GET;
+    	
+    	$get["info_hash"] = base64_encode($get["info_hash"]);
+    	
+    	Yii::log("GET parameters: ".serialize($get), "info");
+    	
        /**
         * @desc входящие параметры
         * info_hash
@@ -90,8 +96,8 @@ class AnnounceController extends Controller
         }
 
         $response["interval"] = Yii::app()->getParams()->interval;
-        $response["min interval"] = Yii::app()->getParams()->interval;
-
+        $response["min interval"] = Yii::app()->getParams()->min_interval;
+        
         /**
          * @desc Данные которые пишутся в пиры
          * ip
@@ -101,8 +107,8 @@ class AnnounceController extends Controller
          * trackerid
          */
         try
-        {
-            /**
+       {
+        	/**
              * @var $peer Peer
              */
             $peer = Peer::model()->findById($torrentModel, $announceForm->peer_id);
@@ -112,7 +118,7 @@ class AnnounceController extends Controller
         }
         catch (CException $error)
         {
-            if (!isset($announceForm->event))
+        	if (!isset($announceForm->event))
             {
                 $response = array("failure reason" => Yii::t("app", "Свойство event не задано."));
 
@@ -124,9 +130,7 @@ class AnnounceController extends Controller
              * @var $peer Peer
              */
             $peer = Peer::model()->create($announceForm);
-
             $peer->changeState($announceForm->event);
         }
-
     }
 }

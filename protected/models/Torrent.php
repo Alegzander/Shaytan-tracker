@@ -136,7 +136,7 @@ class Torrent extends EMongoDocument
             return null;
     }
 
-    public function findByInfoHash(string $infoHash)
+    public function findByInfoHash($infoHash)
     {
         $criteria = $this->getDbCriteria();
         $criteria->infoHash = base64_encode($infoHash);
@@ -163,11 +163,11 @@ class Torrent extends EMongoDocument
 		);
 	}
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return Torrent the static model class
-	 */
-	public static function model($className=__CLASS__)
+    /**
+     * @param string $className
+     * @return Torrent
+     */
+    public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -330,6 +330,9 @@ class Torrent extends EMongoDocument
         else if (isset($fileData["info"]["files"]))
             foreach ($fileData["info"]["files"] as $index => $downloadFile)
                 $fileData["info"]["files"][$index]["length"] = (int)$downloadFile["length"];
+
+        if (Yii::app()->getParams()->forcePrivate === true)
+            $fileData["info"]["private"] = 1;
 
         /**
          * @desc указываем кем был создан и когда, если задано

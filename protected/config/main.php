@@ -88,7 +88,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'error, warning, info, trace',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
@@ -119,7 +119,8 @@ return array(
         'domain' => 'tracker.loc',
 		'adminEmail'=>'anime@anime.uz',
         'interval' => 600,
-        'min interval' => 300,
+        'min_interval' => 300,
+        'forcePrivate' => true,
         /**
          * @var array
          * WARNING!!!

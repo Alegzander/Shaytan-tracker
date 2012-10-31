@@ -62,7 +62,7 @@ class Peer extends CModel
      * @return Peer
      * @throws CException
      */
-    public function findById(Torrent $torrent, $peerId)
+    public function findById(Torrent $torrent, $peerId, $key = null)
     {
         if (array_key_exists($peerId, $torrent->peers["leachers"]) === true)
             $this->changeStatus(self::STATUS_LEACHER);
@@ -70,6 +70,10 @@ class Peer extends CModel
             $this->changeStatus(self::STATUS_SEEDER);
         else
             throw new CException(Yii::t("app", "Не удалось найти пира."));
+        
+        if (isset($key))
+        	if (array_search($key, $torrent->peers[$this->status][$peerId]) === false)
+        		
 
         $peer = $torrent->peers[$this->status][$peerId];
         $this->attributes = $peer;
@@ -85,11 +89,28 @@ class Peer extends CModel
     public function create(AnnounceForm $announceData)
     {
         $peerParams = array();
+        
+        if($announceData->validate() !== true)
+        {
+        	$errorString = "";
+        	
+        	foreach ($announceData->getErrors() as $error)
+        		$errorString .= implode(" ", $error)." ";
+        		
+        	$errorString = trim($errorString);
+        	
+        	throw new CException(Yii::t("app", $errorString));
+        }
 
         foreach ($this->attributeNames() as $attribute)
-            $peerParams[$attribute] = $announceData->{$attribute};
+        	if($attribute != "peer_id" && isset($announceData->{$attribute}))
+            	$this->{$attribute} = $announceData->{$attribute};
+        	else
+        		$this->id = $announceData->peer_id;
+        	
+        $this->updated = time();
 
-        $this->attributes = $peerParams;
+        return $this;
     }
 
     /**
@@ -114,9 +135,10 @@ class Peer extends CModel
             if ((int)$this->left > 0)
                 $this->changeStatus(self::STATUS_LEACHER);
             else
-                $this->changeStatus(self::STATUS_SEEDER);
+              $this->changeStatus(self::STATUS_SEEDER);
         }
 
+        $this->updated = time();
         $this->state = $state;
     }
 
@@ -138,6 +160,7 @@ class Peer extends CModel
         )
             throw new CException(Yii::t("app", "Ошибка смены статуса."));
 
-        $this->state = $status;
+        $this->updated = time();
+        $this->status = $status;
     }
 }

@@ -10,11 +10,13 @@ class TorrentController extends Controller
 		{
 			$torrent->attributes = Yii::app()->request->getPost($modelClass);
 			
-			$tmpTorrent = Yii::app()->getParams()->tmpDir.DIRECTORY_SEPARATOR."tmp-".time().md5(rand(0, 999999999999)).".torrent";
+			if ($torrent->validate() === true)
+			{
+				$tmpTorrent = Yii::app()->getParams()->tmpDir.DIRECTORY_SEPARATOR."tmp-".time().md5(rand(0, 999999999999)).".torrent";
+				$torrentFile = CUploadedFile::getInstance($torrent, "torrent");
+			}
 			
-			$torrentFile = CUploadedFile::getInstance($torrent, "torrent");
-			
-			if ($torrentFile !== NULL)
+			if (isset($torrentFile))
 			{
 				$torrentFile->saveAs($tmpTorrent);
 				
@@ -23,8 +25,19 @@ class TorrentController extends Controller
 				if (file_exists($tmpTorrent))
 					unlink($tmpTorrent);
 
-                if ($torrent->save())
-					Yii::app()->request->redirect(Yii::app()->getParams()->baseUrl);
+				$searchDuplicate = Torrent::model()->findByInfoHash(base64_decode($torrent->infoHash));
+				
+				if ($searchDuplicate === NULL)
+				{
+					if ($torrent->save())
+						Yii::app()->request->redirect(Yii::app()->getParams()->baseUrl);
+					else
+						$torrent->addError("torrent", "Произошла ошибка при сохранении данных. Попробуйте пожалуйста ещё раз позже.");
+				}
+				else
+				{
+					$torrent->addError("torrent", "Торрент файл уже существует на трекере.");
+				}
 			}
 			else
 			{
