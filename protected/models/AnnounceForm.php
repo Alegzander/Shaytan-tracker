@@ -27,7 +27,16 @@ class AnnounceForm extends CFormModel
         $eventsList = array("started", "stopped", "completed");
         $zeroto255 = "([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])";
         $oneto255 = "([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])";
-        $zeroto254 = "([0-9]|[0-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4])";
+        $ipv6block = "[a-fA-F0-9]{0,4}";
+        
+        /**
+		 * При локальном тестировании трекера неожиданно было получено такое значение
+		 * от торрент клиента "FE80::72F3:95FF:FEE7:AE40%wlan0", чтоб обработать такую 
+		 * концовку этот кусок и сделан.
+         */
+        $ipv6end = "(|%[a-zA-Z0-9:]{2,10})";
+        $ipv4pattern = $oneto255.".".$zeroto255.".".$zeroto255.".".$zeroto255;
+        $ipv6pattern = $ipv6block.":".$ipv6block.":".$ipv6block.":".$ipv6block.":".$ipv6block.":".$ipv6block.$ipv6end; 
 
         return array(
             array("info_hash, peer_id, port, uploaded, downloaded, left", "required"),
@@ -39,7 +48,7 @@ class AnnounceForm extends CFormModel
             array("no_peer_id", "numerical", "min" => 0, "max" => 1),
             array("event", "in", "range" => $eventsList),
             array("numwant", "numerical", "min" => 0),
-            array("ip", "match", "pattern" => "/^".$oneto255.".".$zeroto255.".".$zeroto255.".".$zeroto254."$/")
+            array("ip", "match", "pattern" => "/^(".$ipv4pattern."|".$ipv6pattern.")$/")
         );
     }
 }

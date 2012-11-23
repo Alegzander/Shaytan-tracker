@@ -64,18 +64,23 @@ class Peer extends CModel
      */
     public function findById(Torrent $torrent, $peerId, $key = null)
     {
-        if (array_key_exists($peerId, $torrent->peers["leachers"]) === true)
+    	$id = $peerId;
+    	
+    	if (isset($key))
+    		$id = sha1($peerId.$key);
+    	
+        if (array_key_exists($id, $torrent->peers["leachers"]) === true)
             $this->changeStatus(self::STATUS_LEACHER);
-        else if (array_key_exists($peerId, $torrent->peers["seeders"]))
+        else if (array_key_exists($id, $torrent->peers["seeders"]))
             $this->changeStatus(self::STATUS_SEEDER);
         else
-            throw new CException(Yii::t("app", "Не удалось найти пира."));
+            return null;
         
         if (isset($key))
-        	if (array_search($key, $torrent->peers[$this->status][$peerId]) === false)
+        	if (array_search($key, $torrent->peers[$this->status][$id]) === false)
         		
 
-        $peer = $torrent->peers[$this->status][$peerId];
+        $peer = $torrent->peers[$this->status][$id];
         $this->attributes = $peer;
 
         return $this;
@@ -103,12 +108,21 @@ class Peer extends CModel
         }
 
         foreach ($this->attributeNames() as $attribute)
+        {
         	if($attribute != "peer_id" && isset($announceData->{$attribute}))
+        	{
             	$this->{$attribute} = $announceData->{$attribute};
-        	else
-        		$this->id = $announceData->peer_id;
-        	
-        $this->updated = time();
+        	}
+        	else 
+        	{
+        		if (isset($announceData->key))
+        			$this->id = sha1($announceData->peer_id.$announceData->key);
+        		else
+        			$this->id = $announceData->peer_id;
+        	}
+        }
+        
+        $this->changeState($announceData->event);
 
         return $this;
     }

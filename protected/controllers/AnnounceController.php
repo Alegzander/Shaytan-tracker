@@ -46,6 +46,9 @@ class AnnounceController extends Controller
         $announceForm = new AnnounceForm();
 
         $announceForm->attributes = $_REQUEST;
+        
+        if (!isset($announceForm->ip))
+        	$announceForm->ip = $_SERVER["REMOTE_ADDR"];
 
         if ($announceForm->validate() === false)
         {
@@ -99,6 +102,7 @@ class AnnounceController extends Controller
         $response["min interval"] = Yii::app()->getParams()->min_interval;
         
         /**
+         * @todo Запилить поддержку trackerid
          * @desc Данные которые пишутся в пиры
          * ip
          * port
@@ -109,28 +113,108 @@ class AnnounceController extends Controller
         try
        {
         	/**
-             * @var $peer Peer
+             * @var Peer $peer
              */
-            $peer = Peer::model()->findById($torrentModel, $announceForm->peer_id);
+            $peer = Peer::model()->findById($torrentModel, $announceForm->peer_id, $announceForm->key);
+            
+            if (!isset($peer))
+            	$peer = model()->create($announceForm);
+            
+            if (!isset($announceForm->event))
+            	$announceForm->event = Peer::STATE_STARTED;
+            
+            $peer->changeState($announceForm->event);
 
-            if (isset($announceForm->event))
-                $peer->changeState($announceForm->event);
+            @unlink("/tmp/shit");
+            file_put_contents("/tmp/shit", __LINE__);
+            
+            if ($announceForm->event == Peer::STATE_COMPLETED)
+            {
+            	$torrentModel->downloaded++;
+            		
+				if (isset($torrentModel->peers["leachers"][$peer->id]))
+            		unset($torrentModel->peers["leachers"][$peer->id]);
+            }
+            
+            foreach ($peer->attributeNames() as $attribute)
+            {
+            	if ($attribute != "id")
+            		$torrentModel->peers[$peer->status][$peer->id][$attribute] = $peer->{$attribute};
+            }
+            
+            if ($torrentModel->save())
+            {
+            	if (!isset($announceForm->numwant))
+            		$numwant = Yii::app()->getParams()->interval;
+            	else
+            		$numwant = $announceForm->numwant;
+            	
+            	$response["complete"] = count($torrentModel->peers[Peer::STATUS_SEEDER]);
+            	$response["incomplete"] = count($torrentModel->peers[Peer::STATUS_LEACHER]);
+            	
+            	$rawPeersList = array();
+            	$peersList = array();
+            	
+            	if ($peer->status == Peer::STATUS_SEEDER)
+            	{
+            		 $rawPeersList = array_slice($torrentModel->peers[Peer::STATUS_LEACHER], 0, $numwant);
+            	}
+            	else if ($peer->status == Peer::STATUS_LEACHER)
+            	{
+            		$numSeeders = ceil($numwant/2);
+            		$numLeachers = floor($numwant/2);
+            		
+            		$seeders = array_slice($torrentModel->peers[Peer::STATUS_SEEDER], 0, $numSeeders);
+            		$leachers = array_slice($torrentModel->peers[Peer::STATUS_LEACHER], 0, $numLeachers);
+            		
+            		$rawPeersList = array_merge($seeders, $leachers);
+            	}
+            	
+            	foreach ($rawPeersList as $peerId => $peerData)
+            	{
+            		$packet = array(
+            				"ip" => $peerData["ip"],
+            				"port" => $peerData["port"]
+            		);
+            		 
+            		if (
+            			(int)$announceForm->no_peer_id !== 1 &&
+            			(int)$announceForm->compact !== 1
+            		)
+            			$packet["peer id"] = $peerId;
+            	
+            		array_push($peersList, $packet);
+            		 
+            		unset($packet);
+            	}
+            	
+            	if ((int)$announceForm->compact === 1)
+            	{
+            		foreach ($peersList as $peerParams)
+            			$packet = pack("Nn", ip2long($peerParams["ip"]), $peerParams["port"]);
+            		
+            		$response["peers"] .= $packet;
+            	}
+            	else
+            	{
+            		$response["peers"] = $peersList;
+            	}
+            	
+            	echo $torrentModel->announceResponce($response);
+            	Yii::app()->end();            		
+            }
+            else
+           {
+           		throw new CException(Yii::t("app", "Не удалось сохранить данные о пире."));	
+            }
+            
         }
         catch (CException $error)
         {
-        	if (!isset($announceForm->event))
-            {
-                $response = array("failure reason" => Yii::t("app", "Свойство event не задано."));
+        	$response = array("failure reason" => $error->getMessage());
 
-                echo $torrentModel->announceResponce($response);
-                Yii::app()->end();
-            }
-
-            /**
-             * @var $peer Peer
-             */
-            $peer = Peer::model()->create($announceForm);
-            $peer->changeState($announceForm->event);
+            echo $torrentModel->announceResponce($response);
+            Yii::app()->end();
         }
     }
 }

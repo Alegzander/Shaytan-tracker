@@ -86,7 +86,7 @@ class Torrent extends EMongoDocument
 	public function acceptedRules()
 	{
 		if ($this->acceptRules !== "1")
-			$this->addError("acceptRules", "Вы не приняли условия работы с торрентом.");
+			$this->addError("acceptRules", Yii::t("app", "Вы не приняли условия работы с торрентом."));
 	}
 
     public function getTotalSize($raw = false)

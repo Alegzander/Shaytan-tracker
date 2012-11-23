@@ -120,6 +120,7 @@ return array(
 		'adminEmail'=>'anime@anime.uz',
         'interval' => 600,
         'min_interval' => 300,
+        'numwant' => 50,
         'forcePrivate' => true,
         /**
          * @var array
