@@ -91,6 +91,7 @@ class Peer extends CModel
         }
 
         $peer = $torrent->peers[$this->status][$id];
+        $this->id = $id;
 
         foreach ($peer as $attribute => $value)
             $this->{$attribute} = $value;

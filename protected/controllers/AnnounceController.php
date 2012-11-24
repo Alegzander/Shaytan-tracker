@@ -154,7 +154,10 @@ class AnnounceController extends Controller
             	if ($attribute != "id")
             		$torrentModel->peers[$peer->status][$peer->id][$attribute] = $peer->{$attribute};
             }
-            
+
+            /**
+             * false потому что без торрент файла валидация ошибку даёт.
+             */
             if ($torrentModel->save(false))
             {
             	if (!isset($announceForm->numwant))
