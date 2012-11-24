@@ -130,7 +130,6 @@ class AnnounceController extends Controller
         {
         	/**
              * @var Peer $peer
-             * @desc
              */
             $peer = Peer::model()->findById($torrentModel, $announceForm->peer_id, $announceForm->key);
             

@@ -70,12 +70,12 @@ class Peer extends CModel
     		$id = sha1($peerId.$key);
     	
         if (array_key_exists($id, $torrent->peers[self::STATUS_LEACHER]) === true)
-            $this->changeStatus(self::STATUS_LEACHER);
+            $this->status = self::STATUS_LEACHER;
         else if (array_key_exists($id, $torrent->peers[self::STATUS_SEEDER]))
-            $this->changeStatus(self::STATUS_SEEDER);
+            $this->status = self::STATUS_SEEDER;
         else
             return null;
-        
+
         if (isset($key))
         {
             if (
@@ -91,7 +91,9 @@ class Peer extends CModel
         }
 
         $peer = $torrent->peers[$this->status][$id];
-        $this->attributes = $peer;
+
+        foreach ($peer as $attribute => $value)
+            $this->{$attribute} = $value;
 
         return $this;
     }
