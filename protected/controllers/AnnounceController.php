@@ -14,12 +14,13 @@ class AnnounceController extends Controller
      */
     public function actionIndex()
     {
-    	$get = $_GET;
-    	
-    	$get["info_hash"] = base64_encode($get["info_hash"]);
-    	
-    	Yii::log("GET parameters: ".serialize($get), "info");
-    	
+        /**
+         * Для отладки
+         * @todo не забыть убрать эту хрень для отладки
+         */
+        if (isset($_REQUEST["info_hash"]))
+            $_REQUEST["info_hash"] = base64_decode($_REQUEST["info_hash"]);
+
        /**
         * @desc входящие параметры
         * info_hash
@@ -46,12 +47,21 @@ class AnnounceController extends Controller
         $announceForm = new AnnounceForm();
 
         $announceForm->attributes = $_REQUEST;
-        
+
+        /**
+         * Если ип не здавался задаём его по remote addr
+         */
         if (!isset($announceForm->ip))
         	$announceForm->ip = $_SERVER["REMOTE_ADDR"];
 
+        /**
+         * Валидация пришедших данных
+         */
         if ($announceForm->validate() === false)
         {
+            /**
+             * Чёт херня какая-то выводим ошибку.
+             */
             $errorString = "";
 
             foreach ($announceForm->getErrors() as $error)
@@ -87,9 +97,11 @@ class AnnounceController extends Controller
          */
         $torrentModel = Torrent::model()->findByInfoHash($announceForm->info_hash);
 
-        //Есть ли он
+        //Если ничего нет
         if ($torrentModel === null)
         {
+            //Возвращаем ошибку.
+
             //Формируем ответ
             $response = array("failure reason" => Yii::t("app", "Торрент-файла с указанным хэшем не существует."));
 
@@ -98,6 +110,9 @@ class AnnounceController extends Controller
             Yii::app()->end();
         }
 
+        /**
+         * Берём интерфайлы из конфига
+         */
         $response["interval"] = Yii::app()->getParams()->interval;
         $response["min interval"] = Yii::app()->getParams()->min_interval;
         
@@ -110,30 +125,29 @@ class AnnounceController extends Controller
          * key
          * trackerid
          */
+
         try
-       {
+        {
         	/**
              * @var Peer $peer
+             * @desc
              */
             $peer = Peer::model()->findById($torrentModel, $announceForm->peer_id, $announceForm->key);
             
             if (!isset($peer))
-            	$peer = model()->create($announceForm);
+            	$peer = Peer::model()->create($announceForm);
             
             if (!isset($announceForm->event))
             	$announceForm->event = Peer::STATE_STARTED;
             
             $peer->changeState($announceForm->event);
 
-            @unlink("/tmp/shit");
-            file_put_contents("/tmp/shit", __LINE__);
-            
             if ($announceForm->event == Peer::STATE_COMPLETED)
             {
             	$torrentModel->downloaded++;
             		
-				if (isset($torrentModel->peers["leachers"][$peer->id]))
-            		unset($torrentModel->peers["leachers"][$peer->id]);
+				if (isset($torrentModel->peers[Peer::STATUS_LEACHER][$peer->id]))
+            		unset($torrentModel->peers[Peer::STATUS_LEACHER][$peer->id]);
             }
             
             foreach ($peer->attributeNames() as $attribute)
@@ -142,7 +156,7 @@ class AnnounceController extends Controller
             		$torrentModel->peers[$peer->status][$peer->id][$attribute] = $peer->{$attribute};
             }
             
-            if ($torrentModel->save())
+            if ($torrentModel->save(false))
             {
             	if (!isset($announceForm->numwant))
             		$numwant = Yii::app()->getParams()->interval;
@@ -193,7 +207,7 @@ class AnnounceController extends Controller
             		foreach ($peersList as $peerParams)
             			$packet = pack("Nn", ip2long($peerParams["ip"]), $peerParams["port"]);
             		
-            		$response["peers"] .= $packet;
+            		$response["peers"] = $packet;
             	}
             	else
             	{
@@ -204,8 +218,8 @@ class AnnounceController extends Controller
             	Yii::app()->end();            		
             }
             else
-           {
-           		throw new CException(Yii::t("app", "Не удалось сохранить данные о пире."));	
+            {
+                throw new CException(Yii::t("app", "Не удалось сохранить данные о пире."));
             }
             
         }

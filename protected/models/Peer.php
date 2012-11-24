@@ -69,16 +69,26 @@ class Peer extends CModel
     	if (isset($key))
     		$id = sha1($peerId.$key);
     	
-        if (array_key_exists($id, $torrent->peers["leachers"]) === true)
+        if (array_key_exists($id, $torrent->peers[self::STATUS_LEACHER]) === true)
             $this->changeStatus(self::STATUS_LEACHER);
-        else if (array_key_exists($id, $torrent->peers["seeders"]))
+        else if (array_key_exists($id, $torrent->peers[self::STATUS_SEEDER]))
             $this->changeStatus(self::STATUS_SEEDER);
         else
             return null;
         
         if (isset($key))
-        	if (array_search($key, $torrent->peers[$this->status][$id]) === false)
-        		
+        {
+            if (
+                array_key_exists("key", $torrent->peers[$this->status][$id]) !== true ||
+                $torrent->peers[$this->status][$id]["key"] != $key
+            )
+            {
+                $torrent->peers[$this->status][$id] = null;
+                $torrent->save();
+
+                return null;
+            }
+        }
 
         $peer = $torrent->peers[$this->status][$id];
         $this->attributes = $peer;
@@ -149,7 +159,7 @@ class Peer extends CModel
             if ((int)$this->left > 0)
                 $this->changeStatus(self::STATUS_LEACHER);
             else
-              $this->changeStatus(self::STATUS_SEEDER);
+                $this->changeStatus(self::STATUS_SEEDER);
         }
 
         $this->updated = time();

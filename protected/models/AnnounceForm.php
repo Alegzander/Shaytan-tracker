@@ -48,7 +48,8 @@ class AnnounceForm extends CFormModel
             array("no_peer_id", "numerical", "min" => 0, "max" => 1),
             array("event", "in", "range" => $eventsList),
             array("numwant", "numerical", "min" => 0),
-            array("ip", "match", "pattern" => "/^(".$ipv4pattern."|".$ipv6pattern.")$/")
+            array("ip", "match", "pattern" => "/^(".$ipv4pattern."|".$ipv6pattern.")$/"),
+            array("key", "safe"),
         );
     }
 }
