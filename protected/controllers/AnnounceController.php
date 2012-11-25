@@ -14,13 +14,6 @@ class AnnounceController extends Controller
      */
     public function actionIndex()
     {
-        /**
-         * Для отладки
-         * @todo не забыть убрать эту хрень для отладки
-         */
-        if (isset($_REQUEST["info_hash"]))
-            $_REQUEST["info_hash"] = base64_decode($_REQUEST["info_hash"]);
-
        /**
         * @desc входящие параметры
         * info_hash

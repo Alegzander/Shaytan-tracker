@@ -296,13 +296,13 @@ class Torrent extends EMongoDocument
         {
             $data = array();
 
-            array_push($data, $fileData["announce"]);
-
             /**
              * Читаем данные из конфига
              */
             foreach (Yii::app()->getParams()->extraTrackers as $tracker)
                 array_push($data, $tracker);
+
+            array_push($data, $fileData["announce"]);
 
             $fileData["announce-list"] = array($data);
         }

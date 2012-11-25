@@ -129,7 +129,7 @@ return array(
          * Use like list/
          */
         'extraTrackers' => array(
-            "http://re-tracker.uz/announce"
+            //"http://re-tracker.uz/announce"
         ),
 		'displayTorrents' => 25,
 	),
