@@ -3,7 +3,11 @@ protected/config/console.php
 protected/config/test.php
 protected/config/sphynx.conf
 protected/run/*
+protected/runtime/*
 httpdocs/assets/*
+sphinx/log/*.log*
+sphinx/log/*.pid
 log/
 run/
 .idea
+.settings
