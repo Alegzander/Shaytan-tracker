@@ -1,6 +1,13 @@
-httpdocs/backend/config.php
-httpdocs/backend/mysql.php
-index.html
-index.html.old
+protected/config/main.php
+protected/config/console.php
+protected/config/test.php
+protected/config/sphynx.conf
+protected/run/*
+protected/runtime/*
+httpdocs/assets/*
+sphinx/log/*.log*
+sphinx/log/*.pid
 log/
 run/
+.idea
+.settings
