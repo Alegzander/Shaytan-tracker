@@ -1,4 +1,3 @@
-<!-- tracker.anime.uz -->
 <html>
   <head>
     <meta charset="UTF-8">
@@ -25,7 +24,7 @@
 				 */
 				array('template' => '<form class="form-search">
                 <input type="text" class="input-medium search-query">
-                <button type="submit" class="btn">Search</button>
+                <button type="submit" class="btn">'.Yii::t("app", "Поиск").'</button>
               </form>')
 			),
 		)); ?>
