@@ -207,18 +207,20 @@ class Torrent extends EMongoDocument
     /**
      * Для выборок
      */
-    /*public function defaultScope()
+    public function defaultScope()
     {
         return array(
             'conditions' => array(
-                'approved' => array('==', true)
-            )
+                'approved' => array('==' => true)
+            ),
+            'sort' => array('_id' => self::SORT_DESC)
         );
-    }*/
+    }
 
     public function sort($fieldName, $order)
     {
-        $this->getDbCriteria()->sort($fieldName, $order);
+        if (isset($fieldName) && isset($order))
+            $this->getDbCriteria()->sort($fieldName, $order);
 
         return $this;
     }

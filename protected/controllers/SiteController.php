@@ -25,14 +25,13 @@ class SiteController extends Controller
         else
             $pageNum = 1;
 
-        $sort = "_id";
+        $sort = null;
+        $order = null;
 
-        if (Yii::app()->request->getParam("sort") !== null)
+        if ($sort != Yii::app()->request->getParam("sort"))
             $sort = Yii::app()->request->getParam("sort");
 
-        $order = Torrent::SORT_DESC;
-
-        if (Yii::app()->request->getParam("order") !== null)
+        if ($order != Yii::app()->request->getParam("order"))
             $order = Yii::app()->request->getParam("order");
 
         /*
