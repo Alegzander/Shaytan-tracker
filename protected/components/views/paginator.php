@@ -1,24 +1,37 @@
 <div<?php
-	if (count($this->paginatorOptions) > 0) 
+    /**
+     * @var Paginator $this
+     * @var CPagination $pagination
+     */
+
+    $pagination = $this->pagination;
+
+    if (count($this->paginatorOptions) > 0)
 		foreach ($this->paginatorOptions as $attribute => $value)
 			echo " ".$attribute."=\"".$value."\"";
-?>>
+      ?>>
       <ul<?php 
 	      if (count($this->groupOptions) > 0)
 	      	foreach ($this->groupOptions as $attribute => $value)
 	      		echo " ".$attribute."=\"".$value."\"";
       ?>>
        	<li<?php
-	        if (($this->pageNum - $this->pagesLimit) < 1)
+	        if ($pagination->getCurrentPage() < $this->displayItemsLimit)
             {
-	        	echo " class=\"disabled\"";
+	        	echo ' class="disabled"';
                 $url = "#";
             }
             else
             {
-                $url = $this->pagingAction."/".($this->pageNum-$this->pagesLimit);
+                $url =  Yii::app()->createUrl(
+                    $this->url,
+                    array(
+                        $this->varName =>
+                        ($pagination->getCurrentPage() - $this->displayItemsLimit) + 1
+                    )
+                );
             }
-       	?>><a href="<?=$url;?>">Назад</a></li>
+       	?>><a href="<?=$url;?>"><?=Yii::t('app', 'Назад');?></a></li>
         <?php
         	$tmp = "";
         
@@ -34,7 +47,7 @@
         		
         		echo "<li";
         		
-        		if ($this->pageNum == $i)
+        		if ($pagination->getCurrentPage() == ($i - 1))
         		{
         			$this->itemOptions["class"] = "active";
         		}
@@ -43,21 +56,29 @@
         			foreach ($this->itemOptions as $attribute => $value)
         				echo " ".$attribute."=\"".$value."\"";
         		
-        		echo "><a href=\"".$this->pagingAction."/".$i."\">".$i."</a></li>";
+        		echo '><a href="'.Yii::app()->createUrl($this->url, array($this->varName => $i)).'">'.$i.'</a></li>';
         		
         		$this->itemOptions["class"] = $tmp;
         	}
         ?>
         <li<?php
-        	if (($this->pageNum + $this->pagesLimit) > $this->countPages)
+        	if (
+                $pagination->getCurrentPage() > ($pagination->getPageCount() - $this->displayItemsLimit)
+            )
             {
         		echo " class=\"disabled\"";
                 $url = "#";
             }
             else
             {
-                $url = $this->pagingAction."/".($this->pageNum+$this->pagesLimit);
+                $url = Yii::app()->createUrl(
+                    $this->url,
+                    array(
+                        $this->varName =>
+                        ($pagination->getCurrentPage() + $this->displayItemsLimit) + 1
+                    )
+                );
             }
-        ?>><a href="<?=$url?>">Далее</a></li>
+        ?>><a href="<?=$url?>"><?=Yii::t('app', 'Вперёд');?></a></li>
       </ul>
 </div>

@@ -24,7 +24,7 @@ class Torrent extends EMongoDocument
 				"leachers" => array()				
 			);
     public $downloaded = 0;
-    public $approved = true;
+    public $approved = false;
     public $type;
     public $raiting;
     public $uploaded;
@@ -177,7 +177,7 @@ class Torrent extends EMongoDocument
 	 */
 	public function primaryKey()
 	{
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -192,7 +192,7 @@ class Torrent extends EMongoDocument
     {
         $normalName = $rawName;
 
-        if (strpos($normalName, "-") !== FALSE)
+        if (strpos($normalName, "-") !== false)
         {
             $parts = explode("-", $normalName);
             $normalName = $parts[0];
@@ -202,6 +202,38 @@ class Torrent extends EMongoDocument
         $normalName = str_replace(" ", "_", $normalName);
 
         return $normalName;
+    }
+
+    /**
+     * Для выборок
+     */
+    /*public function defaultScope()
+    {
+        return array(
+            'conditions' => array(
+                'approved' => array('==', true)
+            )
+        );
+    }*/
+
+    public function sort($fieldName, $order)
+    {
+        $this->getDbCriteria()->sort($fieldName, $order);
+
+        return $this;
+    }
+
+    public function setPagination(CPagination $paginator)
+    {
+        $this->getDbCriteria()->limit($paginator->getLimit());
+        $this->getDbCriteria()->offset($paginator->getOffset());
+
+        return $this;
+    }
+
+    public function sortBy()
+    {
+
     }
 	
 	public function parseTorrentFile($file, $meta = array(), $piece_length = 256)

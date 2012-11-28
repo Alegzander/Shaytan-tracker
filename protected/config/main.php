@@ -55,10 +55,16 @@ return array(
 
 		'urlManager'=>array(
 			'urlFormat'=>'path',
+            'showScriptName' => false,
+            'caseSensitive' => false,
 			'rules'=>array(
+                'page/<page>' => 'site/index/page/<page>',
+                'section/<section>'  =>  'site/section/view/<section>',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                'torrent/view/<id>' => 'torrent/view/id/<id>',
+                'torrent/download/<id>' => 'torrent/download/id/<id>',
 			),
 		),
 		// uncomment the following to use a MySQL database
@@ -86,10 +92,13 @@ return array(
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
-				array(
+				/*array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning, info, trace',
-				),
+				),*/
+                array(
+                    'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+                ),
 				// uncomment the following to show log messages on web pages
 				/*
 				array(
@@ -131,6 +140,6 @@ return array(
         'extraTrackers' => array(
             //"http://re-tracker.uz/announce"
         ),
-		'displayTorrents' => 25,
+		'displayTorrents' => 100,
 	),
 );

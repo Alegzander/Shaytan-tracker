@@ -41,3 +41,7 @@ div.errorSummary ul li
 	list-style: none;
 	color: #B94A48;
 }
+
+td.torrent-list {
+    font-size: 16px;
+}

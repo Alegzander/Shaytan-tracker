@@ -2,23 +2,12 @@
 
 class SiteController extends Controller
 {
-	/**
-	 * Declares class-based actions.
-	 */
-	
-	public $listNum = 1;
-	
 	public function actions()
 	{
 		return array(
-			// captcha action renders the CAPTCHA image displayed on the contact page
-			'captcha'=>array(
-				'class'=>'CCaptchaAction',
-				'backColor'=>0xFFFFFF,
-			),
 			// page action renders "static" pages stored under 'protected/views/site/pages'
 			// They can be accessed via: index.php?r=site/page&view=FileName
-			'page'=>array(
+			'section'=>array(
 				'class'=>'CViewAction',
 			),
 		);
@@ -30,20 +19,40 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->request->getParam("list") &&
-			is_numeric(Yii::app()->request->getParam("list")))
-			$this->listNum = Yii::app()->request->getParam("list");
-		
-		$displayTorrents = Yii::app()->getParams()->displayTorrents;
-		
-		$criteria = Torrent::model()->getDbCriteria();
-        $criteria->approved = true;
+		if (Yii::app()->request->getParam("page") &&
+			is_numeric(Yii::app()->request->getParam("page")))
+			$pageNum = Yii::app()->request->getParam("page");
+        else
+            $pageNum = 1;
 
-        $numTorrents = Torrent::model()->count($criteria);
+        $sort = "_id";
 
-        $criteria->limit($displayTorrents)->sort("_id", Torrent::SORT_DESC)->offset((($this->listNum-1) * $displayTorrents));
-		
-		$torrentsList = Torrent::model()->findAll($criteria);
+        if (Yii::app()->request->getParam("sort") !== null)
+            $sort = Yii::app()->request->getParam("sort");
+
+        $order = Torrent::SORT_DESC;
+
+        if (Yii::app()->request->getParam("order") !== null)
+            $order = Yii::app()->request->getParam("order");
+
+        /*
+         * Задаю сколько отображать результатов в списке.
+         */
+        if (isset(Yii::app()->getParams()->displayTorrents))
+		    $displayTorrents = Yii::app()->getParams()->displayTorrents;
+        else
+		    $displayTorrents = 100;
+
+		$numTorrents = Torrent::model()->count();
+
+        $paginator = new CPagination($numTorrents);
+        $paginator->setPageSize($displayTorrents);
+        $paginator->setCurrentPage(($pageNum - 1));
+
+        $torrentsList = Torrent::model()->
+            setPagination($paginator)->
+            sort($sort, $order)->
+            findAll();
 
         $tableRows = array();
 
@@ -52,13 +61,14 @@ class SiteController extends Controller
          */
         foreach ($torrentsList as $num => $torrent)
         {
+            //TODO Сделать нормальную работу с категориями
             $rawCategory = explode("-", $torrent->category);
 
             $categoryIndex = count($rawCategory)-1;
 
             $displayCategory = $rawCategory[$categoryIndex];
-            $downloadUrl = Yii::app()->getParams()->baseUrl."/torrent/download/id/".$torrent->_id;
-            $viewUrl = Yii::app()->getParams()->baseUrl."/torrent/view/id/".$torrent->_id;
+            $downloadUrl = Yii::app()->getParams()->baseUrl."/torrent/download/".$torrent->_id;
+            $viewUrl = Yii::app()->getParams()->baseUrl."/torrent/view/".$torrent->_id;
 
             array_push($tableRows, array(
                 "id" => $num,
@@ -73,20 +83,13 @@ class SiteController extends Controller
                 "comments" => count($torrent->comments)
             ));
         }
-
-        $paginatorParams = array(
-				"pagingAction" => Yii::app()->getParams()->baseUrl."/site/index/list",
-				"dataSize" => $numTorrents,
-				"pageNum" => $this->listNum,
-				"displayLimit" => $displayTorrents
-        );
 		
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'		
 		$this->render('index', array(
 				"torrentsList" => $torrentsList, 
 				"displayTorrents" => $displayTorrents,
-				"paginatorParams" => $paginatorParams,
+				"pagination" => $paginator,
                 "tableRows" => $tableRows
 				));
 	}
