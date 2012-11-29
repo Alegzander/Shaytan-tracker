@@ -47,7 +47,7 @@
         		
         		echo "<li";
         		
-        		if ($pagination->getCurrentPage() == ($i - 1))
+        		if ($pagination->getCurrentPage() == ($i-1))
         		{
         			$this->itemOptions["class"] = "active";
         		}
@@ -63,7 +63,7 @@
         ?>
         <li<?php
         	if (
-                $pagination->getCurrentPage() > ($pagination->getPageCount() - $this->displayItemsLimit)
+                $pagination->getCurrentPage() >= ($pagination->getPageCount() - $this->displayItemsLimit)
             )
             {
         		echo " class=\"disabled\"";

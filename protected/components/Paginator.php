@@ -29,12 +29,18 @@ class Paginator extends CWidget
         }
         else
         {
-            $this->startPage = $this->pagination->getCurrentPage() - floor($this->displayItemsLimit / 2);
+            $this->startPage = $this->pagination->getCurrentPage() - floor($this->displayItemsLimit / 2) + 1;
 
             if ($this->startPage < 1)
                 $this->startPage = 1;
 
-            $this->endPage = $this->startPage + $this->displayItemsLimit;
+            $this->endPage = $this->startPage + $this->displayItemsLimit - 1;
+
+            if ($this->endPage > $this->pagination->getPageCount())
+            {
+                $this->endPage = $this->pagination->getPageCount();
+                $this->startPage = $this->endPage - $this->displayItemsLimit + 1;
+            }
         }
 
 		$this ->render("paginator");
