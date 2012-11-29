@@ -59,7 +59,10 @@ class Controller extends CController
 			}
 			else
 			{
-				new CException ("resourceList variable should be array ".gettype($resourceList)." is given.");
+				new CException (
+                    Yii::t('app', "Значение resourceList должно быть массивом, полчен тип данных: {resourcesList}."),
+                    array("resourcesList" => gettype($resourceList))
+                );
 			}
 		}
 	}

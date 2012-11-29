@@ -96,9 +96,9 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning, info, trace',
 				),*/
-                array(
+                /*array(
                     'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-                ),
+                ),*/
 				// uncomment the following to show log messages on web pages
 				/*
 				array(
