@@ -3,26 +3,18 @@
 /* @var $pagination CPagination*/
 ?>
     <?php
-    $this->widget("zii.widgets.CMenu", array(
-            'htmlOptions' => array('class' => 'nav nav-pills sort-bar'),
-            'items' => array(
-                array('template' => Yii::t('app', 'Сортировать по:'), 'itemOptions' => array('class' => 'sort-label')),
-                array('label' => Yii::t('app', 'дате'), 'url' => '#', 'itemOptions' => array('class' => 'active')),
-                array('label' => Yii::t('app', 'раздающим'), 'url' => '#'),
-                array('label' => Yii::t('app', 'скачивающим'), 'url' => '#'),
-                array('label' => Yii::t('app', 'количествам скачиваний'), 'url' => '#'),
-                array('label' => Yii::t('app', 'размерам'), 'url' => '#'),
-                array('label' => Yii::t('app', 'названию'), 'url' => '#'),
-            )
-        ));
+    if (count($sortMenuItems) > 0)
+    {
+        $this->widget("zii.widgets.CMenu", array(
+                'htmlOptions' => array('class' => 'nav nav-pills sort-bar'),
+                'items' => $sortMenuItems
+            ));
 
-    $this->widget("zii.widgets.CMenu", array(
-            'htmlOptions' => array('class' => 'nav nav-pills sort-type-bar'),
-            'items' => array(
-                array('label' => Yii::t('app', 'по убыванию'), 'url' => '#', 'itemOptions' => array('class' => 'active')),
-                array('label' => Yii::t('app', 'по возрастанию'), 'url' => '#')
-            )
-        ));
+        $this->widget("zii.widgets.CMenu", array(
+                'htmlOptions' => array('class' => 'nav nav-pills sort-type-bar'),
+                'items' => $orderMenu
+            ));
+    }
 
     if ($pagination->getPageCount() > 1)
         $this->widget("Paginator", array("pagination" => $pagination));?>

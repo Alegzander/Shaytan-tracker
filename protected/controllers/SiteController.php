@@ -25,14 +25,63 @@ class SiteController extends Controller
         else
             $pageNum = 1;
 
-        $sort = null;
-        $order = null;
+        $search = Yii::app()->request->getParam("search");
+        $sort = Yii::app()->request->getParam("sort");
+        $order = (int)Yii::app()->request->getParam("order");
 
-        if ($sort != Yii::app()->request->getParam("sort"))
-            $sort = Yii::app()->request->getParam("sort");
+        if (!isset($sort) || strlen($sort) <= 0)
+            $sort = "_id";
 
-        if ($order != Yii::app()->request->getParam("order"))
-            $order = Yii::app()->request->getParam("order");
+        if (!isset($order) || !in_array($order, array(Torrent::SORT_DESC, Torrent::SORT_ASC)))
+            $order = Torrent::SORT_DESC;
+
+        $sortMenuItems = array();
+        $orderMenu = array();
+
+        if (
+            isset(Yii::app()->getParams()->search) &&
+            isset(Yii::app()->getParams()->search["allowedOrderList"]) &&
+            is_array(Yii::app()->getParams()->search["allowedOrderList"]) &&
+            count (Yii::app()->getParams()->search["allowedOrderList"]) > 0
+        )
+        {
+            array_push($sortMenuItems,
+                array(
+                    'template' => Yii::t('app', 'Сортировать по:'),
+                    'itemOptions' => array('class' => 'sort-label')
+                )
+            );
+
+            foreach (Yii::app()->getParams()->search["allowedOrderList"] as $menuItem)
+            {
+                list($label, $field) = $menuItem;
+                $tmp = array('label' => $label, 'url' => '/search/'.$search.'/'.$field.'/'.$order);
+
+                if ($field == $sort)
+                    $tmp["itemOptions"] = array('class' => 'active');
+
+                array_push($sortMenuItems,
+                    $tmp);
+            }
+
+            $descSort = array(
+                'label' => Yii::t('app', 'по убыванию'),
+                'url' => '/search/'.$search.'/'.$sort.'/'.Torrent::SORT_DESC,
+            );
+
+            $ascSort = array(
+                'label' => Yii::t('app', 'по возрастанию'),
+                'url' => '/search/'.$search.'/'.$sort.'/'.Torrent::SORT_ASC,
+            );
+
+            if ($order == Torrent::SORT_ASC)
+                $ascSort["itemOptions"] = array('class' => 'active');
+            else
+                $descSort["itemOptions"] = array('class' => 'active');
+
+
+            $orderMenu = array($descSort, $ascSort);
+        }
 
         /*
          * Задаю сколько отображать результатов в списке.
@@ -89,7 +138,9 @@ class SiteController extends Controller
 				"torrentsList" => $torrentsList, 
 				"displayTorrents" => $displayTorrents,
 				"pagination" => $paginator,
-                "tableRows" => $tableRows
+                "tableRows" => $tableRows,
+                "sortMenuItems" => $sortMenuItems,
+                "orderMenu" => $orderMenu
 				));
 	}
 

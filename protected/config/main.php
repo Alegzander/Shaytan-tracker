@@ -58,6 +58,10 @@ return array(
             'showScriptName' => false,
             'caseSensitive' => false,
 			'rules'=>array(
+                /*Правила для поиска*/
+                'search/<search:(.*)>/<sort>/<order>' => '/site/index',
+                'search/<search:(.*)>/<sort>' => '/site/index',
+                /*Правила для поиска*/
                 'page/<page>' => 'site/index/page/<page>',
                 'section/<section>'  =>  'site/section/view/<section>',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
@@ -151,9 +155,6 @@ return array(
              * )
              * label - Имя сортировки которое будет отображаться на главной,
              * field - поле по которому будет производится сортировка,
-             * use - использовать ли данный метод сортировки по умолчанию,
-             * желательно данное поле указываеть только у одного параметра,
-             * так же может быть пустым
              */
             'allowedOrderList' => array(
                 array(Yii::t('app', 'дате'), '_id'),

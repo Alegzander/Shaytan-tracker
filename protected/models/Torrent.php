@@ -191,6 +191,16 @@ class Torrent extends EMongoDocument
 		return 'torrents';
 	}
 
+    public function init()
+    {
+        $longSupport = ini_get("mongo.native_long");
+
+        if ($longSupport != "1")
+            ini_set("mongo.native_long", true);
+
+        parent::init();
+    }
+
     private function normalizeName($rawName)
     {
         $normalName = $rawName;
@@ -224,7 +234,7 @@ class Torrent extends EMongoDocument
     {
         if (isset($fieldName) && isset($order))
         {
-            $this->getDbCriteria()->sort($fieldName, $order);
+            $this->getDbCriteria()->setSort(array($fieldName => $order));
         }
 
         return $this;
@@ -236,11 +246,6 @@ class Torrent extends EMongoDocument
         $this->getDbCriteria()->offset($paginator->getOffset());
 
         return $this;
-    }
-
-    public function sortBy()
-    {
-
     }
 	
 	public function parseTorrentFile($file, $meta = array(), $piece_length = 256)
