@@ -45,3 +45,27 @@ div.errorSummary ul li
 td.torrent-list {
     font-size: 16px;
 }
+
+/*Чтоб верхнее чёрное меню не становилось слишком
+широким хер его знает почему.*/
+.navbar-inner:before, .navbar-inner:after
+{
+    display: none;
+}
+
+.sort-bar
+{
+    font-size: 12px;
+}
+
+.sort-type-bar
+{
+    margin-left: 115px;
+    font-size: 12px;
+}
+
+.sort-label
+{
+    padding: 3px 12px 0px 5px;
+    font-weight: bold;
+}

@@ -28,7 +28,8 @@
                 <button type="submit" class="btn">'.Yii::t("app", "Поиск").'</button>
               </form>')
 			),
-		)); ?>
+		));
+        ?>
         </div>
     </div>
     <div id="content">

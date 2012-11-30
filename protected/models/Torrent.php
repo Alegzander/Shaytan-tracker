@@ -14,17 +14,20 @@ class Torrent extends EMongoDocument
 	public $acceptRules;
 	
 	public $info = array();
+    public $totalSize;
     public $created_by;
     public $creation_date;
 
     public $infoHash;
     public $comments = array();
 	public $peers = array(
+                "numSeeders" => 0,
 				"seeders" => array(),
+                "numLeachers" => 0,
 				"leachers" => array()				
 			);
     public $downloaded = 0;
-    public $approved = false;
+    public $approved = true;
     public $type;
     public $raiting;
     public $uploaded;
@@ -120,9 +123,9 @@ class Torrent extends EMongoDocument
             }
 
             $result = round($totalCount, 2)." ".$mesure[$index];
-
-            return $result;
         }
+
+        return $result;
     }
 
     public function getById($id)
@@ -277,6 +280,10 @@ class Torrent extends EMongoDocument
                 if (isset($value["files"]))
                     foreach ($value["files"] as $index => $contentFile)
                         $value["files"][$index]["length"] = (string)$contentFile["length"];
+
+
+                if (Yii::app()->getParams()->forcePrivate === true)
+                    $value["private"] = 1;
             }
 
             if (isset($this->$frontendKey))
@@ -286,6 +293,7 @@ class Torrent extends EMongoDocument
         $this->uploaded = time();
         
         $tmpInfo = $this->info;
+
         if (isset($tmpInfo["length"]))
             $tmpInfo["length"] = (int)$tmpInfo["length"];
         else if (isset($tmpInfo["files"]))
@@ -300,6 +308,8 @@ class Torrent extends EMongoDocument
                 true
             )
         );
+
+        $this->totalSize = (string)$this->getTotalSize(true);
 	}
 
     public function getFile()
@@ -364,9 +374,6 @@ class Torrent extends EMongoDocument
         else if (isset($fileData["info"]["files"]))
             foreach ($fileData["info"]["files"] as $index => $downloadFile)
                 $fileData["info"]["files"][$index]["length"] = (int)$downloadFile["length"];
-
-        if (Yii::app()->getParams()->forcePrivate === true)
-            $fileData["info"]["private"] = 1;
 
         /**
          * @desc указываем кем был создан и когда, если задано

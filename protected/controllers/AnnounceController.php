@@ -148,6 +148,9 @@ class AnnounceController extends Controller
             		$torrentModel->peers[$peer->status][$peer->id][$attribute] = $peer->{$attribute};
             }
 
+            $torrentModel->peers["numSeeders"] = count($torrentModel->peers["seeders"]);
+            $torrentModel->peers["numLeachers"] = count($torrentModel->peers["leachers"]);
+
             /**
              * false потому что без торрент файла валидация ошибку даёт.
              */
