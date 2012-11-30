@@ -223,7 +223,9 @@ class Torrent extends EMongoDocument
     public function sort($fieldName, $order)
     {
         if (isset($fieldName) && isset($order))
+        {
             $this->getDbCriteria()->sort($fieldName, $order);
+        }
 
         return $this;
     }
@@ -269,19 +271,6 @@ class Torrent extends EMongoDocument
                 if (isset($value["pieces"]))
                     $value["pieces"] = base64_encode($value["pieces"]);
 
-                /**
-                 * @desc эта небольшая хитрость нужна для того чтобы в базу попадало полноценное нормальное значение.
-                 * Поскольку численное значение имеет ограничение от (-1)*2^16 до 2^16. И всё что больше 2^16 получает
-                 * отрицательное значение.
-                 */
-                if (isset($value["length"]))
-                    $value["length"] = (string)$value["length"];
-
-                if (isset($value["files"]))
-                    foreach ($value["files"] as $index => $contentFile)
-                        $value["files"][$index]["length"] = (string)$contentFile["length"];
-
-
                 if (Yii::app()->getParams()->forcePrivate === true)
                     $value["private"] = 1;
             }
@@ -294,22 +283,16 @@ class Torrent extends EMongoDocument
         
         $tmpInfo = $this->info;
 
-        if (isset($tmpInfo["length"]))
-            $tmpInfo["length"] = (int)$tmpInfo["length"];
-        else if (isset($tmpInfo["files"]))
-            foreach ($tmpInfo["files"] as $index => $fileLength)
-                $tmpInfo["files"][$index]["length"] = (int)$fileLength["length"];
-
         $tmpInfo["pieces"] = base64_decode($tmpInfo["pieces"]);
 
         $this->infoHash = base64_encode(
             sha1(
                 $this->encode($tmpInfo),
-                true
+                true //Хочу получить сырые данные
             )
         );
 
-        $this->totalSize = (string)$this->getTotalSize(true);
+        $this->totalSize = $this->getTotalSize(true);
 	}
 
     public function getFile()
@@ -362,18 +345,6 @@ class Torrent extends EMongoDocument
          */
         $fileData["publisher"] = Yii::app()->getParams()->domain;
         $fileData["publisher-url"] = Yii::app()->getParams()->baseUrl."/torrent/download/id/".$this->_id;
-
-        /**
-         * @desc Данный костылёк служит для обхода заподлянки
-         * с ограничением на число которое накладывает СУБД mongodb
-         * Это описывалось ранее в методе parseTorrentFile на
-         * на строке примерно 220 на момент написания коммента.
-         */
-        if (isset($fileData["info"]["length"]))
-            $fileData["info"]["length"] = (int)$fileData["info"]["length"];
-        else if (isset($fileData["info"]["files"]))
-            foreach ($fileData["info"]["files"] as $index => $downloadFile)
-                $fileData["info"]["files"][$index]["length"] = (int)$downloadFile["length"];
 
         /**
          * @desc указываем кем был создан и когда, если задано
