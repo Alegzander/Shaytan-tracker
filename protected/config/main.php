@@ -61,6 +61,8 @@ return array(
                 /*Правила для поиска*/
                 'search/<search:(.*)>/<sort>/<order>' => '/site/index',
                 'search/<search:(.*)>/<sort>' => '/site/index',
+                'search/<search:(.*)>' => '/site/index',
+                'search' => '/site/index',
                 /*Правила для поиска*/
                 'page/<page>' => 'site/index/page/<page>',
                 'section/<section>'  =>  'site/section/view/<section>',
@@ -90,7 +92,15 @@ return array(
 
         'sphinx' => array(
             'class' => 'extension.DGSphinxSearch.DHSphinxSearch',
+            'server' => '127.0.0.1',
             'port' => 9323,
+            'maxQueryTime' => 3000,
+            'enableProfiling'=>0,
+            'enableResultTrace'=>0,
+            'fieldWeights' => array(
+                'name' => 10000,
+                'keywords' => 100,
+            ),
 
         ),
 		'log'=>array(

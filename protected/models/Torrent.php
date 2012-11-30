@@ -230,6 +230,18 @@ class Torrent extends EMongoDocument
         );
     }
 
+    public function searchBy($text = null)
+    {
+        if (isset($text) && strlen($text) > 0)
+        {
+            $searchPhrase = "(".implode("|", explode(" ", $text)).")";
+
+            $this->getDbCriteria()->name = new MongoRegex("/".$searchPhrase."/i");
+        }
+
+        return $this;
+    }
+
     public function sort($fieldName, $order)
     {
         if (isset($fieldName) && isset($order))

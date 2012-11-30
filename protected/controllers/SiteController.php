@@ -100,6 +100,7 @@ class SiteController extends Controller
         $torrentsList = Torrent::model()->
             setPagination($paginator)->
             sort($sort, $order)->
+            searchBy($search)->
             findAll();
 
         $tableRows = array();

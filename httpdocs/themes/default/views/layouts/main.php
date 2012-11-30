@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="<?=$this->resources["resources"]."/css/bootstrap.min.css" ?>" />
     <link rel="stylesheet" href="<?=$this->resources["resources"]."/css/bootstrap-responsive.min.css" ?>" />
     <link rel="stylesheet" href="<?=$this->resources["resources"]."/css/style.css" ?>" />
+    <script type="text/javascript" src="<?=$this->resources["resources"]."/js/jquery.js" ?>"></script>
     <script type="text/javascript" src="<?=$this->resources["resources"]."/js/bootstrap.min.js" ?>"></script>
     <script type="text/javascript" src="<?=$this->resources["resources"]."/js/bootstrap-typeahead.js" ?>"></script>
+    <script type="text/javascript" src="<?=$this->resources["resources"]."/js/main.js" ?>"></script>
 </head>
   <body style="padding: 5px;">
     <div class="navbar navbar-inverse navbar-fixed-top">
