@@ -51,8 +51,11 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
-		// uncomment the following to enable URLs in path-format
-
+        'authManager' => array(
+            'class' => 'CMongoDbAuthManager',
+            'mongoConnectionId' => 'mongodb',
+            'authFile' => 'auth_manager'
+        ),
 		'urlManager'=>array(
 			'urlFormat'=>'path',
             'showScriptName' => false,

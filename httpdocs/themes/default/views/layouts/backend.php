@@ -19,10 +19,10 @@
     <script type="text/javascript" src="<?=$this->resources["resources"]."/js/backend.js" ?>"></script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span2">
-            <!--Главное меню слева-->
+<div>
+    <div>
+        <!--Главное меню слева-->
+        <div class="span3">
             <div id="sidebar">
                 <?php
                 //Главная менюшка справа
@@ -115,7 +115,8 @@
                 ?>
             </div>
         </div>
-        <div class="span10">
+        <!--Правая часть кода сюда попадает content-->
+        <div class="span9">
             <?=$content?>
         </div>
     </div>

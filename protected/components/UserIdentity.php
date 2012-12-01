@@ -7,7 +7,10 @@
  */
 class UserIdentity extends CUserIdentity
 {
-	/**
+    const METHOD_MONGO = 0;
+    const METHOD_FORUM = 1;
+
+    /**
 	 * Authenticates a user.
 	 * The example implementation makes sure if the username and password
 	 * are both 'demo'.
@@ -30,4 +33,9 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_NONE;
 		return !$this->errorCode;
 	}
+
+    public function setAuthMethod($method)
+    {
+
+    }
 }
