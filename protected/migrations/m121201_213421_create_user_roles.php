@@ -29,6 +29,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'menu' => array(
                     'queue' => 0,
                     'icon'  => 'wrench',
+                    'require' => array('view'),
                     'items' => array(
                         'add' => array('icon' => 'plus-sign', 'title' => 'Добавить', 'queue' => 0),
                         'view' => array('icon' => 'list', 'title' => 'Список', 'queue' => 1),
@@ -40,6 +41,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'system' => true,
                 'menu' => array(
                     'parent' => 'torrent',
+                    'require' => array('view'),
                     'items' => array(
                         'view' => array('icon' => 'fire', 'title' => 'Жалобы', 'queue' => 2)
                     )
@@ -52,6 +54,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'menu' => array(
                     'queue' => 1,
                     'icon' => 'user',
+                    'require' => array('view'),
                     'items' => array(
                         'add'   => array('icon' => 'plus-sign', 'title' => 'Добавить', 'queue' => 0),
                         'view'  => array('icon' => 'list', 'title' => 'Просмотреть', 'queue' => 1),
@@ -64,6 +67,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'system' => true,
                 'menu' => array(
                     'parent' => 'user',
+                    'require' => array('view'),
                     'items' => array(
                         'view' => array('icon' => 'folder-close', 'title' => 'Роли', 'queue' => 2)
                     )
@@ -75,6 +79,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'system' => true,
                 'menu' => array(
                     'parent' => 'notification',
+                    'require' => array('view'),
                     'items' => array(
                         'view' => array('icon' => 'asterisk', 'title' => 'Шаблоны', 'queue' => 0)
                     )
@@ -87,6 +92,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'menu' => array(
                     'queue' => 2,
                     'icon' => 'inbox',
+                    'require' => array('view'),
                     'items' => array(
                         'configure' => array('icon' => 'wrench', 'title' => 'Настройка', 'queue' => 1),
                         'send' => array('icon' => 'envelope', 'title' => 'Отправить', 'queue' => 3)
@@ -100,6 +106,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'menu'  => array(
                     'queue' => 4,
                     'icon' => 'cog',
+                    'require' => array('view'),
                     'items' => array(
                         'view' => array('icon' => 'wrench', 'title' => 'Настройки', 'queue' => 0)
                     )
@@ -109,6 +116,7 @@ class m121201_213421_create_user_roles extends CDbMigration
         $queue = $manager->createTask('queue', 'Очередь', null, array(
                 'actions' => array('view', 'update'),
                 'system' => true,
+                'require' => array('view'),
                 'menu' => array(
                     'parent' => 'notification',
                     'items'  => array(
@@ -123,6 +131,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'menu' => array(
                     'queue' => 3,
                     'icon' => 'pencil',
+                    'require' => array('view'),
                     'items' => array(
                         'view' => array('icon' => 'wrench', 'title' => 'Переводы', 'queue' => 0)
                     )
@@ -135,6 +144,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'menu' => array(
                     'queue' => 5,
                     'icon' => 'folder-close',
+                    'require' => array('view'),
                     'items' => array('icon' => 'file', 'title' => 'Просмотр', 'queue' => 0)
                 )
             ));
