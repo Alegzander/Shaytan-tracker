@@ -35,7 +35,7 @@ return array(
 				'ext.YiiMongoDbSuite.gii',
 			)
 		),
-        'backend',
+        'backend'
 	),
 
 	// application components

@@ -14,6 +14,8 @@ return array(
         'application.models.*',
         'application.components.*',
         'ext.YiiMongoDbSuite.*',
+        'application.modules.backend.models.*',
+        'application.modules.backend.components.*'
     ),
 
 	// application components
@@ -44,4 +46,16 @@ return array(
 			),
 		),
 	),
+    'params'=>array(
+        'categories' => require_once(__DIR__.DIRECTORY_SEPARATOR."categories.php"),
+        'tmpDir'	 => dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."tmp",
+        // this is used in contact page
+        'baseUrl' => 'http://tracker.loc',
+        'domain' => 'tracker.loc',
+        'adminEmail'=>'anime@anime.uz',
+        'interval' => 600,
+        'min_interval' => 300,
+        'numwant' => 50,
+        'forcePrivate' => true,
+    )
 );
