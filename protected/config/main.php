@@ -127,6 +127,11 @@ return array(
 		'request'=>array(
 				'enableCookieValidation'=>true,
 		),
+
+        'messages' => array(
+            'class' => 'EMongoMessageSource',
+        ),
+
 		'assetManager'=>array(
 				'basePath'=>realpath(dirname(dirname((__DIR__))).'/httpdocs/assets'),
 		),

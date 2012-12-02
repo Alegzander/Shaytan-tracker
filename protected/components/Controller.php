@@ -27,7 +27,7 @@ class Controller extends CController
 	public function init()
 	{
 		parent::init();
-		
+
 		//Putting resoures to assets and getiing links
 		//Making shure this is not Ajax, who doesn't need css or js
 		if (!Yii::app()->request->isAjaxRequest)

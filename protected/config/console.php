@@ -29,6 +29,11 @@ return array(
             'safeFlag'         => true,
             'useCursor'        => false
         ),
+        'authManager' => array(
+            'class' => 'CMongoDbAuthManager',
+            'mongoConnectionId' => 'mongodb',
+            'authFile' => 'auth_manager'
+        ),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

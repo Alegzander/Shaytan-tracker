@@ -1,7 +1,7 @@
 <?php
 class DefaultController extends Controller
 {
-    public $layout = "//layouts/backend";
+    public $layout = "//layouts/backend-menu";
 
     public function actionIndex()
     {
