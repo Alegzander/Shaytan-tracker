@@ -20,18 +20,18 @@ class MongoUserIdentity extends CUserIdentity
         if (!isset($user))
         {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-            $this->errorMessage = 'Не верный логин.';
+            $this->errorMessage = Yii::t('app', 'Не верный логин.');
         }
         else if ($user->password != sha1($user->salt.$this->password))
         {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
-            $this->errorMessage = 'Не верный пароль.';
+            $this->errorMessage = Yii::t('app', 'Не верный пароль.');
         }
         else
         {
             $this->errorCode = self::ERROR_NONE;
-
             $this->authKey = $user->updateAuthKey();
+
             $user->save();
         }
 

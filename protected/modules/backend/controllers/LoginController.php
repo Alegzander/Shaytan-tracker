@@ -23,19 +23,51 @@ class LoginController extends Controller
     {
         $model = new MongoUserForm();
 
-        if (isset($_POST['MongoLoginForm']))
-            $model->attributes = $_POST['MongoLoginForm'];
-
-        $model->validate();
-
-        foreach ($model->getErrors() as $error)
+        if (isset($_POST['MongoUserForm']))
         {
-            //  var_dump($error);
+            $model->attributes = $_POST['MongoUserForm'];
+
+            if ($model->validate())
+            {
+                $identity = new MongoUserIdentity($model->login, $model->password);
+
+                $fields = array(
+                    $identity::ERROR_USERNAME_INVALID => 'login',
+                    $identity::ERROR_PASSWORD_INVALID => 'password'
+                );
+
+                if(!$identity->authenticate())
+                {
+                    $this->addError($fields[$identity->errorCode], $identity->errorMessage);
+                    return false;
+                }
+
+                $duration = 0;
+
+                if (ini_get('session.use_cookies') != '1')
+                    ini_set('session.use_cookies', '1');
+
+                if ($model->rememberMe)
+                    if (isset(Yii::app()->getParams()->authDuration))
+                        $duration = Yii::app()->getParams()->authDuration;
+                    else
+                        $duration = 1209600;//14 дней
+
+                file_put_contents('/tmp/shit', $duration);
+
+                Yii::app()->user->login($identity, $duration);
+                Yii::app()->user->setState('key', $identity->authKey);
+
+                $this->redirect(Yii::app()->user->returnUrl);
+            }
         }
+
+        $labelList = $model->attributeLabels();
 
         $this->render('authForm',
         array(
-            'model' => $model
+            'model' => $model,
+            'label' => $labelList
         ));
     }
 }

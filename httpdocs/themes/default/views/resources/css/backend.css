@@ -50,4 +50,8 @@ body {
     margin-bottom:5px;
 }
 
+.backend-auth img:after
+{
+    content: '\002008';
+}
 /*Форма создания пользователя*/

@@ -154,6 +154,7 @@ return array(
 		'baseUrl' => 'http://tracker.loc',
         'domain' => 'tracker.loc',
 		'adminEmail'=>'anime@anime.uz',
+        'authDuration' => 1209600,
         'interval' => 600,
         'min_interval' => 300,
         'numwant' => 50,

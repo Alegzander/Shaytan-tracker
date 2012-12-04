@@ -13,17 +13,15 @@
 <form class="well backend-auth" method='post' action=''>
     <fieldset>
         <legend>Авторизация</legend>
-        <?=CHtml::activeTextField($model, 'login', array('placeholder' => $mod));?>
-        <input type="text" placeholder="E-mail">
-        <input type="password" placeholder="Пароль">
-        <!-- img src="img/135411084855s.jpg" -->
+        <?=CHtml::errorSummary($model,null, null, array('class' => 'unstyled'));?>
+        <?=CHtml::activeTextField($model, 'login', array('placeholder' => $label['login']));?>
+        <?=CHtml::activePasswordField($model, 'password', array('placeholder' => $label['password']));?>
         <?php
-        CHtml::activeLabelEx($model, 'captcha');
-        $this->widget('CCaptcha');
+        $this->widget('CCaptcha', array('buttonOptions' => array('class' => 'new-line')));
         ?>
-        <input type="text" placeholder="Капча">
+        <?=CHtml::activeTextField($model, 'captcha', array('placeholder' => $label['captcha']));?>
         <label class="checkbox">
-            <input type="checkbox"> Запомнить меня
+            <?=CHtml::activeCheckBox($model, 'rememberMe')?> <?=$label['rememberMe'];?>
         </label>
         <button type="submit" class="btn">Войти</button>
     </fieldset>

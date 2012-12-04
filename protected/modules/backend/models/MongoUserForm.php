@@ -35,7 +35,7 @@ class MongoUserForm extends CFormModel
         return array(
             array('login, password, captcha', 'required'),
             array('rememberMe', 'boolean', 'allowEmpty' => true),
-            array('captcha', 'captcha', 'allowEmpty' => false)
+            array('captcha', 'captcha', 'allowEmpty' => false),
         );
     }
 
