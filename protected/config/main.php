@@ -50,12 +50,17 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+            'class' => 'WebUser',
+            'authMethods' => array(
+                'Mongo'
+            )
 		),
         'authManager' => array(
             'class' => 'CMongoDbAuthManager',
             'mongoConnectionId' => 'mongodb',
             'authFile' => 'auth_manager'
         ),
+        'session' => array('class' => 'CHttpSession'),
 		'urlManager'=>array(
 			'urlFormat'=>'path',
             'showScriptName' => false,

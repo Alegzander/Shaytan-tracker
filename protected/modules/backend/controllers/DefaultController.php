@@ -1,7 +1,16 @@
 <?php
-class DefaultController extends Controller
+class DefaultController extends BController
 {
-    public $layout = "//layouts/backend-menu";
+    public function accessRules()
+    {
+        return array(
+            array(
+                'deny',
+                'actions' => array('index'),
+                'users' => array('?')
+            )
+        );
+    }
 
     public function actionIndex()
     {

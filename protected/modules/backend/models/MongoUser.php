@@ -4,10 +4,11 @@
  * User: alegz
  * Date: 12/2/12
  * Time: 3:11 PM
- * To change this template use File | Settings | File Templates.
  */
-class User extends EMongoDocument
+class MongoUser extends EMongoDocument
 {
+    const TYPE = 'Mongo';
+
     /**
      * @var string
      * @desc e-mail пользователя, он же используется как логин
@@ -58,6 +59,24 @@ class User extends EMongoDocument
     public $SNContacts = array();
 
     /**
+     * @var string
+     * @desc Ключ авторизции, обновляетс каждый запрос
+     */
+    public $authKey;
+
+    /**
+     * @var string
+     * @desc Паследняя дата обновления данных пользователя.
+     */
+    public $lastUpdate;
+
+    /**
+     * @var string
+     * @desc Паследний запрос на авторизацию
+     */
+    public $lastAuthRequest;
+
+    /**
      * @param string $className
      * @return EMongoDocument
      */
@@ -93,5 +112,23 @@ class User extends EMongoDocument
     {
         $this->salt = uniqid();
         $this->password = sha1($this->salt.$password);
+    }
+
+    public function updateAuthKey()
+    {
+        $this->authKey = uniqid();
+        $this->lastAuthRequest = time();
+
+        return $this->authKey;
+    }
+
+    public function getAuthKey()
+    {
+        return $this->authKey;
+    }
+
+    public function getById($id)
+    {
+        return $this->findByAttributes(array('email' => $id));
     }
 }

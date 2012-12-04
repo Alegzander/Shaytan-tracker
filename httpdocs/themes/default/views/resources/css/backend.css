@@ -37,3 +37,17 @@ body {
     padding-left: 9px;
     padding-right: 9px;
 }
+
+/*Форма авторизации пользователя*/
+.backend-auth {
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+.backend-auth img {
+    margin-top: 10px;
+    margin-bottom:5px;
+}
+
+/*Форма создания пользователя*/
