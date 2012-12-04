@@ -44,9 +44,6 @@ class LoginController extends Controller
 
                 $duration = 0;
 
-                if (ini_get('session.use_cookies') != '1')
-                    ini_set('session.use_cookies', '1');
-
                 if ($model->rememberMe)
                     if (isset(Yii::app()->getParams()->authDuration))
                         $duration = Yii::app()->getParams()->authDuration;
