@@ -6,9 +6,25 @@
  * Time: 4:01 AM
  */
 
-class LoginController extends Controller
+class LoginController extends BController
 {
     public $layout = '//layouts/backend';
+
+    public function accessRules()
+    {
+        return array(
+            array(
+                'allow',
+                'actions' => array('logout'),
+                'users' => array('@')
+            ),
+            array(
+                'deny',
+                'actions' => array('authenticate'),
+                'users' => array('@')
+            )
+        );
+    }
 
     public function actions()
     {
@@ -66,5 +82,18 @@ class LoginController extends Controller
             'model' => $model,
             'label' => $labelList
         ));
+    }
+
+    public function actionLogout()
+    {
+        if (Yii::app()->user->isGuest)
+        {
+            $this->redirect('/');
+        }
+        else
+        {
+            Yii::app()->user->logout();
+            $this->redirect('/backend/login/authenticate');
+        }
     }
 }

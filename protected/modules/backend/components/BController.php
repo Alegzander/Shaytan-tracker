@@ -14,6 +14,18 @@ class BController extends Controller
     {
         //TODO Сделать формирование массива меню
 
+        if (!Yii::app()->user->isGuest)
+        {
+            $authManager = Yii::app()->authManager;
+
+            $authItems = $authManager->getAuthItems(CAuthItem::TYPE_ROLE, Yii::app()->user->id);
+
+            foreach ($authItems as $someKey => $role)
+            {
+
+            }
+        }
+
         /**
          * @var WebUser $user
          */

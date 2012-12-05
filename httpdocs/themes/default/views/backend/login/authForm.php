@@ -17,7 +17,7 @@
         <?=CHtml::activeTextField($model, 'login', array('placeholder' => $label['login']));?>
         <?=CHtml::activePasswordField($model, 'password', array('placeholder' => $label['password']));?>
         <?php
-        $this->widget('CCaptcha', array('buttonOptions' => array('class' => 'new-line')));
+        $this->widget('CCaptcha', array('clickableImage' => true, 'showRefreshButton' => false));
         ?>
         <?=CHtml::activeTextField($model, 'captcha', array('placeholder' => $label['captcha']));?>
         <label class="checkbox">
