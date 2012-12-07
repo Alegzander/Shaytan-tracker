@@ -10,6 +10,26 @@ class BController extends Controller
 {
     public $layout = '//layouts/backend-menu';
 
+    public $resourceFiles = array(
+        'styles' => array(
+            100 => 'bootstrap.min.css',
+            200 => 'bootstrap-responsive.min.css',
+            300 => 'backend.css'
+        ),
+        'scripts' => array(
+            100 => 'jquery.js',
+            200 => 'bootstrap.min.js',
+            300 => 'bootstrap-typeahead.js',
+            400 => 'bootstrap-collapse.js',
+            500 => 'backend.js'
+        )
+    );
+
+    /*public function accessRules()
+    {
+        //Yii::app()->user
+    }*/
+
     public function init()
     {
         //TODO Сделать формирование массива меню
@@ -71,7 +91,7 @@ class BController extends Controller
                         $itemQueue = $menuParams['items'][$operation->name]['queue'];
 
                         $menu[$queue]['items'][$itemQueue] = array(
-                            'url' => '/'.$tmpTask->name.'/'.$operation->name,
+                            'url' => '/'.$this->module->id.'/'.$tmpTask->name.'/'.$operation->name,
                             'icon' => $menuParams['items'][$operation->name]['icon'],
                             'title' => $menuParams['items'][$operation->name]['title']
                         );
@@ -145,6 +165,16 @@ class BController extends Controller
         Yii::app()->user->loginUrl = '/backend/login/authenticate';
 
         parent::init();
+    }
+
+    public function addResourceFiles(array $resourcesArray)
+    {
+        foreach ($resourcesArray as $resourceGroup => $resource)
+            foreach ($resource as $queue => $file)
+                $this->resourceFiles[$resourceGroup][$queue] = $file;
+
+        ksort($this->resourceFiles['styles']);
+        ksort($this->resourceFiles['scripts']);
     }
 
     public function filters()

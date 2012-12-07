@@ -32,7 +32,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                     'require' => array('view'),
                     'items' => array(
                         'add' => array('icon' => 'plus-sign', 'title' => 'Добавить', 'queue' => 0),
-                        'view' => array('icon' => 'list', 'title' => 'Список', 'queue' => 1),
+                        'view' => array('icon' => 'search', 'title' => 'Список', 'queue' => 1),
                     )
                 )
             ));
@@ -57,7 +57,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                     'require' => array('view'),
                     'items' => array(
                         'add'   => array('icon' => 'plus-sign', 'title' => 'Добавить', 'queue' => 0),
-                        'view'  => array('icon' => 'list', 'title' => 'Просмотреть', 'queue' => 1),
+                        'view'  => array('icon' => 'search', 'title' => 'Просмотреть', 'queue' => 1),
                     )
                 )
             ));
@@ -69,7 +69,7 @@ class m121201_213421_create_user_roles extends CDbMigration
                     'parent' => 'user',
                     'require' => array('view'),
                     'items' => array(
-                        'view' => array('icon' => 'folder-close', 'title' => 'Роли', 'queue' => 2)
+                        'view' => array('icon' => 'briefcase', 'title' => 'Роли', 'queue' => 2)
                     )
                 )
             ));
@@ -130,10 +130,10 @@ class m121201_213421_create_user_roles extends CDbMigration
                 'system' => true,
                 'menu' => array(
                     'queue' => 3,
-                    'icon' => 'pencil',
+                    'icon' => 'globe',
                     'require' => array('view'),
                     'items' => array(
-                        'view' => array('icon' => 'wrench', 'title' => 'Переводы', 'queue' => 0)
+                        'view' => array('icon' => 'pencil', 'title' => 'Переводы', 'queue' => 0)
                     )
                 )
             ));
@@ -182,7 +182,7 @@ class m121201_213421_create_user_roles extends CDbMigration
         if (!isset($adminEmail))
             throw new CException(Yii::t('app', 'Не удалось получить электронную почту администратора. Убедитесь что в конфигурации в разделе params задан параметр adminEmail'));
 
-        $admin = new User();
+        $admin = new MongoUser();
 
         $admin->name = 'Верховный админ';
         $admin->role = 'admin';

@@ -50,8 +50,20 @@ body {
     margin-bottom:5px;
 }
 
-.backend-auth img:after
+.add-field-button, .remove-field-button
 {
-    content: '\002008';
+    margin-bottom: 12px;
+}
+
+.shaytan-form
+{
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.shaytan-form .devider
+{
+    height: 12px;
 }
 /*Форма создания пользователя*/
