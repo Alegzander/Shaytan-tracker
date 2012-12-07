@@ -145,7 +145,9 @@ class m121201_213421_create_user_roles extends CDbMigration
                     'queue' => 5,
                     'icon' => 'folder-close',
                     'require' => array('view'),
-                    'items' => array('icon' => 'file', 'title' => 'Просмотр', 'queue' => 0)
+                    'items' => array(
+                        'view' => array('icon' => 'file', 'title' => 'Просмотр', 'queue' => 0)
+                    )
                 )
             ));
 
