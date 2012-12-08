@@ -10,7 +10,7 @@ class LoginController extends BController
 {
     public $layout = '//layouts/backend';
 
-    public function accessRules()
+    /*public function accessRules()
     {
         return array(
             array(
@@ -24,7 +24,7 @@ class LoginController extends BController
                 'users' => array('@')
             )
         );
-    }
+    }*/
 
     public function actions()
     {
@@ -52,26 +52,29 @@ class LoginController extends BController
                     $identity::ERROR_PASSWORD_INVALID => 'password'
                 );
 
-                if(!$identity->authenticate())
+                $identity->authenticate();
+
+                if($identity->errorCode != $identity::ERROR_NONE)
                 {
                     $model->addError($fields[$identity->errorCode], $identity->errorMessage);
-                    return false;
                 }
+                else
+                {
+                    $duration = 0;
 
-                $duration = 0;
+                    if ($model->rememberMe)
+                        if (isset(Yii::app()->getParams()->authDuration))
+                            $duration = Yii::app()->getParams()->authDuration;
+                        else
+                            $duration = 1209600;//14 дней
 
-                if ($model->rememberMe)
-                    if (isset(Yii::app()->getParams()->authDuration))
-                        $duration = Yii::app()->getParams()->authDuration;
-                    else
-                        $duration = 1209600;//14 дней
+                    file_put_contents('/tmp/shit', $duration);
 
-                file_put_contents('/tmp/shit', $duration);
+                    Yii::app()->user->login($identity, $duration);
+                    Yii::app()->user->setState('key', $identity->authKey);
 
-                Yii::app()->user->login($identity, $duration);
-                Yii::app()->user->setState('key', $identity->authKey);
-
-                $this->redirect(Yii::app()->user->returnUrl);
+                    $this->redirect(Yii::app()->user->returnUrl);
+                }
             }
         }
 
