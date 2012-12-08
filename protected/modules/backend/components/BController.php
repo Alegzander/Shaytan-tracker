@@ -157,6 +157,13 @@ class BController extends Controller
                 $this->menu['items'][] = $devider;
             }
 
+            $this->menu['items'][] = array(
+                'itemOptions' => array(
+                ),
+                'label' => '<i class="icon-off"></i>'.Yii::t('app', 'Выйти'),
+                'url'   => '/backend/login/logout',
+            );
+            $this->menu['items'][] = $devider;
         }
 
         /**

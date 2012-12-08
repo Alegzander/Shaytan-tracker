@@ -54,7 +54,7 @@ class LoginController extends BController
 
                 if(!$identity->authenticate())
                 {
-                    $this->addError($fields[$identity->errorCode], $identity->errorMessage);
+                    $model->addError($fields[$identity->errorCode], $identity->errorMessage);
                     return false;
                 }
 

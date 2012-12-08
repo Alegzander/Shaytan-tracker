@@ -3,6 +3,7 @@ $(document).ready(function()
     $(".collapse").collapse(); //Для менюшки слева
     $(".chzn-select").chosen(); //Для мегакрутых селектов
     $(".chzn-select-with-deselect").chosen({allow_single_deselect:true}); //Для не менее крутых селектов
+    $(".helper").tooltip('show');
 
     //Соц. сети
     $('.social-networks .add-field-button').live('click', function() //Динамическое добавление соц. сетей

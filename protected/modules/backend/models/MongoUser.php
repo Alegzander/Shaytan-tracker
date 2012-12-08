@@ -99,9 +99,9 @@ class MongoUser extends EMongoDocument
     public function rules()
     {
         return array(
-            array('email, password, salt, name', 'required'),
+            array('email, password, salt, name, phone', 'required'),
             array('email', 'email', 'allowEmpty' => false),
-            array('name, password, salt, IMContacts, SNContacts', 'safe'),
+            array('name, password, salt', 'safe'),
         );
     }
 
