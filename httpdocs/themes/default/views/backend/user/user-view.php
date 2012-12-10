@@ -25,17 +25,17 @@
 </div>
 <!-- форма поиска пользователей -->
 <form>
-    <div class="input-prepend input-append">
+    <div class="input-prepend input-append user-text-search">
         <span class="add-on"><i class="icon-envelope"></i></span>
         <input class="span3" id="appendedPrependedInput" type="text" placeholder="Искать по почтовому адресу">
         <a href="#" class="add-on btn"><i class="icon-remove" title="очистить поле"></i></a>
     </div>
-    <div class="input-prepend input-append">
+    <div class="input-prepend input-append user-text-search">
         <span class="add-on"><i class="icon-user"></i></span>
         <input class="span3" id="appendedPrependedInput" type="text" placeholder="Искать по имени пользователя">
         <a href="#" class="add-on btn"><i class="icon-remove" title="очистить поле"></i></a>
     </div>
-    <div class="input-prepend input-append">
+    <div class="input-prepend input-append user-text-search">
         <span class="add-on"><i class="icon-th-list"></i></span>
         <input class="span3" id="appendedPrependedInput" type="text" placeholder="Искать по номеру телефона">
         <a href="#" class="add-on btn"><i class="icon-remove" title="очистить поле"></i></a>

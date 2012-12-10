@@ -14,7 +14,8 @@ class UserController extends BController
                 250 => 'chosen.css'
             ),
             'scripts' => array(
-                450 => 'chosen.jquery.min.js'
+                450 => 'chosen.jquery.min.js',
+                510 => 'backend-user-add.js'
             )
         );
 
@@ -64,6 +65,18 @@ class UserController extends BController
 
     public function actionView()
     {
+        $extraResources = array(
+            'styles' => array(
+                250 => 'chosen.css'
+            ),
+            'scripts' => array(
+                450 => 'chosen.jquery.min.js',
+                510 => 'backend-user-view.js'
+            )
+        );
+
+        $this->addResourceFiles($extraResources);
+
         $this->render('user-view');
     }
 }
