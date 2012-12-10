@@ -20,7 +20,7 @@
                 <?=CHtml::activePasswordField($model, 'confirmPassword', array('placeholder' => $labels['confirmPassword']));?>
             </li>
             <li>
-                <i class="icon-plus"></i><?=CHtml::activeNumberField($model, 'phone', array('placeholder' => $labels['phone']))?>
+                </i><?=CHtml::activeNumberField($model, 'phone', array('placeholder' => $labels['phone']))?>
                 <a href="#" class="helper" rel="tooltip" data-placement="top" title="<?=Yii::t('app', 'Номер должен быть в международном формате. Например: {phone}',
                 array('{phone}' => $phone));?>"><i class="icon-question-sign"></i></a>
             </li>

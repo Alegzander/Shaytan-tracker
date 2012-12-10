@@ -10,7 +10,7 @@ class LoginController extends BController
 {
     public $layout = '//layouts/backend';
 
-    /*public function accessRules()
+    public function accessRules()
     {
         return array(
             array(
@@ -24,7 +24,7 @@ class LoginController extends BController
                 'users' => array('@')
             )
         );
-    }*/
+    }
 
     public function actions()
     {

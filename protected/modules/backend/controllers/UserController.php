@@ -61,4 +61,9 @@ class UserController extends BController
                 'phone' => '998901234567'
         ));
     }
+
+    public function actionView()
+    {
+        $this->render('user-view');
+    }
 }

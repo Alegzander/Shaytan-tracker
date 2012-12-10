@@ -25,17 +25,88 @@ class BController extends Controller
         )
     );
 
-    /*public function accessRules()
+    /**
+     * @return array
+     * @desc Это шайтан механизм который на основе данных из
+     * authManager формирует список ролей и операцией который могут
+     * осуществлять действия в данном контроллере.
+     * При необходимости метод переопределяется.
+     */
+    public function accessRules()
     {
-        //Yii::app()->user
-    }*/
+        /**
+         * @var CAuthManager $authManager
+         */
+        $authManager = Yii::app()->authManager;
+
+        $roles = $authManager->getAuthItems(CAuthItem::TYPE_ROLE);
+
+        $allowedRoles = array();
+        $rules = array();
+
+        foreach ($roles as $roleName => $role)
+        {
+            /**
+             * @var CAuthItem $role
+             */
+            $tasks = $role->getChildren();
+
+            if (array_key_exists(Yii::app()->controller->id, $tasks) === true)
+            {
+                $operations = $tasks[Yii::app()->controller->id]->getChildren();
+
+                if (!isset($allowedRoles[$roleName]))
+                    $allowedRoles[$roleName] = array();
+
+                foreach ($operations as $operation)
+                    if (array_search($operation->name, $allowedRoles[$roleName]) === false)
+                        array_push($allowedRoles[$roleName], $operation->name);
+            }
+            else
+            {
+                foreach ($tasks as $taskName => $task)
+                {
+                    if ($task->data['system'] !== true && $task->data['base'] == Yii::app()->controller->id)
+                    {
+                        $operations = $task->getChildren();
+
+                        if (!isset($allowedRoles[$roleName]))
+                            $allowedRoles[$roleName] = array();
+
+                        foreach ($operations as $operation)
+                            if (array_search($operation->name, $allowedRoles[$roleName]) === false)
+                                array_push($allowedRoles[$roleName], $operation->name);
+                    }
+                }
+            }
+        }
+
+        foreach ($allowedRoles as $role => $actions)
+        {
+            array_push($rules, array('allow', 'actions' => $actions, 'roles' => array($role)));
+        }
+
+        $task = $authManager->getAuthItem(Yii::app()->controller->id);
+        $operations = $task->getChildren();
+        $actions = array();
+
+        foreach ($operations as $operation)
+            array_push($actions, $operation->name);
+
+        array_push($rules, array('deny', 'actions' => $actions, 'users' => array('*')));
+
+        return $rules;
+    }
 
     public function init()
     {
-        //TODO Сделать формирование массива меню
-
         if (!Yii::app()->user->isGuest)
         {
+            /**
+             * Здесь на основе authManager-а формируется набор меню
+             * которое доступно пользователю в зависимости от его прав.
+             */
+
             /**
              * @var CAuthManager $authManager
              */
@@ -140,8 +211,13 @@ class BController extends Controller
 
                 ksort($item['items']);
 
+                $class = 'collapse in';
+
+                if ($item['name'] == Yii::app()->controller->id)
+                    $class = 'collapse';
+
                 $subItem = array(
-                    'itemOptions' => array('class' => 'collapse in', 'id' => $item['name'].'-data'),
+                    'itemOptions' => array('class' => $class, 'id' => $item['name'].'-data'),
                     'template' => '', 'label' => '',
                     'submenuOptions' => array('class' => 'nav nav-list'),
                 );
@@ -170,6 +246,14 @@ class BController extends Controller
          * @var WebUser $user
          */
         Yii::app()->user->loginUrl = '/backend/login/authenticate';
+
+        $uri = explode('/', Yii::app()->user->returnUrl);
+
+        /**
+         * Преобразуем returnUrl при необходимости
+         */
+        if ($uri[1] != $this->module->id)
+            Yii::app()->user->returnUrl = '/backend/';
 
         parent::init();
     }

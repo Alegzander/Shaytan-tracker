@@ -67,3 +67,29 @@ body {
     height: 12px;
 }
 /*Форма создания пользователя*/
+
+.user-status-active {
+    background-color: #46a546;
+    width: 12px;
+    height: 12px;
+}
+
+.user-status-inactive {
+    background-color: #9d261d;
+    width: 12px;
+    height: 12px;
+}
+
+.filter {
+    font-size: 12px;
+}
+
+.filter-title {
+    font-weight: bold;
+    padding-top: 6px;
+    margin-right: 10px;
+}
+
+.filter-second {
+    margin-left: 108px;
+}
