@@ -21,7 +21,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'ext.YiiMongoDbSuite.*',
+		'ext.yii-mongoDbSuite.*',
 	),
 
 	'modules'=>array(
