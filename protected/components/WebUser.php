@@ -16,7 +16,7 @@ class WebUser extends CWebUser
      * @param bool $fromCookie
      * @return bool|void
      */
-    public function beforeLogin($id, array $states, $fromCookie)
+    public function beforeLogin($id, $states, $fromCookie)
     {
         if ($fromCookie !== true)
             return true;
