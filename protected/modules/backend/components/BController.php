@@ -175,8 +175,6 @@ class BController extends Controller
             }
 
             ksort($menu);
-            //echo '<pre>';
-            //die(print_r($menu));
 
             $devider = array('itemOptions' => array('class' => 'divider'), 'template' => '', 'label' => '', );
 

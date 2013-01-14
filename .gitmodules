@@ -1,6 +1,0 @@
-[submodule "protected/extensions/YiiMongoDbSuite"]
-	path = protected/extensions/YiiMongoDbSuite
-	url = https://github.com/canni/YiiMongoDbSuite.git
-[submodule "protected/extensions/efeed"]
-	path = protected/extensions/efeed
-	url = https://github.com/tonydspaniard/Yii-extensions.git
