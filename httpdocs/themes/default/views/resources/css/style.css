@@ -1,0 +1,71 @@
+#content 
+{
+	margin-top:60px;
+}
+
+#accept-rules
+{
+	border:1px dashed #000;
+}
+
+ul.accept-rules
+{
+	margin: 0px auto;
+	padding: 0px;
+}
+
+ul.accept-rules li
+{
+	text-align: left;
+	float: left;
+	list-style: none;
+	padding-left: 10px;
+}
+
+div.errorSummary
+{
+	border: 1px solid #000;
+	float: left;
+}
+
+div.errorSummary p
+{
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+	color: #B94A48;
+}
+
+div.errorSummary ul li
+{
+	list-style: none;
+	color: #B94A48;
+}
+
+td.torrent-list {
+    font-size: 16px;
+}
+
+/*Чтоб верхнее чёрное меню не становилось слишком
+широким хер его знает почему.*/
+.navbar-inner:before, .navbar-inner:after
+{
+    display: none;
+}
+
+.sort-bar
+{
+    font-size: 12px;
+}
+
+.sort-type-bar
+{
+    margin-left: 115px;
+    font-size: 12px;
+}
+
+.sort-label
+{
+    padding: 3px 12px 0px 5px;
+    font-weight: bold;
+}
