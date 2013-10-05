@@ -1,13 +1,9 @@
 <?php
 
-// uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
-
-// This is the main Web application configuration. Any writable
-// CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__DIR__),
 	'name'=>'My Web Application',
+    'theme' => 'twitter-bootstrap',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
