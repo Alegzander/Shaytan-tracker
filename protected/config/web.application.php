@@ -1,4 +1,7 @@
 <?php
+$vendor = dirname(dirname(__DIR__)) . DS . 'vendor';
+
+Yii::setPathOfAlias('composer', $vendor);
 
 return array(
 	'basePath'=>dirname(__DIR__),
@@ -12,19 +15,23 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-
+        'application.components.enums.*',
+        'application.helpers.*',
+        'composer.richthegeek.phpsass.*',
+        'application.modules.srbac.controllers.SBaseController', // SRBAC
+        'ext.giix-components.*'
 	),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		/*
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
-			'password'=>'Enter Your Password Here',
-			// If removed, Gii defaults to localhost only. Edit carefully to taste.
+			'password'=>'password',
 			'ipFilters'=>array('127.0.0.1','::1'),
+            'generatorPaths' => array(
+                'ext.giix-core'
+            )
 		),
-		*/
         'srbac' => array(
             'userclass'            => 'User', //default: User
             'userid'               => 'id', //default: userid
@@ -45,10 +52,24 @@ return array(
 
 	// application components
 	'components'=>array(
+        'session' => array(
+            'class' => 'CHttpSession',
+            'autoStart' => true
+        ),
 		'user'=>array(
-			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
+            'class'           => 'CWebUser',
+            'allowAutoLogin'  => true,
+            'stateKeyPrefix'  => 'client',
+            'autoUpdateFlash' => false,
+            'loginUrl'        => '/admin/login'
 		),
+        'authManager'  => array(
+            'class'           => 'srbac.components.SDbAuthManager',
+            'connectionID'    => 'db',
+            'itemTable'       => 'auth_item',
+            'assignmentTable' => 'auth_assignment',
+            'itemChildTable'  => 'auth_item_child',
+        ),
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'urlFormat'=>'path',
@@ -61,6 +82,11 @@ return array(
         'bootstrap' => array(
             'class'         => 'ext.YiiBooster.components.Bootstrap',
             'responsiveCss' => false,
+        ),
+        'sass'         => array(
+            'class' => 'ext.Sass',
+            'style' => 'compact',
+
         ),
         'clientScript' => array(
             'coreScriptPosition' => CClientScript::POS_END,

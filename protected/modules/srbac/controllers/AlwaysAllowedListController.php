@@ -53,7 +53,7 @@ class AlwaysAllowedListController extends SrbacWraperController
 				unset($tmp);
 			}
 
-			AssetsHelper::register(array('/js/srbac/alwaysAllowedList.js'));
+			AssetsHelper::register(array('js/srbac/alwaysAllowedList.js'));
 
 			$this->render('index', array(
 				'controllers'     => $controllers,
