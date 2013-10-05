@@ -25,6 +25,22 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
 		*/
+        'srbac' => array(
+            'userclass'            => 'User', //default: User
+            'userid'               => 'id', //default: userid
+            'username'             => 'username', //default:username
+            'delimeter'            => '@', //default:-
+            'debug'                => false, //default :false
+            'pageSize'             => 10, // default : 15
+            'superUser'            => 'Authority', //default: Authorizer
+            'alwaysAllowed'        => require(dirname(__DIR__).DS.'modules'.DS.'srbac'.DS.'components'.DS.'allowed.php'),
+            'userActions'          => array('Show', 'View', 'List'), //default: array()
+            'listBoxNumberOfLines' => 15, //default : 10
+            'imagesPath'           => 'srbac.images', // default: srbac.images
+            'imagesPack'           => 'tango', //default: noia
+            'iconText'             => true, // default : false
+            'alwaysAllowedPath'    => 'srbac.components', // default: srbac.components
+        ),
 	),
 
 	// application components
