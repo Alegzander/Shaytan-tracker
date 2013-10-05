@@ -1,6 +1,7 @@
-httpdocs/backend/config.php
-httpdocs/backend/mysql.php
 index.html
 index.html.old
 log/
 run/
+protected/config/web.localhost.php
+protected/config/console.localhost.php
+protected/config/test.localhost.php
