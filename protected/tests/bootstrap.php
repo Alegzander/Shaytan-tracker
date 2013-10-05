@@ -2,7 +2,7 @@
 
 // change the following paths if necessary
 $yiit=dirname(__FILE__).'/../../../lib/yii/yiit.php';
-$config=dirname(__FILE__).'/../config/test.php';
+$config=dirname(__FILE__).'/../config/test.application.php';
 
 require_once($yiit);
 require_once(dirname(__FILE__).'/WebTestCase.php');
