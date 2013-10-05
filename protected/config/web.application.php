@@ -10,12 +10,13 @@ return array(
 	'name'=>'My Web Application',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('log', 'bootstrap'),
 
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+
 	),
 
 	'modules'=>array(
@@ -45,6 +46,15 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
+        'bootstrap' => array(
+            'class'         => 'ext.YiiBooster.components.Bootstrap',
+            'responsiveCss' => false,
+        ),
+        'clientScript' => array(
+            'coreScriptPosition' => CClientScript::POS_END,
+            'defaultScriptPosition' => CClientScript::POS_END,
+            'defaultScriptFilePosition' => CClientScript::POS_END,
+        ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
