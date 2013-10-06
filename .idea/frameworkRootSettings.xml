@@ -10,7 +10,6 @@
         <element elementPath="$PROJECT_DIR$/protected/extensions" typeId="protected_extensions_directory" />
         <element elementPath="$PROJECT_DIR$/protected/models" typeId="protected_models_directory" />
         <element elementPath="$PROJECT_DIR$/protected/runtime" typeId="protected_runtime_directory" />
-        <element elementPath="$PROJECT_DIR$/protected/views" typeId="protected_views_directory" />
       </list>
     </option>
   </component>

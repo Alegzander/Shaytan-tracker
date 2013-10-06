@@ -6,5 +6,9 @@
  */
 
 class BaseController extends SBaseController {
+    public function init(){
+        parent::init();
 
+        AssetsHelper::register(array('/css/project.css'));
+    }
 }
