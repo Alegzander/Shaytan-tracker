@@ -7,15 +7,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="<?=\Yii::app()->getLanguage();?>" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="language" content="<?= \Yii::app()->getLanguage(); ?>"/>
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>
-<div class="container" id="page">
-	<div id="mainmenu">
+<div class="container">
+    <div id="mainmenu">
         <?php
         $menu = new MenuData();
 
@@ -27,14 +27,15 @@
             'items' => $menu->mainMenu()
         ));
         ?>
-	</div>
+    </div>
+    <!--  Pushin 80 pixels up  -->
     <div class="push"></div>
     <div class="content">
         <?php echo $content; ?>
     </div>
     <?php $this->renderPartial('//layouts/_footer'); ?>
 
-</div><!-- page -->
-
+</div>
+<!-- page -->
 </body>
 </html>
