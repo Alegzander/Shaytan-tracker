@@ -20,7 +20,7 @@ class MenuData {
                     ),
                     array(
                         'label' => \Yii::t('app', 'Add torrent'),
-                        'url' => \Yii::app()->createUrl('/site/addTorrent'),
+                        'url' => \Yii::app()->createUrl('/torrent/create'),
                         'active' => \Yii::app()->getController()->id == 'site' && \Yii::app()->getController()->action->id == 'addTorrent'
                     )
                 )
