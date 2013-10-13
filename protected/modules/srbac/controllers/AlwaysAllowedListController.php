@@ -33,43 +33,29 @@ class AlwaysAllowedListController extends SrbacWraperController
 			$controllers     = $this->utils->getControllers();
 			$controllersMeta = array();
 
-			foreach ($controllers as $index => $controller) {
+            foreach ($controllers as $index => $controller) {
 				$tmp                          = $this->utils->getControllerInfo($controller, true);
-				$controllersMeta[$controller] = array();
-
-				foreach ($tmp[0] as $authItem){
-					if (\Yii::app()->authManager->getAuthItem($authItem) !== null)
-						array_push($controllersMeta[$controller], $authItem);
-
-					if (isset($allowedOptions[$authItem]))
-						$form->item[$authItem] = $authItem;
-				}
-
-				//This should remove empty controllers and auth items that doesn't exist
-				if (count($controllersMeta[$controller]) == 0){
-					unset($controllersMeta[$controller]);
-					unset($controllers[$index]);
-				}
-
-
-				unset($tmp);
+				$controllersMeta[$controller] = $tmp[0];
+                unset($tmp);
 			}
+
+            unset($controllers);
 
 			AssetsHelper::register(array('js/srbac/alwaysAllowedList.js'));
 
 			$this->render('index', array(
-				'controllers'     => $controllers,
-				'controllersMeta' => $controllersMeta,
+				'controllersMeta'     => $controllersMeta,
+                'allowedOptions' => $allowedOptions,
 				'formAction'	  => $this->createUrl('edit'),
 				'formModel'		  => $form
 			));
 		} catch (CException $error) {
-			$this->render('/_not-writable',
-				array(
-					'file' => $this->utils->getAlwaysAllowedFile(),
-					'user' => $_ENV['USER']
-				)
-			);
+            $this->render('/_not-writable',
+            array(
+                'file' => $this->utils->getAlwaysAllowedFile(),
+                'user' => isset($_ENV['USER'])?$_ENV['USER']:'anonymous'
+            )
+        );
 		}
 	}
 
