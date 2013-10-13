@@ -101,6 +101,9 @@ class AlwaysAllowedEditForm extends CFormModel{
 
         }
 
+        if (isset($module))
+            $controller = $module.$delimeter.$controller;
+
         return $found?$controller:false;
     }
 

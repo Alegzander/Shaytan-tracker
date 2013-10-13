@@ -48,7 +48,9 @@ class AlwaysAllowedListController extends SrbacWraperController
 
                 $form->attributes = $post;
 
-                if ($form->validate() && $this->utils->isAlwaysAllowedFileWritable()){
+                if ($form->validate()){
+                    $form->item = array_unique($form->item);
+                    if (($badIndex = array_search('0', $form->item)) !== false) unset($form->item[$badIndex]);
                     $this->utils->writeAlwaysAllowedFile($form->item);
                     \Yii::app()->user->setFlash(TbAlert::TYPE_SUCCESS, \Yii::t('flash', 'Always allowed list successfully updated.'));
                 } else {
@@ -67,7 +69,8 @@ class AlwaysAllowedListController extends SrbacWraperController
             }
             //END processing post request
 
-			AssetsHelper::register(array('js/srbac/alwaysAllowedList.js'));
+            $url = \Yii::app()->assetManager->publish(OSHelper::path()->join(dirname(__DIR__), 'js', 'alwaysAllowedList.js'));
+            \Yii::app()->clientScript->registerScriptFile($url);
 
 			$this->render('index', array(
 				'controllersMeta'     => $controllersMeta,
