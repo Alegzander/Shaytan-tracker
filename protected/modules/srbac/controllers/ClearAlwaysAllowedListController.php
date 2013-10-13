@@ -11,6 +11,8 @@ class ClearAlwaysAllowedListController extends SrbacWraperController {
 	 */
 	private $utils;
 
+    public $layout = '/layouts/manage';
+
 	public function init(){
 		parent::init();
 

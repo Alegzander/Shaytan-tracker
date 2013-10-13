@@ -3,11 +3,12 @@
  * Date: 7/22/13
  * Time: 4:14 PM
  */
-$(function () {
-	$('#srbac_tab a:first').tab('show');
-})
+$('div.tab-pane label.checkbox').click(function (event) {
+    event.preventDefault();
+    	checkbox = $(this).children('input[type=checkbox]');
 
-$('#srbac_tab a').click(function (e) {
-	e.preventDefault();
-	$(this).tab('show');
+    if (checkbox.attr('checked') !== 'checked')
+        checkbox.attr('checked', 'checked');
+    else
+        checkbox.attr('checked', false);
 })

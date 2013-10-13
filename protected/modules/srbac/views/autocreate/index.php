@@ -8,8 +8,6 @@
  * @var AutocreateController $this
  * @var CArrayDataProvider[] $controllers
  */
-$this->renderPartial('/_manage-menu');
-
 ?>
 <div class="row">
 	<div class="span6">

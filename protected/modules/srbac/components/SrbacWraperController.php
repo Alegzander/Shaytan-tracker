@@ -6,5 +6,5 @@
  */
 
 class SrbacWraperController extends BaseController {
-	public $layout = '//layouts/main';
+	public $layout = '/layouts/srbac';
 }
