@@ -211,11 +211,7 @@ class SrbacUtils
 	 */
 	public function isAlwaysAllowedFileWritable()
 	{
-		if (!($f = @fopen(Helper::findModule("srbac")->getAlwaysAllowedFile(), 'r+'))) {
-			return false;
-		}
-		fclose($f);
-		return true;
+		return is_writable(Helper::findModule("srbac")->getAlwaysAllowedFile());
 	}
 
 	/**

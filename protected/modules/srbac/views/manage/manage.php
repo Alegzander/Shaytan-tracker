@@ -8,7 +8,6 @@
 /**
  * @var AuthitemController $this
  */
-$this->renderPartial('/_manage-menu');
 ?>
 <div class="row">
 	<div class="span6">

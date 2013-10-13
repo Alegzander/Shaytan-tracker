@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="language" content="<?= \Yii::app()->getLanguage(); ?>"/>
 
-    <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <title><?= CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>
@@ -30,6 +30,9 @@
     </div>
     <!--  Pushin 80 pixels up  -->
     <div class="push"></div>
+    <div class="flash">
+        <?php $this->renderPartial('//layouts/_alerts');?>
+    </div>
     <div class="content">
         <?php echo $content; ?>
     </div>

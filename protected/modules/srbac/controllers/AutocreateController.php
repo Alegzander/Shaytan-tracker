@@ -12,6 +12,8 @@ class AutocreateController extends SrbacWraperController
 	 */
 	public $utils;
 
+    public $layout = '/layouts/manage';
+
 	public function init()
 	{
 		parent::init();
@@ -72,7 +74,8 @@ class AutocreateController extends SrbacWraperController
 		if (isset($directive))
 			unset($_GET['directive']);
 
-		AssetsHelper::register(array('/js/srbac/autocreate/index.js'));
+        $url = \Yii::app()->assetManager->publish(OSHelper::path()->join(dirname(__DIR__), 'js', 'autocreate', 'index.js'));
+        \Yii::app()->clientScript->registerScriptFile($url);
 
 		$this->render('index', array(
 			'controllers'   => $this->getControllers(),
