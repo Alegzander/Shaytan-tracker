@@ -9,7 +9,6 @@
  * @var AlwaysAllowedEditForm $formModel
  * @var TbActiveForm $form
  */
-$this->renderPartial('/_manage-menu');
 ?>
 <p class="lead textAlignCenter"><?=\Yii::t('app', 'The following items doesn\'t seem to belong to a controller.');?></p>
 <div class="well well-small">

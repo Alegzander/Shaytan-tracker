@@ -12,6 +12,8 @@ class AlwaysAllowedListController extends SrbacWraperController
 	 */
 	private $utils;
 
+    public $layout = '/layouts/manage';
+
 	public function init()
 	{
 		parent::init();
@@ -23,11 +25,11 @@ class AlwaysAllowedListController extends SrbacWraperController
 	{
 		try {
 			$form = new AlwaysAllowedEditForm();
-			$allowedOptions = array_flip($this->utils->readAlwaysAllowedFile());
 
 			if ($this->utils->isAlwaysAllowedFileWritable() === false)
 				throw new CException();
 
+            $allowedOptions = array_flip($this->utils->readAlwaysAllowedFile());
 			$controllers     = $this->utils->getControllers();
 			$controllersMeta = array();
 

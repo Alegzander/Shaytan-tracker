@@ -6,6 +6,8 @@
  */
 
 class ManageController extends SrbacWraperController {
+    public $layout = '/layouts/manage';
+
 	public function actionIndex()
 	{
 		$model = new AuthItem('search');

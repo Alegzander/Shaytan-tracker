@@ -12,7 +12,6 @@
  * @var AlwaysAllowedEditForm $formModel
  */
 ?>
-<?php $this->renderPartial('/_manage-menu');?>
 <div>
 	<?php
 	/**

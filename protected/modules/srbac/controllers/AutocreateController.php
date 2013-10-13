@@ -12,6 +12,8 @@ class AutocreateController extends SrbacWraperController
 	 */
 	public $utils;
 
+    public $layout = '/layouts/manage';
+
 	public function init()
 	{
 		parent::init();
