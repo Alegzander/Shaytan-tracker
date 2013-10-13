@@ -30,6 +30,9 @@
     </div>
     <!--  Pushin 80 pixels up  -->
     <div class="push"></div>
+    <div class="flash">
+        <?php $this->renderPartial('//layouts/_alerts');?>
+    </div>
     <div class="content">
         <?php echo $content; ?>
     </div>
