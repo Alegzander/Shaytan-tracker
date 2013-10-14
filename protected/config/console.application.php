@@ -28,5 +28,12 @@ return array(
 				),
 			),
 		),
+        'authManager'  => array(
+            'class'           => 'application.modules.srbac.components.SDbAuthManager',
+            'connectionID'    => 'db',
+            'itemTable'       => 'auth_item',
+            'assignmentTable' => 'auth_assignment',
+            'itemChildTable'  => 'auth_item_child',
+        ),
 	),
 );
