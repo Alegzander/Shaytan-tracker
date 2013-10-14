@@ -8,20 +8,14 @@
 
 class MenuData {
     public function mainMenu(){
-//        die(var_dump(\Yii::app()->authManager->isAssigned('TorrentCreate', \Yii::app()->user->getId())));
-
         $items = array(
             'site.index' => array(
                 'label' => \Yii::t('app', 'Home'),
                 'url' => \Yii::app()->createUrl('/site/index'),
-                'active' => \Yii::app()->getController()->id == 'site' && \Yii::app()->getController()->action->id == 'index',
-                'enable' => \Yii::app()->authManager->isAssigned('SiteIndex', \Yii::app()->user->getId())
             ),
             'torrent.create' => array(
                 'label' => \Yii::t('app', 'Add torrent'),
-                'url' => \Yii::app()->createUrl('/torrent/create'),
-                'active' => \Yii::app()->getController()->id == 'site' && \Yii::app()->getController()->action->id == 'addTorrent',
-                'enable' => \Yii::app()->authManager->isAssigned('TorrentCreate', \Yii::app()->user->getId())
+                'url' => \Yii::app()->createUrl('/torrent/create')
             )
         );
 
