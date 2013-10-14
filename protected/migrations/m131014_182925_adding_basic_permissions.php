@@ -11,6 +11,7 @@ class m131014_182925_adding_basic_permissions extends PermissionMigration
     );
     protected $tasks = array(
         'SiteViewing',
+        'TorrentCreating',
         'TorrentViewing',
         'TorrentAdministrating'
     );
@@ -27,25 +28,24 @@ class m131014_182925_adding_basic_permissions extends PermissionMigration
             'SiteCaptcha',
             'SitePage'
         ),
-        'TorrentViewing' => array(
-            'TorrentCreate'
-        ),
-        'TorrentAdministrating' => array(
+        'TorrentCreating' => array(
             'TorrentCreate'
         ),
         'Administrator' => array(
             'SiteViewing',
+            'TorrentCreating',
             'TorrentViewing',
             'TorrentAdministrating'
         ),
         'Operator' => array(
             'SiteViewing',
+            'TorrentCreating',
             'TorrentViewing',
             'TorrentAdministrating'
         ),
         'User' => array(
             'SiteViewing',
-            'TorrentViewing'
+            'TorrentCreating'
         )
     );
 }
