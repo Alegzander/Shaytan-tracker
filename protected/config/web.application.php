@@ -40,7 +40,7 @@ return array(
             'delimeter'            => '@', //default:-
             'debug'                => false, //default :false
             'pageSize'             => 10, // default : 15
-            'superUser'            => 'Authority', //default: Authorizer
+            'superUser'            => 'root', //default: Authorizer
             'alwaysAllowed'        => require(dirname(__DIR__).DS.'modules'.DS.'srbac'.DS.'components'.DS.'allowed.php'),
             'userActions'          => array('Show', 'View', 'List'), //default: array()
             'listBoxNumberOfLines' => 15, //default : 10

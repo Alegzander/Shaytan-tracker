@@ -11,6 +11,8 @@
  * @property CWebUser $user
  * @property CAssetManager $assetManager
  * @property CClientScript $clientScript
+ * @property CDbAuthManager $authManager
+ * @property CController $controller
  */
 class BApplication extends CWebApplication {
 
