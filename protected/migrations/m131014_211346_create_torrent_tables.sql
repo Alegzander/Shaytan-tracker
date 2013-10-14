@@ -31,7 +31,7 @@ CREATE  TABLE `torrent_meta` (
   CONSTRAINT `torrent_meta_fk`
     FOREIGN KEY (`torrent_id` )
     REFERENCES `torrent` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
