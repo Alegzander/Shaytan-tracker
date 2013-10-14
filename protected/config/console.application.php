@@ -9,6 +9,14 @@ return array(
 	// preloading 'log' component
 	'preload'=>array('log'),
 
+    'import' => array(
+        'application.models.*',
+        'application.components.*',
+        'application.components.enums.*',
+        'application.helpers.*',
+        'application.extensions.giix-components.*'
+    ),
+
 	// application components
 	'components'=>array(
 		'log'=>array(
