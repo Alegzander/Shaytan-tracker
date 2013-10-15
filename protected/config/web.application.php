@@ -83,6 +83,7 @@ return array(
         'bootstrap' => array(
             'class'         => 'ext.YiiBooster.components.Bootstrap',
             'responsiveCss' => false,
+//            'enableJS' => false //Debugging
         ),
         'sass'         => array(
             'class' => 'ext.Sass',
@@ -103,7 +104,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'trace, error, warning',
 				),
 			),
 		),

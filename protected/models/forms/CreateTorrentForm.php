@@ -12,20 +12,24 @@ class CreateTorrentForm extends CFormModel {
     public $informationUrl;
     public $hidden;
     public $remake;
+    //Take description from comment value in torrent file
+    public $descriptionFromFile = EnabledState::DISABLED;
     public $description;
     public $accept;
 
     public function rules(){
         return array(
-            'required' => array('name, torrent', 'required'),
+            'required' => array('name, torrent, tags', 'required'),
             'name' => array('name', 'filter', 'filter' => 'strip_tags'),
             'torrent' => array('torrent', 'file', 'maxSize' => (OSHelper::web()->getMaxUploadSize()*1024*1024)),
             'tags' => array('tags', 'match', 'pattern' => '~^[\p{Xan}_]+(,([\s]+|)[\p{Xan}_]+){0,}$~u'),
             'informationUrl' => array('informationUrl', 'url', 'allowEmpty' => true),
-            'hidden' => array('hidden', 'boolean'),
-            'remake' => array('remake', 'boolean'),
+            'hidden' => array('hidden', 'boolean', 'allowEmpty' => true),
+            'remake' => array('remake', 'boolean', 'allowEmpty' => true),
+            'descriptionFromFile' => array('descriptionFromFile', 'safe'),
             'description' => array('description', 'filter', 'filter' => 'strip_tags'),
-            'accept' => array('accept', 'compare', 'compareValue' => 'accepted', 'allowEmpty' => false)
+            'accept' => array('accept', 'compare', 'compareValue' => 'accepted', 'allowEmpty' => false,
+                'message' => \Yii::t('form-label', 'You can not post without accepting our rules.'))
         );
     }
 
@@ -44,6 +48,7 @@ class CreateTorrentForm extends CFormModel {
             'informationUrl' => \Yii::t('form-label', 'Information URL'),
             'hidden' => \Yii::t('form-label', 'Hidden'),
             'remake' => \Yii::t('form-label', 'Remake'),
+            'descriptionFromFile' => \Yii::t('form-label', 'Take description from torrent file'),
             'description' => \Yii::t('form-label', 'Description'),
             'accept' => \Yii::t('form-label', 'I have read the <a href="{url}" >rules</a>, and I understand that failure to comply will result in the removal of my torrent.', array(
                 '{url}' => $url
