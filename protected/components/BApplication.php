@@ -13,6 +13,8 @@
  * @property CClientScript $clientScript
  * @property CDbAuthManager $authManager
  * @property CController $controller
+ * @property CHttpRequest $request
+ * @property array $params
  */
 class BApplication extends CWebApplication {
 

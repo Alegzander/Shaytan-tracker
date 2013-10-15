@@ -7,5 +7,47 @@
 
 class CreateTorrentForm extends CFormModel {
     public $name;
+    public $torrent;
+    public $tags;
+    public $informationUrl;
+    public $hidden;
+    public $remake;
+    public $description;
+    public $accept;
 
+    public function rules(){
+        return array(
+            'required' => array('name, torrent', 'required'),
+            'name' => array('name', 'filter', 'filter' => 'strip_tags'),
+            'torrent' => array('torrent', 'file', 'maxSize' => (OSHelper::web()->getMaxUploadSize()*1024*1024)),
+            'tags' => array('tags', 'match', 'pattern' => '~^[\p{Xan}_]+(,([\s]+|)[\p{Xan}_]+){0,}$~u'),
+            'informationUrl' => array('informationUrl', 'url', 'allowEmpty' => true),
+            'hidden' => array('hidden', 'boolean'),
+            'remake' => array('remake', 'boolean'),
+            'description' => array('description', 'filter', 'filter' => 'strip_tags'),
+            'accept' => array('accept', 'compare', 'compareValue' => 'accepted', 'allowEmpty' => false)
+        );
+    }
+
+    public function attributeLabels(){
+        if (isset(\Yii::app()->params['rulesUrl'])){
+            list($uri, $attributes) = \Yii::app()->params['rulesUrl'];
+            $url = \Yii::app()->createUrl($uri, $attributes);
+        } else {
+            $url = '#';
+        }
+
+        return array(
+            'name' => \Yii::t('form-label', 'Name'),
+            'torrent' => \Yii::t('form-label', 'Torrent'),
+            'tags' => \Yii::t('form-label', 'Tags'),
+            'informationUrl' => \Yii::t('form-label', 'Information URL'),
+            'hidden' => \Yii::t('form-label', 'Hidden'),
+            'remake' => \Yii::t('form-label', 'Remake'),
+            'description' => \Yii::t('form-label', 'Description'),
+            'accept' => \Yii::t('form-label', 'I have read the <a href="{url}" >rules</a>, and I understand that failure to comply will result in the removal of my torrent.', array(
+                '{url}' => $url
+            ))
+        );
+    }
 }

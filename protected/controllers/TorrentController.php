@@ -7,6 +7,15 @@
 
 class TorrentController extends BaseController {
     public function actionCreate(){
-        $this->render('create');
+        $form = new CreateTorrentForm();
+        $post = \Yii::app()->request->getPost(get_class($form));
+
+        $form->setAttributes($post);
+
+        if (isset($post) && $form->validate()){
+            //TODO create new torrent
+        }
+
+        $this->render('create', array('formModel' => $form));
     }
 }

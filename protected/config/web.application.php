@@ -105,12 +105,6 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
-				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
-				*/
 			),
 		),
 	),
@@ -119,6 +113,12 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		'adminEmail'=>'root@mailserver.com',
+
+        //Is made like calling createUrl method 1st - path, 2nd GET params
+        'rulesUrl' => array(
+            '/index/page',
+            array('view' => 'rules')
+        )
 	),
 );

@@ -63,6 +63,7 @@ class MenuData {
                 && strcmp($action, $appAction) === 0
             ) {
                 $items[$key]['active'] = true;
+                $items[$key]['url'] = '#';
             } else if (
                 isset($module, $appModule)
                 && strcmp($module, $appModule) === 0
@@ -70,6 +71,7 @@ class MenuData {
                 && strcmp($action, $appAction) === 0
             ){
                 $items[$key]['active'] = true;
+                $items[$key]['url'] = '#';
             }
         }
 
