@@ -16,6 +16,7 @@
  * @property integer $total_seeds
  * @property integer $total_leachers
  * @property integer $total_downloaded
+ * @property string $tags
  * @property integer $raiting
  * @property integer $total_comments
  * @property string $last_comment_date
@@ -47,10 +48,11 @@ abstract class BaseTorrentMeta extends GxActiveRecord {
 			array('total_seeds, total_leachers, total_downloaded, raiting, total_comments', 'numerical', 'integerOnly'=>true),
 			array('torrent_id', 'length', 'max'=>11),
 			array('created_by', 'length', 'max'=>100),
+			array('tags', 'length', 'max'=>256),
 			array('last_comment_responder', 'length', 'max'=>45),
 			array('creation_date, comment, last_comment_date', 'safe'),
-			array('created_by, creation_date, comment, total_seeds, total_leachers, total_downloaded, raiting, total_comments, last_comment_date, last_comment_responder', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('torrent_id, created_by, creation_date, comment, total_seeds, total_leachers, total_downloaded, raiting, total_comments, last_comment_date, last_comment_responder', 'safe', 'on'=>'search'),
+			array('created_by, creation_date, comment, total_seeds, total_leachers, total_downloaded, tags, raiting, total_comments, last_comment_date, last_comment_responder', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('torrent_id, created_by, creation_date, comment, total_seeds, total_leachers, total_downloaded, tags, raiting, total_comments, last_comment_date, last_comment_responder', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +76,7 @@ abstract class BaseTorrentMeta extends GxActiveRecord {
 			'total_seeds' => Yii::t('app', 'Total Seeds'),
 			'total_leachers' => Yii::t('app', 'Total Leachers'),
 			'total_downloaded' => Yii::t('app', 'Total Downloaded'),
+			'tags' => Yii::t('app', 'Tags'),
 			'raiting' => Yii::t('app', 'Raiting'),
 			'total_comments' => Yii::t('app', 'Total Comments'),
 			'last_comment_date' => Yii::t('app', 'Last Comment Date'),
@@ -92,6 +95,7 @@ abstract class BaseTorrentMeta extends GxActiveRecord {
 		$criteria->compare('total_seeds', $this->total_seeds);
 		$criteria->compare('total_leachers', $this->total_leachers);
 		$criteria->compare('total_downloaded', $this->total_downloaded);
+		$criteria->compare('tags', $this->tags, true);
 		$criteria->compare('raiting', $this->raiting);
 		$criteria->compare('total_comments', $this->total_comments);
 		$criteria->compare('last_comment_date', $this->last_comment_date, true);
