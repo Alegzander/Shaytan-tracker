@@ -20,7 +20,11 @@ return array(
         'application.helpers.*',
         'composer.richthegeek.phpsass.*',
         'application.modules.srbac.controllers.SBaseController', // SRBAC
-        'ext.giix-components.*'
+        'ext.giix-components.*',
+
+        'application.extensions.MongoYii.*',
+        'application.extensions.MongoYii.validators.*',
+        'application.extensions.MongoYii.behaviors.*'
 	),
 
 	'modules'=>array(
