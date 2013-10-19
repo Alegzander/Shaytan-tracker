@@ -18,7 +18,10 @@
 <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'method' => 'POST',
-    'type' => TbActiveForm::TYPE_HORIZONTAL
+    'type' => TbActiveForm::TYPE_HORIZONTAL,
+    'htmlOptions' => array(
+        'enctype' => 'multipart/form-data'
+    )
 ));
 ?>
 <!--Name field-->

@@ -21,7 +21,13 @@ class CreateTorrentForm extends CFormModel {
         return array(
             'required' => array('name, torrent, tags', 'required'),
             'name' => array('name', 'filter', 'filter' => 'strip_tags'),
-            'torrent' => array('torrent', 'file', 'maxSize' => (OSHelper::web()->getMaxUploadSize()*1024*1024)),
+
+            'torrent' => array('torrent', 'file',
+                'maxSize' => (OSHelper::web()->getMaxUploadSize()*1024*1024),
+                'types' => 'torrent',
+                'mimeTypes' => 'application/x-bittorrent',
+                'allowEmpty' => false),
+
             'tags' => array('tags', 'match', 'pattern' => '~^[\p{Xan}_]+(,([\s]+|)[\p{Xan}_]+){0,}$~u'),
             'informationUrl' => array('informationUrl', 'url', 'allowEmpty' => true),
             'hidden' => array('hidden', 'boolean', 'allowEmpty' => true),
