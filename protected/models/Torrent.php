@@ -1,10 +1,29 @@
 <?php
+/**
+ * User: alegz
+ * Date: 10/16/13
+ * Time: 12:07 AM
+ */
 
-Yii::import('application.models._base.BaseTorrent');
+class Torrent extends EMongoDocument {
+    public $info;
+    public $announce;
+    public $announceList;
+    public $creationDate;
+    public $comment;
+    public $createdBy;
+    public $encoding = 'UTF-8';
 
-class Torrent extends BaseTorrent
-{
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public function collectionName(){
+        return 'torrent';
+    }
+
+    /**
+     * @return TorrentFile
+     */
+    public static function model(){
+        return parent::model(__CLASS__);
+    }
+
+
 }
