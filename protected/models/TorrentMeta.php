@@ -66,4 +66,28 @@ class TorrentMeta extends EMongoDocument
             array('hash, tags, dateCreated, dateUpdated', 'safe')
         );
     }
+    
+    public function attributeLabels(){
+        return array(
+            'name' => \Yii::t('form-label', 'Name'),
+            'hash' => \Yii::t('form-label', 'Hash'),
+            'size' => \Yii::t('form-label', 'Size'),
+            'informationUrl' => \Yii::t('form-label', 'Information URL'),
+            'description' => \Yii::t('form-label', 'Description'),
+            'hidden' => \Yii::t('form-label', 'Hidden'),
+            'suspend' => \Yii::t('form-label', 'Suspend'),
+            'remake' => \Yii::t('form-label', 'Remake'),
+            'status' => \Yii::t('form-label', 'Status'),
+            'numSeeds' => \Yii::t('form-label', 'Number of seeds'),
+            'numLeachers' => \Yii::t('form-label', 'Number of leachers'),
+            'numDownloaded' => \Yii::t('form-label', 'Number downloaded'),
+            'tags' => \Yii::t('form-label', 'Tags'),
+            'rating' => \Yii::t('form-label', 'Rating'),
+            'numComments' => \Yii::t('form-label', 'Number of comments'),
+            'lastCommentDate' => \Yii::t('form-label', 'Last comment date'),
+            'lastCommentResponder' => \Yii::t('form-label', 'Last comment responder'),
+            'dateCreated' => \Yii::t('form-label', 'Date created'),
+            'dateUpdated' => \Yii::t('form-label', 'Date updated'),
+        );
+    }
 }

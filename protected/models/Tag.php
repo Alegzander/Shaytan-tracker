@@ -3,6 +3,7 @@
 class Tag extends EMongoDocument
 {
     public $tag;
+    public $torrents = array();
 
     public function collectionName(){
         return 'tag';

@@ -6,6 +6,15 @@
  */
 
 class TorrentController extends BaseController {
+    public function actions(){
+        return array(
+            'captcha'=>array(
+                'class'=>'CCaptchaAction',
+                'backColor'=>0xFFFFFF,
+            ),
+        );
+    }
+
     public function actionCreate(){
         $this->setPageTitle(\Yii::t('app', 'Upload torrent.'));
         $form = new CreateTorrentForm();
@@ -45,6 +54,8 @@ class TorrentController extends BaseController {
                 if (isset($torrent->info['files']) && is_array($torrent->info['files']))
                     foreach ($torrent->info['files'] as $file)
                         $torrentMeta->size += intval($file['length']);
+                else
+                    $torrentMeta->size = intval($torrent->info['length']);
 
                 if (!$torrent->save())
                     $form->addError('torrent', \Yii::t('error', 'Could not save torrent file.'));
@@ -54,10 +65,27 @@ class TorrentController extends BaseController {
 
                 if (!$torrentMeta->save()){
                     $form->addError('torrent', \Yii::t('error', 'Failed to validate meta data.'));
-                    $torrent->delete();
+
+                    if (!$torrent->getIsNewRecord())
+                        $torrent->delete();
                 }
 
-                $this->redirect($this->createUrl('view', array('id' => $torrentMeta->torrentId)));
+                foreach ($tags as $tagName){
+                    $tag = Tag::model()->findOne(array('tag' => $tagName));
+
+                    if (!isset($tag))
+                        $tag = new Tag();
+
+                    $tag->tag = $tagName;
+
+                    array_push($tag->torrents, $torrentMeta->torrentId);
+
+                    $tag->save();
+                    unset($tag);
+                }
+
+                if (!$torrent->hasErrors() && !$torrentMeta->hasErrors() && !$form->hasErrors())
+                    $this->redirect($this->createUrl('/torrent/view', array('id' => $torrentMeta->torrentId)));
             } else {
                 $form->addError('torrent', \Yii::t('error', 'Torrent was already uploaded early.'));
             }
@@ -77,5 +105,7 @@ class TorrentController extends BaseController {
             throw new CHttpException(403, \Yii::t('error', 'Invalid id "{id}" or torrent is blocked.', array(
                 '{id}' => $id
             )));
+
+        $this->render('view', array('torrent' => $torrent));
     }
 }

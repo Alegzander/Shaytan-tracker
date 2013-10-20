@@ -73,6 +73,15 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <!--Accept rules-->
 <?=$form->checkBoxRow($formModel, 'accept', array('value' => 'accepted'));?>
+
+<!--<div class="control-group">-->
+<!--    <div class="controls">-->
+<!--        <img src="--><?//=$this->createUrl('/site/captcha');?><!--" alt="captcha" />-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--Captcha-->
+<?=$form->captchaRow($formModel, 'captcha');?>
 <div class="form-actions well">
     <?php
     $this->widget('bootstrap.widgets.TbButton', array(

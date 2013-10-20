@@ -78,16 +78,16 @@ return array(
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'urlFormat'=>'path',
+            'showScriptName' => false,
 			'rules'=>array(
-				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
+				'<controller:\w+>/<id:[0-9a-fA-F]{24}>'=>'<controller>/view',
+				'<controller:\w+>/<action:\w+>/<id:[0-9a-fA-F]{24}>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
         'bootstrap' => array(
             'class'         => 'ext.YiiBooster.components.Bootstrap',
             'responsiveCss' => false,
-//            'enableJS' => false //Debugging
         ),
         'sass'         => array(
             'class' => 'ext.Sass',

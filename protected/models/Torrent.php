@@ -38,7 +38,7 @@ class Torrent extends EMongoDocument {
     public function rules(){
         return array(
             array('info, announce', 'required'),
-            array('announce', 'url', 'allowEmpty' => false),
+            array('announce', 'match', 'pattern' => '%^(((https|http|udp|tcp)?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i', 'allowEmpty' => false),
             array('publisher_url', 'url', 'allowEmpty' => true),
             array('comment, publisher, createdBy', 'filter', 'filter' => 'strip_tags'),
             array('creationDate', 'numerical', 'integerOnly' => true, 'allowEmpty' => true),
