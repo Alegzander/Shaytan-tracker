@@ -35,12 +35,13 @@ class TorrentMeta extends EMongoDocument
                 'createAttribute' => 'dateCreated',
                 'updateAttribute' => 'dateUpdated',
                 'notOnScenario' => array('search'),
+                'timestampExpression' => 'time()',
                 'setUpdateOnCreate' => true
             )
         );
     }
     
-    public function getCollection(){
+    public function collectionName(){
         return 'torrent_meta';
     }
     
@@ -51,22 +52,18 @@ class TorrentMeta extends EMongoDocument
     public function rules(){
         return array(
             array('torrentId, name, hash, size, hidden, remake, suspend, status, dateCreated, dateUpdated', 'required'),
+            array('torrentId', 'EMongoExistValidator', 'className' => 'Torrent', 'attributeName' => '_id', 'allowEmpty' => false),
             array('torrentId', 'EMongoIdValidator', 'allowEmpty' => false),
-            array('torrentId', 'EMongoExistValidator', 'className' => 'Torrent', 'attributeName' => '_id'),
             array('name', 'filter', 'filter' => 'strip_tags'),
-            array('name', 'length', 'min' => 1, 'max' => 100, 'allowEmpty' => true),
-
-            array('hash', 'match',
-                'pattern' => '/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/',
-                'allowEmpty' => false),
+            array('name', 'filter', 'filter' => 'trim'),
 
             array('size', 'EMongoIntegerValidator', 'type' => EMongoIntegerValidator::INT64, 'allowEmpty' => false),
             array('numSeeds, numLeachers, numDownloaded, numComments, rating', 'numerical', 'integerOnly' => true, 'min' => 0),
             array('hidden, suspend, remake', 'boolean', 'trueValue' => EnabledState::ENABLED, 'falseValue' => EnabledState::DISABLED, 'strict' => true),
             array('status', 'in', 'range' => ETorrentStatus::getEnums(), 'allowEmpty' => false),
             array('informationUrl', 'url', 'allowEmpty' => true),
-            array('description', 'filter' => 'strip_tags'),
-            array('tags, dateCreated, dateUpdated', 'safe')
+            array('description', 'filter', 'filter' => 'strip_tags'),
+            array('hash, tags, dateCreated, dateUpdated', 'safe')
         );
     }
 }

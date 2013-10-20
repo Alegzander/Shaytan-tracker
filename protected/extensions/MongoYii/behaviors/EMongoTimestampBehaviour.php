@@ -79,12 +79,12 @@ class EMongoTimestampBehaviour extends CActiveRecordBehavior {
 	public $timestampExpression;
 
 	/**
-	 * Responds to {@link CModel::onBeforeSave} event.
+	 * Responds to {@link CModel::onBeforeValidate} event.
 	 * Sets the values of the creation or modified attributes as configured
 	 *
 	 * @param CModelEvent $event event parameter
 	 */
-	public function beforeSave($event) {
+	public function beforeValidate($event) {
 		if ($this->checkScenarios()) {
 			if ($this->getOwner()->getIsNewRecord() && ($this->createAttribute !== null)) {
 				$this->getOwner()->{$this->createAttribute} = $this->getTimestampByAttribute($this->createAttribute);

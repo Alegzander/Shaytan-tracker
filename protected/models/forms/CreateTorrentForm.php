@@ -19,7 +19,7 @@ class CreateTorrentForm extends CFormModel {
 
     public function rules(){
         return array(
-            'required' => array('name, torrent, tags', 'required'),
+            'required' => array('torrent, tags', 'required'),
             'name' => array('name', 'filter', 'filter' => 'strip_tags'),
 
             'torrent' => array('torrent', 'file',
@@ -32,8 +32,9 @@ class CreateTorrentForm extends CFormModel {
             'informationUrl' => array('informationUrl', 'url', 'allowEmpty' => true),
             'hidden' => array('hidden', 'boolean', 'allowEmpty' => true),
             'remake' => array('remake', 'boolean', 'allowEmpty' => true),
-            'descriptionFromFile' => array('descriptionFromFile', 'safe'),
+            'descriptionFromFile' => array('descriptionFromFile', 'boolean'),
             'description' => array('description', 'filter', 'filter' => 'strip_tags'),
+            'trimDescription' => array('description', 'filter', 'filter' => 'trim'),
             'accept' => array('accept', 'compare', 'compareValue' => 'accepted', 'allowEmpty' => false,
                 'message' => \Yii::t('form-label', 'You can not post without accepting our rules.'))
         );

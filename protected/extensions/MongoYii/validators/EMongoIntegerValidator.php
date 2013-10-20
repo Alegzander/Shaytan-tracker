@@ -17,7 +17,7 @@ class EMongoIntegerValidator extends CValidator {
      * @var int Integer type. Can be 32 or 64. You can use validators constants.
      * Default to 32 bit integer.
      */
-    public $type = static::INT32;
+    public $type = self::INT32;
 
     protected function validateAttribute($model, $attribute){
         $value = $model->{$attribute};
@@ -46,7 +46,7 @@ class EMongoIntegerValidator extends CValidator {
         if (is_object($value) && $this->type === static::INT64 && $value instanceof MongoInt64)
             return;
 
-        if (is_string($value) || is_int($value)){
+        if (is_string($value) && is_numeric($value) || is_int($value)){
             $model->{$attribute} = $this->type === static::INT32?new MongoInt32($value):new MongoInt64($value);
         } else if (is_object($value)) {
             if ($this->isEmpty($value))

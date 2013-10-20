@@ -47,7 +47,7 @@ class Torrent extends EMongoDocument {
     }
 
     /**
-     * @return TorrentFile
+     * @return Torrent
      */
     public static function model(){
         return parent::model(__CLASS__);

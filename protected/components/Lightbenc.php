@@ -63,7 +63,8 @@ class Lightbenc{
     public static function bencode(&$d){
         if(is_array($d)){
             $ret="l";
-            if($d["isDct"]){
+            $isDict = false;
+            if(isset($d["isDct"]) && $d["isDct"] === true){
                 $isDict=1;
                 $ret="d";
                 // this is required by the specs, and BitTornado actualy chokes on unsorted dictionaries
