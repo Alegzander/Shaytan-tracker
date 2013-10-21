@@ -26,7 +26,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 ?>
 <!--Name field-->
 <?=$form->textFieldRow($formModel, 'name', array(
-        'hint' => \Yii::t('form-label', 'Here you put name of torrent that will be displayed in list.')
+        'hint' => \Yii::t('form-label', 'Here you put name of torrent that will be displayed in list. (Optional)')
 ));?>
 
 <!--Torrent field-->
@@ -65,7 +65,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?=$form->checkBoxRow($formModel, 'remake');?>
 
 <!--Description-->
-<?php $this->renderPartial('_description-field', array(
+<?php $this->renderPartial('create/_description-field', array(
     'form' => $form, 'formModel' => $formModel,
     'descriptionFieldName' => 'description',
     'descriptionFromFileFieldName' => 'descriptionFromFile'

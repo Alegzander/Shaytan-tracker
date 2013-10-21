@@ -11,14 +11,6 @@ $torrentMeta = $torrent->meta;
 ?>
 <div class="container well">
 <table class="table table-condensed" style="font-size: 12px;">
-    <thead>
-
-    <tr>
-        <td colspan="3"></td>
-        <td class="span1"><a href="#">??<?=\Yii::t('app', 'Abuse');?></a></td>
-    </tr>
-
-    </thead>
     <tbody>
 
     <tr>
@@ -44,26 +36,13 @@ $torrentMeta = $torrent->meta;
         <td class="span1"><strong></strong></td>
         <td class="span5"></td>
         <td class="span1"><strong><?=$torrentMeta->getAttributeLabel('size')?>:</strong</td>
-        <td class="span5"><?=$torrentMeta->size;?></td>
+        <td class="span5"><?=OSHelper::fileSystem()->getSizeLabel($torrentMeta->size);?></td>
     </tr>
     <tr>
         <td class="span1"><?=$torrentMeta->getAttributeLabel('rating')?>:</td>
         <td class="span5"><?php $this->renderPartial('view/_rating', array('rating' => $torrentMeta->rating)); ?></td>
         <td class="span1"><strong><?=\Yii::t('form-label', 'Download');?>:</strong</td>
-        <td class="span5">
-            <div class="btn-group">
-                <a href="&nbsp">
-                    <button class="btn">
-                        <span style="font-size: 12px; line-height: 14px;">.torrent</span>
-                    </button>
-                </a>
-                <a href="&nbsp/filetype/txt">
-                    <button class="btn">
-                        <span style="font-size: 12px; line-height: 14px;">.txt</span>
-                    </button>
-                </a>
-            </div>
-        </td>
+        <td class="span5"><?php $this->renderPartial('view/_download', array('id' => $torrentMeta->torrentId)); ?></td>
     </tr>
 
     </tbody>

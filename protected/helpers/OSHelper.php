@@ -6,6 +6,7 @@
  */
 use application\helpers\OS\Path;
 use application\helpers\OS\Web;
+use \application\helpers\OS\FileSystem;
 
 class OSHelper {
 	public static function path(){
@@ -14,5 +15,9 @@ class OSHelper {
 
     public static function web(){
         return new Web();
+    }
+
+    public static function fileSystem(){
+        return new FileSystem();
     }
 }

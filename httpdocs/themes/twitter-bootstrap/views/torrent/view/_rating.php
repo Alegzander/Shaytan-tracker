@@ -10,14 +10,14 @@
 $this->widget('bootstrap.widgets.TbButtonGroup', array(
     'buttons' => array(
         array(
-            'label' => '+',
+            'icon' => 'plus',
             'url' => '#'
         ),
         array(
             'label' => $rating,
         ),
         array(
-            'label' => '-',
+            'icon' => 'minus',
             'url' => '#'
         )
     )
