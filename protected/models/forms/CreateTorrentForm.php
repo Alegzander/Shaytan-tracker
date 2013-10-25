@@ -16,7 +16,6 @@ class CreateTorrentForm extends CFormModel {
     public $descriptionFromFile = EnabledState::DISABLED;
     public $description;
     public $accept;
-    public $captcha;
 
     public function rules(){
         return array(
@@ -38,7 +37,6 @@ class CreateTorrentForm extends CFormModel {
             'trimDescription' => array('description', 'filter', 'filter' => 'trim'),
             'accept' => array('accept', 'compare', 'compareValue' => 'accepted', 'allowEmpty' => false,
                 'message' => \Yii::t('form-label', 'You can not post without accepting our rules.')),
-            'captcha' => array('captcha', 'captcha', 'allowEmpty' => false, 'caseSensitive' => true)
         );
     }
 
