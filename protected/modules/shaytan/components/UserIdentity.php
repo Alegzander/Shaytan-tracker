@@ -7,7 +7,7 @@
  */
 class UserIdentity extends CUserIdentity
 {
-	/**
+    /**
 	 * Authenticates a user.
 	 * The example implementation makes sure if the username and password
 	 * are both 'demo'.
@@ -26,7 +26,9 @@ class UserIdentity extends CUserIdentity
 			return static::ERROR_USERNAME_INVALID;
 		else if (!$user->checkPassword($this->password))
             return static::ERROR_PASSWORD_INVALID;
-		else
+		else {
             return static::ERROR_NONE;
+        }
+
 	}
 }

@@ -12,6 +12,7 @@ class m131014_180818_add_root_and_operator_users extends CDbMigration
         $root->email = 'root@mailserver.com';
         $root->setPassword('shaytan');
         $root->suspend = EnabledState::DISABLED; //Means that user is enabled
+        $root->updater = 'system';
 
         if (!$root->save()){
             var_dump($root->getErrors());
@@ -25,6 +26,7 @@ class m131014_180818_add_root_and_operator_users extends CDbMigration
         $operator->email = 'operator@mailserver.com';
         $operator->setPassword('shaytan-tracker');
         $operator->suspend = EnabledState::DISABLED;
+        $operator->updater = 'system';
 
         if (!$operator->save()){
             var_dump($root->getErrors());

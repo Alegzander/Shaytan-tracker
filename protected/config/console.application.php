@@ -22,6 +22,7 @@ return array(
 
 	// application components
 	'components'=>array(
+        'db'=>array('connectionString' => 'sqlite:'.dirname(__DIR__).DS.'data'.DS.'migrations.db',),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -32,11 +33,8 @@ return array(
 			),
 		),
         'authManager'  => array(
-            'class'           => 'application.modules.srbac.components.SDbAuthManager',
-            'connectionID'    => 'db',
-            'itemTable'       => 'auth_item',
-            'assignmentTable' => 'auth_assignment',
-            'itemChildTable'  => 'auth_item_child',
+            'class'           => 'EMongoAuthManager',
+            'connectionID'    => 'mongodb',
         ),
 	),
 );

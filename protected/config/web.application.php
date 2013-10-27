@@ -71,11 +71,8 @@ return array(
             'loginUrl'        => '/shaytan/login'
 		),
         'authManager'  => array(
-            'class'           => 'srbac.components.SDbAuthManager',
-            'connectionID'    => 'db',
-            'itemTable'       => 'auth_item',
-            'assignmentTable' => 'auth_assignment',
-            'itemChildTable'  => 'auth_item_child',
+            'class'           => 'EMongoAuthManager',
+            'connectionID'    => 'mongodb',
         ),
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(

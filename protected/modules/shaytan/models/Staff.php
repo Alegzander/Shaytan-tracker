@@ -8,7 +8,7 @@ class Staff extends EMongoDocument
     public $password;
     public $email;
     public $salt;
-    public $suspend;
+    public $suspend = EnabledState::DISABLED;
     public $updater;
     public $date_created;
     public $date_updated;
@@ -28,12 +28,28 @@ class Staff extends EMongoDocument
         return array(
             'EMongoTimestampBehaviour' => array(
                 'class' => 'EMongoTimestampBehaviour',
-                'createAttribute' => 'dateCreated',
-                'updateAttribute' => 'dateUpdated',
+                'createAttribute' => 'date_created',
+                'updateAttribute' => 'date_updated',
                 'notOnScenario' => array('search'),
                 'timestampExpression' => 'time()',
                 'setUpdateOnCreate' => true
             )
+        );
+    }
+
+    public function rules(){
+        if (isset(\Yii::app()->user))
+            $userId = \Yii::app()->user->getId();
+
+        return array(
+            array('username, password, email, salt, date_created, date_updated, suspend, updater', 'required'),
+            array('username', 'EMongoUniqueValidator', 'className' => 'Staff', 'attributeName' => 'username',
+                'allowEmpty' => false),
+            array('email', 'email', 'allowEmpty' => false),
+            array('suspend', 'boolean', 'strict' => true, 'trueValue' => EnabledState::DISABLED,
+                'falseValue' => EnabledState::ENABLED, 'allowEmpty' => true),
+            array('updater', 'default', 'value' => isset($userId) ? $userId : 'system'),
+            array('password, salt, update, date_created, date_updated', 'safe')
         );
     }
 
