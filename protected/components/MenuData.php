@@ -28,6 +28,50 @@ class MenuData {
         );
     }
 
+    public function adminMenu(){
+        $items = array(
+            array('label' => 'Permissions', 'htmlOptions' => array('class' => 'nav-header')),
+            'shaytan.user.create' => array(
+                'label' => \Yii::t('app', 'Create user'),
+                'url' => \Yii::app()->createUrl('/shaytan/user/create')
+            ),
+
+            'srbac.manage.index' => array(
+                'label' => \Yii::t('app', 'Manage permission items'),
+                'url' => \Yii::app()->createUrl('/srbac/manage/index')
+            ),
+
+            'srbac.assign.users' => array(
+                'label' => \Yii::t('app', 'Assign roles'),
+                'url' => \Yii::app()->createUrl('/srbac/assign/users')
+            ),
+
+            array('label' => 'Torrents', 'htmlOptions' => array('class' => 'nav-header')),
+            'shaytan.torrent.index' => array(
+                'label' => \Yii::t('app', 'Torrents list'),
+                'url' => \Yii::app()->createUrl('/shaytan/torrent/index')
+            ),
+            'shaytan.torrent.new' => array(
+                'label' => \Yii::t('app', 'New torrents'),
+                'url' => \Yii::app()->createUrl('/shaytan/torrent/index')
+            ),
+
+            array('label' => 'Abuses', 'htmlOptions' => array('class' => 'nav-header')),
+            'shaytan.abuse.index' => array(
+                'label' => \Yii::t('app', 'Abuses'),
+                'url' => \Yii::app()->createUrl('/shaytan/abuse/index')
+            ),
+
+            array('label' => 'Logout', 'htmlOptions' => array('class' => 'nav-header')),
+            'shaytan.login.logout' => array(
+                'label' => \Yii::t('app', 'Logout'),
+                'url' => \Yii::app()->createUrl('/shaytan/user/logout')
+            )
+        );
+
+        return $items;
+    }
+
     private function filterMenuItems(array $menuItems){
         $srbacDelimeter = Helper::findModule('srbac')->delimeter;
         $alwaysAllowedList = Helper::findModule('srbac')->alwaysAllowed;
@@ -44,7 +88,12 @@ class MenuData {
             } else if (count($rawKey) === 3) {
                 list($module, $controller, $action) = $rawKey;
                 $task = $module.$srbacDelimeter.ucfirst($controller).ucfirst($action);
+            } else {
+                throw new CException(\Yii::t('app', 'Invalid key "{key}".', array('{key}' => $rawKey))); //For normal autocomplete
             }
+
+            list($action, $getData) = explode('?', $action);
+            unset($getData);
 
             if (array_search($task, $alwaysAllowedList) === false && !\Yii::app()->authManager->isAssigned($task, \Yii::app()->user->getId())){
                 unset($items[$key]);

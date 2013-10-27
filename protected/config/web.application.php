@@ -68,7 +68,7 @@ return array(
             'allowAutoLogin'  => true,
             'stateKeyPrefix'  => 'client',
             'autoUpdateFlash' => false,
-            'loginUrl'        => '/admin/login'
+            'loginUrl'        => '/shaytan/login'
 		),
         'authManager'  => array(
             'class'           => 'srbac.components.SDbAuthManager',

@@ -11,7 +11,10 @@ class ShaytanModule extends CWebModule
 		$this->setImport(array(
 			'shaytan.models.*',
 			'shaytan.components.*',
+
 		));
+
+        AssetsHelper::register(array('/css/project.css'));
 	}
 
 	public function beforeControllerAction($controller, $action)
