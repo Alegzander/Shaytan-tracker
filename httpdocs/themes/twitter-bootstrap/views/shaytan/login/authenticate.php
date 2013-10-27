@@ -11,7 +11,8 @@
 Yii::import('bootstrap.widgets.TbActiveForm');
 Yii::import('bootstrap.widgets.TbButton');
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
-    'type' => TbActiveForm::TYPE_HORIZONTAL
+    'type' => TbActiveForm::TYPE_HORIZONTAL,
+//    'ajaxUpdate' => false
 ));
 ?>
 <div class="form well">

@@ -9,8 +9,10 @@ class LoginController extends ShaytanController {
     public function actions(){
         return array(
             'captcha'=>array(
-                'class'=>'CCaptchaAction',
-                'backColor'=>0xFFFFFF,
+                'class'=>'CaptchaAction',
+//                'backColor'=>0xFFFFFF,
+                'transparent' => true,
+                'paranoid' => true
             ),
         );
     }
@@ -28,8 +30,6 @@ class LoginController extends ShaytanController {
             $this->redirect($this->createUrl('/shaytan/default/index'));
         }
 
-        \Yii::app()->clientScript->registerScript('refresh-captcha',
-            $this->renderPartial('_refresh-captcha-js', array('imageCssPath' => 'div.captcha div.widget img'), true));
         $this->render('authenticate', array('model' => $form));
     }
 
