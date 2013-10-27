@@ -14,7 +14,10 @@ return array(
         'application.components.*',
         'application.components.enums.*',
         'application.helpers.*',
-        'application.extensions.giix-components.*'
+        'application.extensions.giix-components.*',
+        'application.extensions.MongoYii.*',
+        'application.extensions.MongoYii.validators.*',
+        'application.extensions.MongoYii.behaviors.*'
     ),
 
 	// application components

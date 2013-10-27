@@ -20,7 +20,7 @@ class UserIdentity extends CUserIdentity
         /**
          * @var Staff $user
          */
-        $user = Staff::model()->findByPk($this->username);
+        $user = Staff::model()->findOne(array('username' => $this->username));
 
 		if (!isset($user))
 			return static::ERROR_USERNAME_INVALID;
