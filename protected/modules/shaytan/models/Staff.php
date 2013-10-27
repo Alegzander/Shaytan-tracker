@@ -2,11 +2,40 @@
 
 Yii::import('application.models._base.BaseUser');
 
-class User extends BaseUser
+class Staff extends EMongoDocument
 {
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
+    public $username;
+    public $password;
+    public $email;
+    public $salt;
+    public $suspend;
+    public $updater;
+    public $date_created;
+    public $date_updated;
+
+    /**
+     * @return User
+     */
+    public static function model() {
+		return parent::model(__CLASS__);
 	}
+
+    public function collectionName(){
+        return 'staff';
+    }
+
+    public function behaviors(){
+        return array(
+            'EMongoTimestampBehaviour' => array(
+                'class' => 'EMongoTimestampBehaviour',
+                'createAttribute' => 'dateCreated',
+                'updateAttribute' => 'dateUpdated',
+                'notOnScenario' => array('search'),
+                'timestampExpression' => 'time()',
+                'setUpdateOnCreate' => true
+            )
+        );
+    }
 
     /**
      * @param $password
@@ -23,15 +52,8 @@ class User extends BaseUser
      * @return bool
      * @desc method to compare password with one in database
      */
-    public function comparePassword($password)
+    public function checkPassword($password)
     {
-        $newHash = sha1($this->email . $this->salt . $password);
-
-        if ($newHash != $this->password && md5($password) == $this->password){
-            $this->setPassword($password);
-            $this->save();
-        }
-
         return (sha1($this->email . $this->salt . $password) == $this->password);
     }
 

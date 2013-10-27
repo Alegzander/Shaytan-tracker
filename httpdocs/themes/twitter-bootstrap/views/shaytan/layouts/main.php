@@ -21,25 +21,7 @@
         <?php $this->renderPartial('//layouts/_alerts');?>
     </div>
     <div class="content">
-        <table>
-            <tr>
-                <td>
-                    <div id="mainmenu" class="well">
-                        <?php
-                        $menu = new MenuData();
-
-                        $this->widget('bootstrap.widgets.TbMenu', array(
-                            'type' => TbMenu::TYPE_LIST,
-                            'items' => $menu->adminMenu()
-                        ));
-                        ?>
-                    </div>
-                </td>
-                <td>
-                    <?php echo $content; ?>
-                </td>
-            </tr>
-        </table>
+        <?=$content;?>
     </div>
     <?php $this->renderPartial('//layouts/_footer'); ?>
 

@@ -65,7 +65,7 @@ class MenuData {
             array('label' => 'Logout', 'htmlOptions' => array('class' => 'nav-header')),
             'shaytan.login.logout' => array(
                 'label' => \Yii::t('app', 'Logout'),
-                'url' => \Yii::app()->createUrl('/shaytan/user/logout')
+                'url' => \Yii::app()->createUrl('/shaytan/login/logout')
             )
         );
 
@@ -92,8 +92,14 @@ class MenuData {
                 throw new CException(\Yii::t('app', 'Invalid key "{key}".', array('{key}' => $rawKey))); //For normal autocomplete
             }
 
-            list($action, $getData) = explode('?', $action);
-            unset($getData);
+            $tmp = explode('?', $action);
+
+            if (count($tmp) === 2){
+                list($action, $GET_data) = $tmp;
+                unset($GET_data);
+            }
+
+            unset($tmp);
 
             if (array_search($task, $alwaysAllowedList) === false && !\Yii::app()->authManager->isAssigned($task, \Yii::app()->user->getId())){
                 unset($items[$key]);

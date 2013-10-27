@@ -6,5 +6,5 @@
  */
 
 class ShaytanController extends SBaseController {
-    public $layout = '/layouts/main';
+    public $layout = '/layouts/menu';
 } 
