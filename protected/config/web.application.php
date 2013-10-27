@@ -28,6 +28,8 @@ return array(
 	),
 
 	'modules'=>array(
+        'shaytan',
+
 		// uncomment the following to enable the Gii tool
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',

@@ -22,7 +22,9 @@ class SiteController extends BaseController
 
 	public function actionIndex()
 	{
-		$this->render('index');
+        $torrentMeta = TorrentMeta::model();
+
+		$this->render('index', array('model' => $torrentMeta));
 	}
 
 	public function actionError()

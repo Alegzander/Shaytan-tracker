@@ -78,9 +78,9 @@ class TorrentMeta extends EMongoDocument
             'suspend' => \Yii::t('form-label', 'Suspend'),
             'remake' => \Yii::t('form-label', 'Remake'),
             'status' => \Yii::t('form-label', 'Status'),
-            'numSeeds' => \Yii::t('form-label', 'Number of seeds'),
-            'numLeachers' => \Yii::t('form-label', 'Number of leachers'),
-            'numDownloaded' => \Yii::t('form-label', 'Number downloaded'),
+            'numSeeds' => \Yii::t('form-label', 'Seeds'),
+            'numLeachers' => \Yii::t('form-label', 'Leachers'),
+            'numDownloaded' => \Yii::t('form-label', 'Downloaded'),
             'tags' => \Yii::t('form-label', 'Tags'),
             'rating' => \Yii::t('form-label', 'Rating'),
             'numComments' => \Yii::t('form-label', 'Number of comments'),
@@ -89,5 +89,11 @@ class TorrentMeta extends EMongoDocument
             'dateCreated' => \Yii::t('form-label', 'Date created'),
             'dateUpdated' => \Yii::t('form-label', 'Date updated'),
         );
+    }
+
+    public function search(){
+        return new EMongoDataProvider($this, array(
+            'criteria' => $this->getDbCriteria()
+        ));
     }
 }
