@@ -6,6 +6,8 @@
  */
 
 class LoginController extends ShaytanController {
+    public $defaultAction = 'authenticate';
+
     public function actions(){
         return array(
             'captcha'=>array(
@@ -18,6 +20,9 @@ class LoginController extends ShaytanController {
     }
 
     public function actionAuthenticate(){
+        if (!\Yii::app()->user->getIsGuest())
+            $this->redirect('/shaytan/default/index');
+
         $this->layout = '/layouts/main';
         $this->setPageTitle('Shaytan very secret control panel.');
         $form = new LoginForm();

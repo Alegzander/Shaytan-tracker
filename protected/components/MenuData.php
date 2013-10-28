@@ -61,6 +61,10 @@ class MenuData {
                 'label' => \Yii::t('app', 'Abuses'),
                 'url' => \Yii::app()->createUrl('/shaytan/abuse/index')
             ),
+            'shaytan.abuse.archive' => array(
+                'label' => \Yii::t('app', 'Abuse archive'),
+                'url' => \Yii::app()->createUrl('/shaytan/abuse/archive')
+            ),
 
             array('label' => 'Logout', 'htmlOptions' => array('class' => 'nav-header')),
             'shaytan.login.logout' => array(

@@ -27,4 +27,14 @@ class UserController extends ShaytanController{
 
         $this->render('create', array('model' => $user));
     }
+
+    public function actionView(){
+        $id = \Yii::app()->request->getQuery('id');
+        $user = User::model()->findByPk($id);
+
+        if (!isset($user))
+            throw new CHttpException(403, \Yii::t('error', 'Invalid id "{id}".', array('{id}' => $id)));
+
+        $this->render('view', array('user' => $user));
+    }
 } 
