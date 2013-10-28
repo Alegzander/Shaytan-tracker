@@ -1,8 +1,6 @@
 <?php
 
-Yii::import('application.models._base.BaseUser');
-
-class Staff extends EMongoDocument
+class User extends EMongoDocument
 {
     public $username;
     public $password;
@@ -21,7 +19,7 @@ class Staff extends EMongoDocument
 	}
 
     public function collectionName(){
-        return 'staff';
+        return 'user';
     }
 
     public function behaviors(){
@@ -43,8 +41,10 @@ class Staff extends EMongoDocument
 
         return array(
             array('username, password, email, salt, date_created, date_updated, suspend, updater', 'required'),
-            array('username', 'EMongoUniqueValidator', 'className' => 'Staff', 'attributeName' => 'username',
+            array('username, password', 'filter', 'filter' => 'trim'),
+            array('username', 'EMongoUniqueValidator', 'className' => 'User', 'attributeName' => 'username',
                 'allowEmpty' => false),
+            array('password', 'length', 'min' => 3),
             array('email', 'email', 'allowEmpty' => false),
             array('suspend', 'boolean', 'strict' => true, 'trueValue' => EnabledState::DISABLED,
                 'falseValue' => EnabledState::ENABLED, 'allowEmpty' => true),

@@ -18,16 +18,16 @@ class UserIdentity extends CUserIdentity
 	public function authenticate()
 	{
         /**
-         * @var Staff $user
+         * @var User $user
          */
-        $user = Staff::model()->findOne(array('username' => $this->username));
+        $user = User::model()->findOne(array('username' => $this->username));
 
 		if (!isset($user))
-			return static::ERROR_USERNAME_INVALID;
+			return ($this->errorCode = static::ERROR_USERNAME_INVALID);
 		else if (!$user->checkPassword($this->password))
-            return static::ERROR_PASSWORD_INVALID;
+            return ($this->errorCode = static::ERROR_PASSWORD_INVALID);
 		else {
-            return static::ERROR_NONE;
+            return ($this->errorCode = static::ERROR_NONE);
         }
 
 	}

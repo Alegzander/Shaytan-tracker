@@ -7,4 +7,8 @@
 
 class ShaytanController extends SBaseController {
     public $layout = '/layouts/menu';
+
+    public function init(){
+        Yii::import('bootstrap.widgets.TbAlert');
+    }
 } 

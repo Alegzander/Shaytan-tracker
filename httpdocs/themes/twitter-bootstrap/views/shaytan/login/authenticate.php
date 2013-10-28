@@ -17,7 +17,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 ?>
 <div class="form well">
     <?=$form->textFieldRow($model, 'username');?>
-    <?=$form->passfieldFieldRow($model, 'password');?>
+    <?=$form->passwordFieldRow($model, 'password');?>
     <?=$form->checkBoxRow($model, 'rememberMe');?>
     <?=$form->captchaRow($model, 'captcha', array('class' => 'captcha-refresh-button'));?>
     <div class="form-actions">

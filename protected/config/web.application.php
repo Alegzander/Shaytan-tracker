@@ -24,7 +24,8 @@ return array(
 
         'application.extensions.MongoYii.*',
         'application.extensions.MongoYii.validators.*',
-        'application.extensions.MongoYii.behaviors.*'
+        'application.extensions.MongoYii.behaviors.*',
+        'application.modules.shaytan.models.User'
 	),
 
 	'modules'=>array(
@@ -36,7 +37,8 @@ return array(
 			'password'=>'password',
 			'ipFilters'=>array('127.0.0.1','::1'),
             'generatorPaths' => array(
-                'ext.giix-core'
+                'ext.giix-core',
+                'bootstrap.gii'
             )
 		),
         'srbac' => array(

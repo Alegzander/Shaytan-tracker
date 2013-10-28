@@ -5,9 +5,9 @@ class m131014_180818_add_root_and_operator_users extends CDbMigration
 {
 	public function up()
 	{
-        \Yii::import('application.modules.shaytan.models.Staff');
+        \Yii::import('application.modules.shaytan.models.User');
 
-        $root = new Staff();
+        $root = new User();
         $root->username = 'root';
         $root->email = 'root@mailserver.com';
         $root->setPassword('shaytan');
@@ -21,12 +21,12 @@ class m131014_180818_add_root_and_operator_users extends CDbMigration
 
         echo 'Added root user.', NL;
 
-        $operator = new Staff();
+        $operator = new User();
         $operator->username = 'operator';
         $operator->email = 'operator@mailserver.com';
         $operator->setPassword('shaytan-tracker');
-        $operator->suspend = EnabledState::DISABLED;
         $operator->updater = 'system';
+        $operator->suspend = EnabledState::DISABLED;
 
         if (!$operator->save()){
             var_dump($root->getErrors());
