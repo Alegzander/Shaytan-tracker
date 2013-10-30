@@ -66,6 +66,16 @@ class MenuData {
                 'url' => \Yii::app()->createUrl('/shaytan/abuse/archive')
             ),
 
+            array('label' => 'Network', 'htmlOptions' => array('class' => 'nav-header')),
+            'shaytan.network.create' => array(
+                'label' => \Yii::t('app', 'Add network zone'),
+                'url' => \Yii::app()->createUrl('/shaytan/network/create')
+            ),
+            'shaytan.network.index' => array(
+                'label' => \Yii::t('app', 'Manage network zones'),
+                'url' => \Yii::app()->createUrl('/shaytan/network/index')
+            ),
+
             array('label' => 'Logout', 'htmlOptions' => array('class' => 'nav-header')),
             'shaytan.login.logout' => array(
                 'label' => \Yii::t('app', 'Logout'),
