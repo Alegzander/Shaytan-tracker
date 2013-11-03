@@ -7,7 +7,7 @@ return array(
 	'basePath'=>dirname(__DIR__),
 	'name'=>'My Web Application',
     'theme' => 'twitter-bootstrap',
-    'sourceLanguage' => '0',
+    'sourceLanguage' => '00_00',
 
 	// preloading 'log' component
 	'preload'=>array('log', 'bootstrap'),
@@ -131,6 +131,8 @@ return array(
             'en_US' => \Yii::t('config', 'English'),
             'ru_RU' => \Yii::t('config', 'Russian'),
             'uz_UZ' => \Yii::t('config', 'Uzbek')
-        )
+        ),
+        'defaultLanguage' => 'en_US',
+        'cookieExpire' => (60*60*24*365),
 	),
 );

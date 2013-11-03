@@ -16,6 +16,7 @@
  * @property CHttpRequest $request
  * @property EMongoClient $mongodb
  * @property array $params
+ * @property CHttpSession $session
  */
 class BApplication extends CWebApplication {
 

@@ -8,6 +8,18 @@
 
 class MenuData {
     public function mainMenu(){
+        $supportedLanguages = \Yii::app()->getParams()->supportedLanguages;
+        $languageItems = array();
+
+        foreach ($supportedLanguages as $code => $label)
+            array_push($languageItems, array(
+                'label' => $label,
+                'url' => \Yii::app()->createUrl($this->getCurrentUrlPath(),
+                        CMap::mergeArray($_GET, array('language' => $code))),
+                'active' => strcmp(\Yii::app()->getLanguage(), $code) === 0,
+                'disable' => strcmp(\Yii::app()->getLanguage(), $code) === 0,
+            ));
+
         $items = array(
             'site.index' => array(
                 'label' => \Yii::t('app', 'Home'),
@@ -16,6 +28,14 @@ class MenuData {
             'torrent.create' => array(
                 'label' => \Yii::t('app', 'Add torrent'),
                 'url' => \Yii::app()->createUrl('/torrent/create')
+            ),
+            '---',
+            'languageMenu' => array(
+                'class' => 'bootstrap.widgets.TbMenu',
+                'htmlOptions' => array('class' => 'pull-right'),
+                'label' => \Yii::t('form-label', 'Language: {language}',
+                        array('{language}' => $supportedLanguages[\Yii::app()->getLanguage()])),
+                'items' => $languageItems
             )
         );
 
@@ -145,5 +165,18 @@ class MenuData {
         }
 
         return $items;
+    }
+
+    private function getCurrentUrlPath(){
+        $controller = \Yii::app()->controller->id;
+        $action = \Yii::app()->controller->action->id;
+        $SP = '/';
+
+        if (isset(\Yii::app()->controller->module))
+            $path = $SP.\Yii::app()->controller->module->name.$SP.$controller.$SP.$action;
+        else
+            $path = $SP.$controller.$SP.$action;
+
+        return $path;
     }
 }
