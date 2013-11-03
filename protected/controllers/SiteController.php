@@ -23,8 +23,10 @@ class SiteController extends BaseController
 	public function actionIndex()
 	{
         $torrentMeta = TorrentMeta::model();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $network = Network::model()->findByIp($ip);
 
-		$this->render('index', array('model' => $torrentMeta));
+        $this->render('index', array('model' => $torrentMeta, 'network' => $network));
 	}
 
 	public function actionError()

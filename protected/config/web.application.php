@@ -7,6 +7,7 @@ return array(
 	'basePath'=>dirname(__DIR__),
 	'name'=>'My Web Application',
     'theme' => 'twitter-bootstrap',
+    'sourceLanguage' => '0',
 
 	// preloading 'log' component
 	'preload'=>array('log', 'bootstrap'),
@@ -125,6 +126,11 @@ return array(
         'rulesUrl' => array(
             '/index/page',
             array('view' => 'rules')
+        ),
+        'supportedLanguages' => array(
+            'en_US' => \Yii::t('config', 'English'),
+            'ru_RU' => \Yii::t('config', 'Russian'),
+            'uz_UZ' => \Yii::t('config', 'Uzbek')
         )
 	),
 );
