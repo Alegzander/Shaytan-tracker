@@ -14,7 +14,9 @@
  * @property CDbAuthManager $authManager
  * @property CController $controller
  * @property CHttpRequest $request
+ * @property EMongoClient $mongodb
  * @property array $params
+ * @property CHttpSession $session
  */
 class BApplication extends CWebApplication {
 

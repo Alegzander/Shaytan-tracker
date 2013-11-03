@@ -86,7 +86,18 @@ class TorrentController extends BaseController {
 
         AssetsHelper::register(array('/js/torrent/torrent.js'));
 
-        $this->render('create', array('formModel' => $form));
+        //Forming tag list
+        /**
+         * @var Tag[] $tags
+         */
+        $tags = Tag::model()->findAll();
+        $tagList = array();
+
+        foreach ($tags as $item){
+            array_push($tagList, $item->tag);
+        }
+
+        $this->render('create', array('formModel' => $form, 'tagList' => $tagList));
     }
 
     public function actionView(){

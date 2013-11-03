@@ -10,18 +10,11 @@ return CMap::mergeArray(
     require('console.application.php'),
     array(
         'components' => array(
-            'db'=>array(
-                'connectionString' => 'sqlite:'.dirname(__DIR__).DS.'data'.DS.'testdrive.db',
+            'mongodb' => array(
+                'class' => 'EMongoClient',
+                'server' => 'mongodb://localhost:27017',
+                'db' => 'shaytan'
             ),
-            /*
-            'db'=>array(
-                'connectionString' => 'mysql:host=localhost;dbname=testdrive',
-                'emulatePrepare' => true,
-                'username' => 'root',
-                'password' => '',
-                'charset' => 'utf8',
-            ),
-            */
         )
     )
 );

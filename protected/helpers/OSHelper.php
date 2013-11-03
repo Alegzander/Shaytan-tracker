@@ -20,4 +20,8 @@ class OSHelper {
     public static function fileSystem(){
         return new FileSystem();
     }
+
+    public static function network(){
+        return new \application\helpers\OS\Network();
+    }
 }

@@ -7,6 +7,7 @@
  * @var TorrentController $this
  * @var CreateTorrentForm $formModel
  * @var TbActiveForm $form
+ * @var array $tagList
  */
 \Yii::import('bootstrap.widgets.TbActiveForm');
 \Yii::import('bootstrap.widgets.TbButton');
@@ -47,7 +48,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?=$form->select2Row($formModel, 'tags', array(
     'asDropDownList' => false,
     'options' => array(
-        'tags' => CHtml::listData(Tag::model()->findAll(), 'tag', 'tag'),
+        'tags' => $tagList,
         'placeholder' => \Yii::t('form-label', 'Tags'),
         'tokenSeparators' => array(',')
     )

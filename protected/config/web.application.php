@@ -7,6 +7,7 @@ return array(
 	'basePath'=>dirname(__DIR__),
 	'name'=>'My Web Application',
     'theme' => 'twitter-bootstrap',
+    'sourceLanguage' => '00_00',
 
 	// preloading 'log' component
 	'preload'=>array('log', 'bootstrap'),
@@ -24,7 +25,8 @@ return array(
 
         'application.extensions.MongoYii.*',
         'application.extensions.MongoYii.validators.*',
-        'application.extensions.MongoYii.behaviors.*'
+        'application.extensions.MongoYii.behaviors.*',
+        'application.modules.shaytan.models.User'
 	),
 
 	'modules'=>array(
@@ -36,7 +38,8 @@ return array(
 			'password'=>'password',
 			'ipFilters'=>array('127.0.0.1','::1'),
             'generatorPaths' => array(
-                'ext.giix-core'
+                'ext.giix-core',
+                'bootstrap.gii'
             )
 		),
         'srbac' => array(
@@ -68,14 +71,11 @@ return array(
             'allowAutoLogin'  => true,
             'stateKeyPrefix'  => 'client',
             'autoUpdateFlash' => false,
-            'loginUrl'        => '/admin/login'
+            'loginUrl'        => '/shaytan/login'
 		),
         'authManager'  => array(
-            'class'           => 'srbac.components.SDbAuthManager',
-            'connectionID'    => 'db',
-            'itemTable'       => 'auth_item',
-            'assignmentTable' => 'auth_assignment',
-            'itemChildTable'  => 'auth_item_child',
+            'class'           => 'EMongoAuthManager',
+            'connectionID'    => 'mongodb',
         ),
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
@@ -126,6 +126,13 @@ return array(
         'rulesUrl' => array(
             '/index/page',
             array('view' => 'rules')
-        )
+        ),
+        'supportedLanguages' => array(
+            'en_US' => \Yii::t('config', 'English'),
+            'ru_RU' => \Yii::t('config', 'Russian'),
+            'uz_UZ' => \Yii::t('config', 'Uzbek')
+        ),
+        'defaultLanguage' => 'en_US',
+        'cookieExpire' => (60*60*24*365),
 	),
 );

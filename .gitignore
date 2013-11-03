@@ -5,4 +5,5 @@ run/
 protected/config/web.localhost.php
 protected/config/console.localhost.php
 protected/config/test.localhost.php
+proteced/data/migrations.db
 .idea/dataSource.*

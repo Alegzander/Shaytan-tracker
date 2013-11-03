@@ -283,6 +283,9 @@ class SrbacModule extends CWebModule
 	 */
 	public function isInstalled()
 	{
+        if (\Yii::app()->authManager instanceof EMongoAuthManager)
+            return true;
+
 		try {
 			$tables              = Yii::app()->authManager->db->schema->tableNames;
 			$itemTableName       = Yii::app()->authManager->itemTable;

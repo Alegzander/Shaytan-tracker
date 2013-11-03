@@ -2,6 +2,7 @@
 /**
  * @var SiteController $this
  * @var TorrentMeta $model
+ * @var Network $network
  */
 
 $this->widget('bootstrap.widgets.TbGridView', array(
