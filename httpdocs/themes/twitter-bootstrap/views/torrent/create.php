@@ -46,7 +46,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <!--Tags field-->
 <?=$form->select2Row($formModel, 'tags', array(
-    'asDropDownList' => false,
+        'asDropDownList' => false,
     'options' => array(
         'tags' => $tagList,
         'placeholder' => \Yii::t('form-label', 'Tags'),
@@ -61,9 +61,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <!--Is hidden-->
 <?=$form->checkBoxRow($formModel, 'hidden');?>
-
-<!--Is remake?-->
-<?=$form->checkBoxRow($formModel, 'remake');?>
 
 <!--Description-->
 <?php $this->renderPartial('create/_description-field', array(

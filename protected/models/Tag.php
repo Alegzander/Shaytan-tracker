@@ -23,4 +23,18 @@ class Tag extends EMongoDocument
             array('tag', 'EMongoUniqueValidator', 'className' => 'Tag', 'attributeName' => 'tag')
         );
     }
+
+    public function findAllByTorrentId($torrentId, $fields = array()){
+        $criteria = new EMongoCriteria($this->getDbCriteria());
+        $criteria->addCondition('torrents', $torrentId, '$in');
+
+        if (is_array($torrentId)){
+            foreach ($torrentId as $key => $value)
+                $torrentId[$key] = new MongoId($value);
+        } else if (is_string($torrentId)) {
+            $torrentId = array(new MongoId($torrentId));
+        }
+
+        return $this->findAll(array('torrents' => array('$in' => $torrentId)), $fields);
+    }
 }

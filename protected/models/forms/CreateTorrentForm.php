@@ -11,7 +11,6 @@ class CreateTorrentForm extends CFormModel {
     public $tags;
     public $informationUrl;
     public $hidden;
-    public $remake;
     //Take description from comment value in torrent file
     public $descriptionFromFile = EnabledState::DISABLED;
     public $description;
@@ -31,7 +30,6 @@ class CreateTorrentForm extends CFormModel {
             'tags' => array('tags', 'match', 'pattern' => '~^[\p{Xan}_]+(,([\s]+|)[\p{Xan}_]+){0,}$~u'),
             'informationUrl' => array('informationUrl', 'url', 'allowEmpty' => true),
             'hidden' => array('hidden', 'boolean', 'allowEmpty' => true),
-            'remake' => array('remake', 'boolean', 'allowEmpty' => true),
             'descriptionFromFile' => array('descriptionFromFile', 'boolean'),
             'description' => array('description', 'filter', 'filter' => 'strip_tags'),
             'trimDescription' => array('description', 'filter', 'filter' => 'trim'),

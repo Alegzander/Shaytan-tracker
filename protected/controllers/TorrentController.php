@@ -39,7 +39,6 @@ class TorrentController extends BaseController {
                 $torrentMeta->description = intval($form->descriptionFromFile) === EnabledState::DISABLED ? $form->description : $torrent->comment;
                 $torrentMeta->informationUrl = $form->informationUrl;
                 $torrentMeta->hidden = intval($form->hidden);
-                $torrentMeta->remake = intval($form->remake);
                 $torrentMeta->tags = $tags;
 
                 if (isset($torrent->info['files']) && is_array($torrent->info['files']))
@@ -108,6 +107,62 @@ class TorrentController extends BaseController {
                 '{id}' => $id
             )));
 
-        $this->render('view', array('torrent' => $torrent));
+        $editAllowed = true;
+
+        $tags = Tag::model()->findAll();
+        $tagList = array();
+
+        foreach ($tags as $item){
+            array_push($tagList, $item->tag);
+        }
+
+        $this->render('view', array('torrent' => $torrent, 'tagList' => $tagList, 'editAllowed' => $editAllowed));
+    }
+
+    public function actionUpdate(){
+        if (!\Yii::app()->request->getIsAjaxRequest())
+            throw new CHttpException(403);
+
+        $id = \Yii::app()->request->getPost('pk');
+        $name = \Yii::app()->request->getPost('name');
+        $value = \Yii::app()->request->getPost('value');
+
+        $torrentMeta = TorrentMeta::model()->findByPk($id);
+
+        if (!isset($torrentMeta))
+            throw new CHttpException(403);
+
+        $torrentMeta->setAttribute($name, $value);
+
+        if (!$torrentMeta->save(true, array($name))){
+            throw new CHttpException(418, $torrentMeta->getError($name));
+        }
+    }
+
+    public function actionDelete(){
+        $id = \Yii::app()->request->getQuery('id');
+
+        if (($torrent = Torrent::model()->findByPk($id)) === null)
+            throw new CHttpException(403, \Yii::t('error', 'Invalid id "{id}".', array('{id}' => $id)));
+
+        $tags = Tag::model()->findAllByTorrentId($id);
+
+        while (($tag = $tags->getNext())){
+            $matchedKeys = array_keys($tag->torrents, $id);
+
+            foreach ($matchedKeys as $key)
+                unset($tag->torrents[$key]);
+
+            if (count($tag->torrents) === 0)
+                $tag->delete();
+            else
+                $tag->save();
+        }
+
+        $torrentMeta = $torrent->meta;
+        $torrentMeta->delete();
+        $torrent->delete();
+
+        $this->redirect('/site/index');
     }
 }
