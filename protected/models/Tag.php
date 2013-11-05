@@ -25,8 +25,7 @@ class Tag extends EMongoDocument
     }
 
     public function findAllByTorrentId($torrentId, $fields = array()){
-        $criteria = new EMongoCriteria($this->getDbCriteria());
-        $criteria->addCondition('torrents', $torrentId, '$in');
+        $criteria = new EMongoCriteria();
 
         if (is_array($torrentId)){
             foreach ($torrentId as $key => $value)
@@ -35,6 +34,27 @@ class Tag extends EMongoDocument
             $torrentId = array(new MongoId($torrentId));
         }
 
-        return $this->findAll(array('torrents' => array('$in' => $torrentId)), $fields);
+        $criteria->addCondition('torrents', $torrentId, '$in');
+        $this->mergeDbCriteria($criteria);
+
+        return $this->findAll($this->getDbCriteria(), $fields);
+    }
+
+    /**
+     * @param array|string $tag
+     * @param array $fields
+     * @return Tag|null
+     */
+    public function findByTag($tag, $fields = array()){
+        $criteria = new EMongoCriteria();
+        if (is_string($tag)){
+            $criteria->addCondition('tag', $tag);
+        } else if (is_array($tag)){
+            $criteria->addCondition('tag', $tag, '$in');
+        }
+
+        $this->mergeDbCriteria($criteria);
+
+        return $this->findOne(array(), $fields);
     }
 }

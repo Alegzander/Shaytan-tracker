@@ -134,5 +134,6 @@ return array(
         ),
         'defaultLanguage' => 'en_US',
         'cookieExpire' => (60*60*24*365),
+        'allowEditExpire' => 1800,
 	),
 );

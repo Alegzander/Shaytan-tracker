@@ -74,8 +74,12 @@ class TorrentController extends BaseController {
                     unset($tag);
                 }
 
-                if (!$torrent->hasErrors() && !$torrentMeta->hasErrors() && !$form->hasErrors())
+                if (!$torrent->hasErrors() && !$torrentMeta->hasErrors() && !$form->hasErrors()){
+                    $expireTime = \Yii::app()->getParams()->allowEditExpire;
+                    \Yii::app()->session->add(strval($torrentMeta->torrentId), time()+$expireTime);
+
                     $this->redirect($this->createUrl('/torrent/view', array('id' => $torrentMeta->torrentId)));
+                }
             } else {
                 $form->addError('torrent', \Yii::t('error', 'Torrent was already uploaded early.'));
             }
@@ -107,7 +111,8 @@ class TorrentController extends BaseController {
                 '{id}' => $id
             )));
 
-        $editAllowed = true;
+        $editAllowed = ( $expireTime = \Yii::app()->session->get(strval($torrent->getPrimaryKey())) ) !== null
+            && time() <= $expireTime;
 
         $tags = Tag::model()->findAll();
         $tagList = array();
@@ -132,11 +137,39 @@ class TorrentController extends BaseController {
         if (!isset($torrentMeta))
             throw new CHttpException(403);
 
+        if (strcmp($name, 'tags') === 0){
+            $oldTagList = $torrentMeta->tags;
+            $newTagList = $value;
+        }
+
         $torrentMeta->setAttribute($name, $value);
 
         if (!$torrentMeta->save(true, array($name))){
             throw new CHttpException(418, $torrentMeta->getError($name));
+        } else {
+            if (isset($oldTagList, $newTagList)){
+                foreach ($oldTagList as $tag){
+                    if (!in_array(trim($tag), $newTagList))
+                        TagHelper::removeTorrentFromTag($tag, $torrentMeta->torrentId);
+                }
+
+                unset($tag);
+
+                foreach ($newTagList as $tag){
+                    if (!in_array($tag, $oldTagList)){
+                        if (($tagModel = Tag::model()->findByTag($tag)) === null){
+                            $tagModel = new Tag;
+                            $tagModel->tag = $tag;
+                        }
+
+                        array_push($tagModel->torrents, $torrentMeta->torrentId);
+                        $tagModel->save();
+                    }
+                }
+            }
         }
+
+        \Yii::app()->session->add(strval($torrentMeta->torrentId), time()+\Yii::app()->getParams()->allowEditExpire);
     }
 
     public function actionDelete(){
@@ -145,20 +178,9 @@ class TorrentController extends BaseController {
         if (($torrent = Torrent::model()->findByPk($id)) === null)
             throw new CHttpException(403, \Yii::t('error', 'Invalid id "{id}".', array('{id}' => $id)));
 
-        $tags = Tag::model()->findAllByTorrentId($id);
+        TagHelper::removeTorrent($torrent->getPrimaryKey());
 
-        while (($tag = $tags->getNext())){
-            $matchedKeys = array_keys($tag->torrents, $id);
-
-            foreach ($matchedKeys as $key)
-                unset($tag->torrents[$key]);
-
-            if (count($tag->torrents) === 0)
-                $tag->delete();
-            else
-                $tag->save();
-        }
-
+        \Yii::app()->session->remove(strval($torrent->getPrimaryKey()));
         $torrentMeta = $torrent->meta;
         $torrentMeta->delete();
         $torrent->delete();
