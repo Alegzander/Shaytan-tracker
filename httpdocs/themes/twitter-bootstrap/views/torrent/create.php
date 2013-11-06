@@ -59,6 +59,24 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'hint' => 'Link to anything. IRC channel, Web site, etc.'
 ));?>
 
+<?php if (isset($this->zone)): ?>
+<div class="alert-danger">
+    <?=$form->checkBoxRow($formModel, 'limitToZone', array(
+    'hint' => \Yii::t('form-label', 'Your IP belongs to "{zone}" network zone. If you take off the flag torrent will be available for download for all users (from any country).', array(
+            '{zone}' => $this->zone->name
+        )),
+)); ?>
+</div>
+<?php
+\Yii::app()->user->setFlash(TbAlert::TYPE_DANGER, \Yii::t('form-label',
+    '<b>Warning! Removing limit might cause big internet traffic expense. Taking off flag is at your own risk.</b>', array(
+    )));
+$this->widget('bootstrap.widgets.TbAlert', array(
+    'closeText' => false
+));
+?>
+<?php endif; ?>
+
 <!--Is hidden-->
 <?=$form->checkBoxRow($formModel, 'hidden');?>
 

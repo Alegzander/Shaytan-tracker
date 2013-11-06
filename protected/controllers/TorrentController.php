@@ -39,6 +39,8 @@ class TorrentController extends BaseController {
                 $torrentMeta->description = intval($form->descriptionFromFile) === EnabledState::DISABLED ? $form->description : $torrent->comment;
                 $torrentMeta->informationUrl = $form->informationUrl;
                 $torrentMeta->hidden = intval($form->hidden);
+                $torrentMeta->limitToZone = intval($form->limitToZone);
+                $torrentMeta->zoneId = $this->zone->getPrimaryKey();
                 $torrentMeta->tags = $tags;
 
                 if (isset($torrent->info['files']) && is_array($torrent->info['files']))

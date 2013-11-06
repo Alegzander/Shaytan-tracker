@@ -6,6 +6,11 @@
  */
 
 class BaseController extends SBaseController {
+    /**
+     * @var Zone|null
+     */
+    protected $zone;
+
     public function init(){
         parent::init();
 
@@ -23,7 +28,8 @@ class BaseController extends SBaseController {
         $network = Network::model()->findByIp($ip);
 
         if (isset($network)){
-            $network->zone = Zone::model()->findByPk($network->zoneId);
+            $this->zone = Zone::model()->findByPk($network->zoneId);
+            $network->zone = $this->zone;
             $defaultLanguage = $network->zone->defaultLanguage;
         }
 
