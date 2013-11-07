@@ -1,7 +1,11 @@
 <?php 
  return array(
+	'SitePage',
 	'SiteIndex',
 	'SiteError',
-	'TorrentCreate'
+	'TorrentCreate',
+	'TorrentView',
+	'TorrentUpdate',
+	'TorrentDelete'
 );
 ?>
