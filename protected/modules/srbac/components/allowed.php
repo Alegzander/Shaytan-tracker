@@ -6,6 +6,9 @@
 	'TorrentCreate',
 	'TorrentView',
 	'TorrentUpdate',
-	'TorrentDelete'
+	'TorrentDelete',
+	'shaytan@LoginCaptcha',
+	'shaytan@LoginAuthenticate',
+	'shaytan@LoginLogout'
 );
 ?>
