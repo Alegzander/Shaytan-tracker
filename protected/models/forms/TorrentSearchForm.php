@@ -12,8 +12,8 @@ class TorrentSearchForm extends CFormModel {
 
 
     public $phrase;
-    public $byTags = true;
-    public $byName = true;
+    public $byTags = EnabledState::ENABLED;
+    public $byName = EnabledState::ENABLED;
 
     public $accuracy;
 

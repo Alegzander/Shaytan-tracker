@@ -23,9 +23,11 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 echo $form->textField($searchForm, 'phrase',
         array('class' => 'search-query span2 input-medium', 'placeholder' => $searchForm->getAttributeLabel('phrase')));
-
-echo $form->hiddenField($searchForm, 'byTags');
-echo $form->hiddenField($searchForm, 'byName');
-echo $form->hiddenField($searchForm, 'accuracy');
+echo $form->hiddenField($searchForm, 'byTags',
+    array('class' => 'search-by-tag', 'data-label' => \Yii::t('form-label', 'Tag')));
+echo $form->hiddenField($searchForm, 'byName',
+    array('class' => 'search-by-name', 'data-label' => \Yii::t('form-label', 'Name')));
+echo $form->hiddenField($searchForm, 'accuracy',
+    array('class' => 'search-accuracy'));
 
 $this->endWidget();

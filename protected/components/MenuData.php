@@ -71,17 +71,24 @@ class MenuData {
                 )
             ),
             $controller->renderPartial('//layouts/torrent-search', array('searchForm' => static::getSearchForm()), true),
+//            array(
+//                'class' => 'bootstrap.widgets.TbMenu',
+//                'htmlOptions' => array('class' => 'pull-right'),
+//                'items' => array(
+//                    '---',
+//                )
+//            ),
             array(
                 'class' => 'bootstrap.widgets.TbMenu',
                 'htmlOptions' => array('class' => 'pull-right'),
                 'items' => array(
-                    array('label' => 'Tags, name', 'url' => '#', 'items' => array(
-//                        array('label' => 'Test1', 'icon' => 'search', 'url' => '#', 'htmlOptions' => array('class' => 'huy')),
-//                        array('label' => 'Test1', 'icon' => 'search', 'url' => '#', 'htmlOptions' => array('class' => 'huy')),
+                    array('label' => 'Tag, name', 'url' => '#', 'linkOptions' => array('class' => 'search-options'),
+                        'items' => array(
+                        array('label' => 'Tag', 'icon' => 'ok', 'url' => '#', 'linkOptions' => array('class' => 'search-by-tag')),
+                        array('label' => 'Name', 'icon' => 'ok', 'url' => '#', 'linkOptions' => array('class' => 'search-by-name')),
 //                        '---',
 //                        array('label' => 'Test1', 'icon' => 'search', 'url' => '#', 'htmlOptions' => array('class' => 'huy'))
                     )),
-                    '---',
                 )
             ),
         );
