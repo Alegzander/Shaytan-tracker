@@ -24,7 +24,7 @@
             'brandUrl' => '#',
             'fixed' => TbNavbar::FIXED_TOP,
             'collapse' => true,
-            'items' => $menu->mainMenu()
+            'items' => $menu->mainMenu($this)
         ));
         ?>
     </div>

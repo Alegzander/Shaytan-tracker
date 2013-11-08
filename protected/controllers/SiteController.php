@@ -22,11 +22,9 @@ class SiteController extends BaseController
 
 	public function actionIndex()
 	{
-        $torrentMeta = TorrentMeta::model();
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $network = Network::model()->findByIp($ip);
+        $torrentMeta = TorrentMeta::model()->notHidden()->active();
 
-        $this->render('index', array('model' => $torrentMeta, 'network' => $network));
+        $this->render('index', array('model' => $torrentMeta));
 	}
 
 	public function actionError()

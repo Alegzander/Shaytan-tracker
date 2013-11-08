@@ -7,7 +7,17 @@
 \Yii::import('bootstrap.widgets.TbMenu');
 
 class MenuData {
-    public function mainMenu(){
+    public static function getSearchForm(){
+        $searchForm = new TorrentSearchForm();
+        $searchQuery = \Yii::app()->request->getQuery(get_class($searchForm));
+
+        if (isset($searchQuery))
+            $searchForm->setAttributes($searchQuery);
+
+        return $searchForm;
+    }
+
+    public function mainMenu(BaseController $controller){
         $supportedLanguages = \Yii::app()->getParams()->supportedLanguages;
         $languageItems = array();
 
@@ -29,22 +39,51 @@ class MenuData {
                 'label' => \Yii::t('app', 'Add torrent'),
                 'url' => \Yii::app()->createUrl('/torrent/create')
             ),
-            '---',
-            'languageMenu' => array(
-                'class' => 'bootstrap.widgets.TbMenu',
-                'htmlOptions' => array('class' => 'pull-right'),
-                'label' => \Yii::t('form-label', 'Language: {language}',
-                        array('{language}' => $supportedLanguages[\Yii::app()->getLanguage()])),
-                'items' => $languageItems
-            )
+            '---'
         );
+
+//        die(var_dump($this->filterMenuItems($items)));
+        $this->registerAssets();
 
         return array(
             array(
                 'class' => 'bootstrap.widgets.TbMenu',
                 'type' => TbMenu::TYPE_PILLS,
                 'items' => $this->filterMenuItems($items)
-            )
+            ),
+            array(
+                'class' => 'bootstrap.widgets.TbMenu',
+                'htmlOptions' => array('class' => 'pull-right'),
+                'items' => array(
+                    '---',
+                    array(
+                        'label' => \Yii::t('form-label', 'Language: {language}',
+                            array('{language}' => $supportedLanguages[\Yii::app()->getLanguage()])),
+                        'items' => $languageItems
+                    )
+                )
+            ),
+            array(
+                'class' => 'bootstrap.widgets.TbMenu',
+                'htmlOptions' => array('class' => 'pull-right'),
+                'items' => array(
+                    array('label' => 'Search', 'url' => '#', 'linkOptions' => array('class' => 'search-button'))
+                )
+            ),
+            $controller->renderPartial('//layouts/torrent-search', array('searchForm' => static::getSearchForm()), true),
+            array(
+                'class' => 'bootstrap.widgets.TbMenu',
+                'htmlOptions' => array('class' => 'pull-right'),
+                'items' => array(
+                    array('label' => 'Tags, name', 'url' => '#', 'items' => array(
+//                        array('label' => 'Test1', 'icon' => 'search', 'url' => '#', 'htmlOptions' => array('class' => 'huy')),
+//                        array('label' => 'Test1', 'icon' => 'search', 'url' => '#', 'htmlOptions' => array('class' => 'huy')),
+//                        '---',
+//                        array('label' => 'Test1', 'icon' => 'search', 'url' => '#', 'htmlOptions' => array('class' => 'huy'))
+                    )),
+                    '---',
+                )
+            ),
         );
     }
 
@@ -178,5 +217,9 @@ class MenuData {
             $path = $SP.$controller.$SP.$action;
 
         return $path;
+    }
+
+    private function registerAssets(){
+        AssetsHelper::register(array('/js/search-form.js'));
     }
 }

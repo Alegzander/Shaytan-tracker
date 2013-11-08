@@ -110,4 +110,13 @@ class TorrentMeta extends EMongoDocument
 
         return $this;
     }
+
+    public function notHidden(){
+        $criteria = new EMongoCriteria();
+        $criteria->addCondition('hidden', EnabledState::DISABLED);
+
+        $this->mergeDbCriteria($criteria);
+
+        return $this;
+    }
 }

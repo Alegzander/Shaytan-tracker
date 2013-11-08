@@ -119,7 +119,7 @@ class TorrentController extends BaseController {
         $editAllowed = ( $expireTime = \Yii::app()->session->get(strval($torrent->getPrimaryKey())) ) !== null
             && time() <= $expireTime;
 
-        $tags = Tag::model()->findAll();
+        $tags = Tag::model()->findAll(array(), array('tag'));
         $tagList = array();
 
         foreach ($tags as $item){
