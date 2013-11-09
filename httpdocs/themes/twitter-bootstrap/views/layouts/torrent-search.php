@@ -27,7 +27,5 @@ echo $form->hiddenField($searchForm, 'byTags',
     array('class' => 'search-by-tag', 'data-label' => \Yii::t('form-label', 'Tag')));
 echo $form->hiddenField($searchForm, 'byName',
     array('class' => 'search-by-name', 'data-label' => \Yii::t('form-label', 'Name')));
-echo $form->hiddenField($searchForm, 'accuracy',
-    array('class' => 'search-accuracy'));
 
 $this->endWidget();

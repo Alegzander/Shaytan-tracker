@@ -5,7 +5,7 @@ Yii::setPathOfAlias('composer', $vendor);
 
 return array(
 	'basePath'=>dirname(__DIR__),
-	'name'=>'My Web Application',
+	'name'=>'My tracker',
     'theme' => 'twitter-bootstrap',
     'sourceLanguage' => '00_00',
 

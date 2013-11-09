@@ -14,6 +14,9 @@ class MenuData {
         if (isset($searchQuery))
             $searchForm->setAttributes($searchQuery);
 
+        if (!in_array($searchForm->accuracy, ESearchAccuracy::getEnums()))
+            $searchForm->accuracy = ESearchAccuracy::MATCH_ALL_WORDS;
+
         return $searchForm;
     }
 
@@ -38,12 +41,11 @@ class MenuData {
             'torrent.create' => array(
                 'label' => \Yii::t('app', 'Add torrent'),
                 'url' => \Yii::app()->createUrl('/torrent/create')
-            ),
-            '---'
+            )
         );
 
-//        die(var_dump($this->filterMenuItems($items)));
         $this->registerAssets();
+        $searchForm = static::getSearchForm();
 
         return array(
             array(
@@ -70,7 +72,7 @@ class MenuData {
                     array('label' => 'Search', 'url' => '#', 'linkOptions' => array('class' => 'search-button'))
                 )
             ),
-            $controller->renderPartial('//layouts/torrent-search', array('searchForm' => static::getSearchForm()), true),
+            $controller->renderPartial('//layouts/torrent-search', array('searchForm' => $searchForm), true),
 //            array(
 //                'class' => 'bootstrap.widgets.TbMenu',
 //                'htmlOptions' => array('class' => 'pull-right'),
@@ -78,19 +80,24 @@ class MenuData {
 //                    '---',
 //                )
 //            ),
-            array(
-                'class' => 'bootstrap.widgets.TbMenu',
-                'htmlOptions' => array('class' => 'pull-right'),
-                'items' => array(
-                    array('label' => 'Tag, name', 'url' => '#', 'linkOptions' => array('class' => 'search-options'),
-                        'items' => array(
-                        array('label' => 'Tag', 'icon' => 'ok', 'url' => '#', 'linkOptions' => array('class' => 'search-by-tag')),
-                        array('label' => 'Name', 'icon' => 'ok', 'url' => '#', 'linkOptions' => array('class' => 'search-by-name')),
+//            array(
+//                'class' => 'bootstrap.widgets.TbMenu',
+//                'htmlOptions' => array('class' => 'pull-right'),
+//                'items' => array(
+//                    array('label' => 'Tag, name', 'url' => '#', 'linkOptions' => array('class' => 'search-options'),
+//                        'items' => array(
+//                        array('label' => 'Tag', 'icon' => 'ok', 'url' => '#', 'linkOptions' => array('class' => 'search-by-tag')),
+//                        array('label' => 'Name', 'icon' => 'ok', 'url' => '#', 'linkOptions' => array('class' => 'search-by-name')),
 //                        '---',
-//                        array('label' => 'Test1', 'icon' => 'search', 'url' => '#', 'htmlOptions' => array('class' => 'huy'))
-                    )),
-                )
-            ),
+//                        array('label' => ESearchAccuracy::getUiLabel($searchForm->accuracy), 'url' => '#',
+//                            'htmlOptions' => array('class' => ''), 'items' => array(
+//                            array('label' => ESearchAccuracy::getUiLabel(ESearchAccuracy::MATCH_PHRASE), 'url' => '#'),
+//                            array('label' => ESearchAccuracy::getUiLabel(ESearchAccuracy::MATCH_ALL_WORDS), 'url' => '#'),
+//                            array('label' => ESearchAccuracy::getUiLabel(ESearchAccuracy::MATCH_ONE_WORD), 'url' => '#'),
+//                        ))
+//                    )),
+//                )
+//            ),
         );
     }
 
