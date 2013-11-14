@@ -30,6 +30,8 @@ class TorrentMeta extends EMongoDocument
     public $dateCreated;
     public $dateUpdated;
 
+    public $indexed = EnabledState::DISABLED;
+
     public function behaviors(){
         return array(
             'EMongoTimestampBehaviour' => array(
@@ -64,7 +66,7 @@ class TorrentMeta extends EMongoDocument
 
             array('size', 'EMongoIntegerValidator', 'type' => EMongoIntegerValidator::INT64, 'allowEmpty' => false),
             array('numSeeds, numLeachers, numDownloaded, numComments, rating', 'numerical', 'integerOnly' => true, 'min' => 0),
-            array('hidden, suspend, limitToZone', 'boolean', 'trueValue' => EnabledState::ENABLED, 'falseValue' => EnabledState::DISABLED, 'strict' => true),
+            array('hidden, suspend, limitToZone indexed', 'boolean', 'trueValue' => EnabledState::ENABLED, 'falseValue' => EnabledState::DISABLED, 'strict' => true),
             array('status', 'in', 'range' => ETorrentStatus::getEnums(), 'allowEmpty' => false),
             array('zoneId', 'EMongoExistValidator', 'className' => 'Zone', 'attributeName' => '_id', 'allowEmpty' => true),
             array('informationUrl', 'url', 'allowEmpty' => true),
@@ -114,6 +116,17 @@ class TorrentMeta extends EMongoDocument
     public function notHidden(){
         $criteria = new EMongoCriteria();
         $criteria->addCondition('hidden', EnabledState::DISABLED);
+
+        $this->mergeDbCriteria($criteria);
+
+        return $this;
+    }
+
+    public function editExpired(){
+        $expiryTime = \Yii::app()->getParams()->allowEditExpire;
+        $criteria = new EMongoCriteria();
+
+        $criteria->addCondition('dateUpdated', (time() - $expiryTime), '$lt');
 
         $this->mergeDbCriteria($criteria);
 
