@@ -12,7 +12,7 @@ class TorrentController extends BaseController {
         $post = \Yii::app()->request->getPost(get_class($form));
         \Yii::app()->session->add('isBot', true);
 
-        if (!isset($post))
+        if (!\Yii::app()->request->getIsPostRequest() || !isset($post))
             throw new CHttpException(418, \Yii::t('error', 'You\'re doing it wrong.'));
 
         $form->setAttributes($post);
