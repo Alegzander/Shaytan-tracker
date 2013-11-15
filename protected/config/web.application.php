@@ -31,6 +31,7 @@ return array(
 
 	'modules'=>array(
         'shaytan',
+        'bot',
 
 		// uncomment the following to enable the Gii tool
 		'gii'=>array(
