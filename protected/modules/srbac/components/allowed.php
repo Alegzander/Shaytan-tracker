@@ -9,6 +9,7 @@
 	'TorrentDelete',
 	'shaytan@LoginCaptcha',
 	'shaytan@LoginAuthenticate',
-	'shaytan@LoginLogout'
+	'shaytan@LoginLogout',
+	'bot@TorrentCreate'
 );
 ?>
