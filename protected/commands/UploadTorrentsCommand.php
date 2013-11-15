@@ -9,8 +9,11 @@ defined('NL') || define('NL', "\n");
 defined('TAB') || define('TAB', "\t");
 
 class UploadTorrentsCommand extends CConsoleCommand {
-    public function init(){
+    private $connection;
 
+    public function init(){
+        $this->connection = curl_init();
+        curl_setopt($this->connection, CURLOPT_POST, 1);
     }
 
     public function run($args){
@@ -23,27 +26,53 @@ class UploadTorrentsCommand extends CConsoleCommand {
         $url = $args[0];
         $path = $args[1];
 
+        curl_setopt($this->connection, CURLOPT_URL, $url);
+
         if (is_dir($path)){
             $this->processDirectory($path);
         } else if (is_file($path)){
             $this->uploadTorrent($path);
         }
 
+        curl_close($this->connection);
     }
 
     private function processDirectory($dir){
-        foreach (scandir($dir) as $item){
-            $path = $dir.DIRECTORY_SEPARATOR.$item;
-            if (is_dir($path)){
+        $dp = opendir($dir);
+        $forbidenDirs = array('.', '..');
+
+        while (($item = readdir($dp)) !== false){
+            $path = preg_replace('/[\\'.DIRECTORY_SEPARATOR.']{2,}/', DIRECTORY_SEPARATOR, $dir.DIRECTORY_SEPARATOR.$item);
+
+            if (is_dir($path) && !in_array($item, $forbidenDirs)){
                 $this->processDirectory($path);
-            } else if (is_file($path) && mime_content_type($path) === 'application/x-bittorrent'){
+            } else if (is_file($path) && substr($path, -7) === 'torrent'){
                 $this->uploadTorrent($path);
             }
         }
+
+        closedir($dp);
     }
 
     private function uploadTorrent($file){
-        echo $file.NL;
+        $fields = array(
+            'CreateTorrentForm[torrent]' => '@'.$file,
+            'CreateTorrentForm[descriptionFromFile]' => 1,
+            'CreateTorrentForm[accept]' => 'accepted'
+        );
+
+        curl_setopt($this->connection, CURLOPT_POSTFIELDS, $fields);
+
+        $result = curl_exec($this->connection);
+
+        $result = CJSON::decode($result);
+
+        echo $file.TAB.ucfirst($result['result']);
+
+        if ($result['result'] == 'error')
+            echo ': "'.$result['message'].'"';
+
+        echo NL;
     }
 
     /**
