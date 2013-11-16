@@ -28,11 +28,13 @@ class TorrentController extends BaseController {
                     if (array_key_exists($attributeName, $torrent->getAttributes()))
                         $torrent->setAttribute($attributeName, $value);
                 }
+            } else {
+                $form->addError('torrent', \Yii::t('error', 'Corrupted or invalid torrent file.'));
             }
 
             $hash = base64_encode(sha1(Lightbenc::bencode($torrent->info), true));
 
-            if ($torrentMeta->count(array('hash' => $hash)) === 0){
+            if (!$form->hasErrors('torrent') && $torrentMeta->count(array('hash' => $hash)) === 0){
                 $torrentMeta->hash = $hash;
                 $torrent->info['pieces'] = base64_encode($torrent->info['pieces']);
                 $torrentMeta->name = !empty($form->name) ? $form->name : $torrent->info['name'];
@@ -53,7 +55,11 @@ class TorrentController extends BaseController {
                     $torrentMeta->size = intval($torrent->info['length']);
 
                 if (!$torrent->save())
-                    $form->addError('torrent', \Yii::t('error', 'Could not save torrent file.'));
+                    if ($torrent->hasErrors('announce'))
+                        $form->addError('torrent', \Yii::t('error',
+                            'You forgot to include a valid announce URL. Torrents using only DHT are not allowed, because this is most often just a mistake on behalf of the uploader.'));
+                    else
+                        $form->addError('torrent', \Yii::t('error', 'Could not save torrent file.'));
 
                 if (!$torrent->hasErrors())
                     $torrentMeta->torrentId = $torrent->getAttribute($torrent->primaryKey());
@@ -85,7 +91,7 @@ class TorrentController extends BaseController {
 
                     $this->redirect($this->createUrl('/torrent/view', array('id' => $torrentMeta->torrentId)));
                 }
-            } else {
+            } else if ($torrentMeta->count(array('hash' => $hash)) > 0) {
                 $form->addError('torrent', \Yii::t('error', 'Torrent was already uploaded early.'));
             }
 

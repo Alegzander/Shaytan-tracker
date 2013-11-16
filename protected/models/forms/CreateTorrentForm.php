@@ -27,7 +27,7 @@ class CreateTorrentForm extends CFormModel
             'torrent' => array('torrent', 'file',
                 'maxSize' => (OSHelper::web()->getMaxUploadSize() * 1024 * 1024),
                 'types' => 'torrent',
-                'mimeTypes' => array('application/x-bittorrent', 'text/plain'),
+//                'mimeTypes' => array('application/x-bittorrent', 'text/plain'),
                 'allowEmpty' => false),
 
             'tags' => array('tags', 'match', 'pattern' => '~^[\p{Xan}_]+(,([\s]+|)[\p{Xan}_]+){0,}$~u'),

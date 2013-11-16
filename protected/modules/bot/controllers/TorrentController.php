@@ -61,6 +61,10 @@ class TorrentController extends BaseController {
                 if (!$torrent->save())
                     $form->addError('torrent', \Yii::t('error', 'Could not save torrent file.'));
 
+                if ($torrent->hasErrors('announce'))
+                    throw new CHttpException(460, \Yii::t('error',
+                        'You forgot to include a valid announce URL. Torrents using only DHT are not allowed, because this is most often just a mistake on behalf of the uploader.'));
+
                 if (!$torrent->hasErrors())
                     $torrentMeta->torrentId = $torrent->getAttribute($torrent->primaryKey());
 

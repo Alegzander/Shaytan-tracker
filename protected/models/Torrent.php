@@ -36,9 +36,19 @@ class Torrent extends EMongoDocument {
     }
 
     public function rules(){
+        $requiredFields = array('info');
+        $params = \Yii::app()->getParams();
+
+        if (isset($params->torrent, $params->torrent['allowNoAnnounce'])
+        && $params->torrent['allowNoAnnounce'] !== true)
+            array_push($requiredFields, 'announce');
+
         return array(
-            array('info, announce', 'required'),
-            array('announce', 'match', 'pattern' => '%^(((https|http|udp|tcp)?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i', 'allowEmpty' => false),
+            array(implode(', ', $requiredFields), 'required'),
+            array('announce', 'match',
+                'pattern' => '%^(((https|http|udp|tcp)?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i',
+                'allowEmpty' => !in_array('announce', $requiredFields)
+            ),
             array('publisher_url', 'url', 'allowEmpty' => true),
             array('comment, publisher, createdBy', 'filter', 'filter' => 'strip_tags'),
             array('creationDate', 'numerical', 'integerOnly' => true, 'allowEmpty' => true),

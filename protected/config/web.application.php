@@ -133,6 +133,9 @@ return array(
             'ru_RU' => \Yii::t('config', 'Russian'),
             'uz_UZ' => \Yii::t('config', 'Uzbek')
         ),
+        'torrent' => array(
+            'allowNoAnnounce' => true,
+        ),
         'defaultLanguage' => 'en_US',
         'cookieExpire' => (60*60*24*365),
         'allowEditExpire' => 1800,

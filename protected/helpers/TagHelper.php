@@ -31,8 +31,12 @@ class TagHelper {
         }
     }
 
-    private static function cleanTorrentsList(EMongoCursor $tags, $torrentId){
-        while(($tag = $tags->getNext())){
+    private static function cleanTorrentsList(EMongoCursor $tags, $torrentId)
+    {
+        if (!$tags->valid())
+            return;
+
+        while (($tag = $tags->getNext())) {
             $matchedKeys = array_keys($tag->torrents, $torrentId);
 
             foreach ($matchedKeys as $key)
