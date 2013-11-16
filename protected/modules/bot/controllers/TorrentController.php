@@ -18,7 +18,7 @@ class TorrentController extends BaseController {
         $form->setAttributes($post);
         $form->torrent = CUploadedFile::getInstance($form, 'torrent');
 
-        if (isset($post) && $form->validate()){
+        if ($form->validate()){
             //TODO create new torrent
             $torrent = new Torrent();
             $torrentMeta = new TorrentMeta();
@@ -26,12 +26,14 @@ class TorrentController extends BaseController {
 
             $torrentData = Lightbenc::bdecode_file($form->torrent->getTempName());
 
-            if (isset($torrentData)){
+            if (isset($torrentData) && !empty($torrentData)){
                 foreach ($torrentData as $key => $value){
                     $attributeName = Torrent::normalizeKeyName($key);
                     if (array_key_exists($attributeName, $torrent->getAttributes()))
                         $torrent->setAttribute($attributeName, $value);
                 }
+            } else {
+                throw new CHttpException(462, \Yii::t('error', 'Could not parse file. Probably not torrent or corrupted.'));
             }
 
             $hash = base64_encode(sha1(Lightbenc::bencode($torrent->info), true));
@@ -85,14 +87,14 @@ class TorrentController extends BaseController {
 
                 if ($torrent->hasErrors() || $torrentMeta->hasErrors()){
                     throw new CHttpException(520, \Yii::t('error', 'Server-side error. Try again later.'));
-                } else if ($form->hasErrors()) {
-                    throw new CHttpException(462, CJSON::encode($form->getErrors()));
                 }
             } else {
                 throw new CHttpException(461, \Yii::t('error', 'Torrent already exists'));
             }
 
             unlink($form->torrent->getTempName());
+        } else {
+            throw new CHttpException(463, CJSON::encode($form->getErrors()));
         }
 
         $this->renderPartial('//json', array('data' => array('result' => 'success', 'message' => 'OK')));

@@ -14,6 +14,7 @@ class UploadTorrentsCommand extends CConsoleCommand {
     public function init(){
         $this->connection = curl_init();
         curl_setopt($this->connection, CURLOPT_POST, 1);
+        curl_setopt($this->connection, CURLOPT_RETURNTRANSFER, 1);
     }
 
     public function run($args){
@@ -56,7 +57,7 @@ class UploadTorrentsCommand extends CConsoleCommand {
 
     private function uploadTorrent($file){
         $fields = array(
-            'CreateTorrentForm[torrent]' => '@'.$file,
+            'CreateTorrentForm[torrent]' => '@'.$file.';filename='.urlencode(basename($file)).';type='.urlencode('application/x-bittorrent').';',
             'CreateTorrentForm[descriptionFromFile]' => 1,
             'CreateTorrentForm[accept]' => 'accepted'
         );
@@ -64,13 +65,27 @@ class UploadTorrentsCommand extends CConsoleCommand {
         curl_setopt($this->connection, CURLOPT_POSTFIELDS, $fields);
 
         $result = curl_exec($this->connection);
-
         $result = CJSON::decode($result);
 
-        echo $file.TAB.ucfirst($result['result']);
+        echo $file, TAB, ucfirst($result['result']);
 
-        if ($result['result'] == 'error')
-            echo ': "'.$result['message'].'"';
+        if ($result['result'] == 'error'){
+            echo ': ';
+
+            $message = CJSON::decode($result['message']);
+
+            if (is_array($message)){
+                echo NL;
+                foreach ($message as $field => $errors){
+                    echo $field, NL;
+
+                    foreach ($errors as $error)
+                        echo TAB, '=>', $error, NL;
+                }
+            } else {
+                echo '"', $result['message'], '"';
+            }
+        }
 
         echo NL;
     }

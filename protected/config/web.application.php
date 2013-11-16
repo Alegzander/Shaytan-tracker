@@ -111,7 +111,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'trace, error, warning',
+					'levels'=>'error, warning',
 				),
 			),
 		),

@@ -22,7 +22,7 @@ class TorrentController extends BaseController {
 
             $torrentData = Lightbenc::bdecode_file($form->torrent->getTempName());
 
-            if (isset($torrentData)){
+            if (isset($torrentData) && !empty($torrentData)){
                 foreach ($torrentData as $key => $value){
                     $attributeName = Torrent::normalizeKeyName($key);
                     if (array_key_exists($attributeName, $torrent->getAttributes()))
