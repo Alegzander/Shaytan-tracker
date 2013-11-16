@@ -30,7 +30,7 @@ class CreateTorrentForm extends CFormModel
 //                'mimeTypes' => array('application/x-bittorrent', 'text/plain'),
                 'allowEmpty' => false),
 
-            'tags' => array('tags', 'match', 'pattern' => '~^[\p{Xan}_]+(,([\s]+|)[\p{Xan}_]+){0,}$~u'),
+            'tags' => array('tags', 'match', 'pattern' => '~^[\p{Xan}\-\s_]+(,([\s]+|)[\p{Xan}\-\s_]+){0,}$~u'),
             'informationUrl' => array('informationUrl', 'url', 'allowEmpty' => true),
             'hidden, limitToZone' => array('hidden, limitToZone', 'boolean', 'allowEmpty' => true),
             'descriptionFromFile' => array('descriptionFromFile', 'boolean'),

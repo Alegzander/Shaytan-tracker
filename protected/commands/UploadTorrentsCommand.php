@@ -56,10 +56,12 @@ class UploadTorrentsCommand extends CConsoleCommand {
     }
 
     private function uploadTorrent($file){
+        $tags = $this->parseTorrentName(basename($file));
         $fields = array(
             'CreateTorrentForm[torrent]' => '@'.$file.';filename='.urlencode(basename($file)).';type='.urlencode('application/x-bittorrent').';',
             'CreateTorrentForm[descriptionFromFile]' => 1,
-            'CreateTorrentForm[accept]' => 'accepted'
+            'CreateTorrentForm[tags]' => implode(',', $tags),
+            'CreateTorrentForm[accept]' => 'accepted',
         );
 
         curl_setopt($this->connection, CURLOPT_POSTFIELDS, $fields);
@@ -67,7 +69,7 @@ class UploadTorrentsCommand extends CConsoleCommand {
         $result = curl_exec($this->connection);
         $result = CJSON::decode($result);
 
-        echo $file, TAB, ucfirst($result['result']);
+        echo $file, '('.implode(',', $tags).')', TAB, ucfirst($result['result']);
 
         if ($result['result'] == 'error'){
             echo ': ';
@@ -96,5 +98,29 @@ class UploadTorrentsCommand extends CConsoleCommand {
      */
     private function parseTorrentName($name){
         $matches = array();
+        $randomTags = array(
+            'anime',
+            'manga',
+            'subs',
+            'ensub',
+            'dub',
+            'ecci',
+            'school',
+        );
+
+        //Checking thnigs in braces like [Zero-raws]
+
+        preg_match_all('/\[(?<tags>[^\]]+)\]/', $name, $matches);
+
+        $tags = $matches['tags'];
+
+        array_push($tags, $randomTags[rand(0, (count($randomTags) -1))]);
+        array_push($tags, $randomTags[rand(0, (count($randomTags) -1))]);
+
+        foreach ($tags as $index => $tag){
+            $tags[$index] = trim(preg_replace('~[^\p{Xan}\-\ _]~u', ' ', $tag));
+        }
+
+        return $tags;
     }
 } 
