@@ -127,7 +127,7 @@ class TorrentMeta extends EMongoDocument
 
     public function revert(){
         $criteria = new EMongoCriteria();
-        $criteria->setSort(array('dateCreated' => 'DESC'));
+        $criteria->setSort(array('dateUpdated' => -1));
         $this->mergeDbCriteria($criteria);
 
         return $this;
