@@ -22,7 +22,7 @@ class SiteController extends BaseController
 
 	public function actionIndex()
 	{
-        $torrentMeta = TorrentMeta::model()->notHidden()->active();
+        $torrentMeta = TorrentMeta::model()->notHidden()->active()->revert();
 
         $this->render('index', array('model' => $torrentMeta));
 	}

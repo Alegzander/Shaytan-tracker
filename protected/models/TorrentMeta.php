@@ -100,7 +100,10 @@ class TorrentMeta extends EMongoDocument
 
     public function search(){
         return new EMongoDataProvider($this, array(
-            'criteria' => $this->getDbCriteria()
+            'criteria' => $this->getDbCriteria(),
+            'pagination' => array(
+                'pageSize' => 100
+            )
         ));
     }
 
@@ -117,6 +120,14 @@ class TorrentMeta extends EMongoDocument
         $criteria = new EMongoCriteria();
         $criteria->addCondition('hidden', EnabledState::DISABLED);
 
+        $this->mergeDbCriteria($criteria);
+
+        return $this;
+    }
+
+    public function revert(){
+        $criteria = new EMongoCriteria();
+        $criteria->setSort(array('dateCreated' => 'DESC'));
         $this->mergeDbCriteria($criteria);
 
         return $this;

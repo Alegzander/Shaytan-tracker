@@ -4,16 +4,22 @@
  * @var TorrentMeta $model
  * @var Network $network
  */
-
+\Yii::import('bootstrap.widgets.TbPager');
 $this->widget('bootstrap.widgets.TbGridView', array(
     'ajaxUpdate' => false,
     'dataProvider' => $model->search(),
+    'template' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
+    'pager' => array(
+        'class' => 'bootstrap.widgets.TbPager',
+        'alignment' => TbPager::ALIGNMENT_CENTER,
+        'displayFirstAndLast' => true
+    ),
     'columns' => array(
         'name' => array(
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->name',
-            'header' => $model->getAttributeLabel('name'),
-            'urlExpression' => '\Yii::app()->createUrl(\'/torrent/view\', array(\'id\' => $data->torrentId))'
+            'name' => 'name',
+//            'header' => $model->getAttributeLabel('name'),
+            'type' => 'html',
+            'value' => '"<a href=\\"".\Yii::app()->createUrl(\'/torrent/view\', array(\'id\' => $data->torrentId))."\\">".$data->name."</a>"'
         ),
 
         'download' => array(
@@ -30,7 +36,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         'size' => array('name' => 'size',
             'value' => 'OSHelper::fileSystem()->getSizeLabel($data->size)',
-            'header' => '<i class="icon-inbox"></i>'),
+            'header' => '<i class="icon-inbox"></i>',
+            'htmlOptions' => array('class' => 'span2')),
 
         'seeds' => array('name' => 'numSeeds', 'value' => 'intval($data->numSeeds)',
             'header' => '<i class="icon-arrow-up"></i>'),
