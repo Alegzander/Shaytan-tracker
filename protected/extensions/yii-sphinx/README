@@ -1,0 +1,10 @@
+Extension implements components with like-db api:
+* connection
+* query
+* criteria
+* result
+* match
+
+Sphinx 1.1.0 beta has mysql-compatible connection.
+It's means, that you can use CDbConnection to run sphinx queries, using
+SphinxQl.

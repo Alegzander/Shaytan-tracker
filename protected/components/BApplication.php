@@ -17,6 +17,7 @@
  * @property EMongoClient $mongodb
  * @property array $params
  * @property CHttpSession $session
+ * @property EDbSphinxConnection $sphinx
  */
 class BApplication extends CWebApplication {
 

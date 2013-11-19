@@ -99,12 +99,60 @@ class TorrentMeta extends EMongoDocument
     }
 
     public function search(){
-        return new EMongoDataProvider($this, array(
-            'criteria' => $this->getDbCriteria(),
-            'pagination' => array(
-                'pageSize' => 100
-            )
-        ));
+        $searchForm = new TorrentSearchForm();
+        $searchPost = \Yii::app()->request->getQuery(get_class($searchForm));
+
+        $pagination = new CPagination();
+        $pagination->setPageSize(100);
+
+        TorrentMeta::model()->count();
+
+        $dataProvider = new EMongoDataProvider($this);
+
+        $pageNumber = \Yii::app()->request->getQuery($dataProvider->getId().'_page', 1) - 1;
+
+        $searchForm->setAttributes($searchPost);
+
+        if ($searchForm->validate()){
+            $search = \Yii::app()->sphinx;
+
+            $result = $search->getDbConnection()
+            ->createCommand()
+            ->select('torrent_id')
+            ->from('torrent')
+            ->where('MATCH(\'@(name,description,tags) "'.$searchForm->phrase.'"~4\')')
+            ->limit($pagination->getPageSize())
+            ->offset($pagination->getPageSize()*$pageNumber)
+            ->query();
+
+            $metaData = $search->getDbConnection()->createCommand('SHOW META')->queryAll();
+
+            foreach ($metaData as $data){
+                if ($data['Variable_name'] === 'total'){
+                    $pagination->setItemCount(intval($data['Value']));
+                    break;
+                }
+            }
+
+            $foundTorrents = array();
+
+            foreach ($result as $row){
+                array_push($foundTorrents, new MongoId($row['torrent_id']));
+            }
+
+            if (count($foundTorrents) > 0) {
+                $tmpCriteria = new EMongoCriteria();
+                $tmpCriteria->addCondition('torrentId', $foundTorrents, '$in');
+                $this->mergeDbCriteria($tmpCriteria);
+
+                unset($tmpCriteria);
+            }
+        }
+
+        $dataProvider->setPagination($pagination);
+        $dataProvider->setCriteria($this->getDbCriteria());
+
+        return $dataProvider;
     }
 
     public function active(){

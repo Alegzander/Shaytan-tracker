@@ -6,7 +6,7 @@
  * Time: 11:14 PM
  * To change this template use File | Settings | File Templates.
  */
-class sphinxDataCommand extends CConsoleCommand
+class SphinxDataCommand extends CConsoleCommand
 {
     public function run($args)
     {
@@ -26,16 +26,13 @@ class sphinxDataCommand extends CConsoleCommand
         $metaElement->setAttribute("name", "description");
         $schemaElement->appendChild($metaElement);
 
-        $metaElement = $document->createElement("sphinx:attr");
-        $metaElement->setAttribute("name", "torrent_id");
-        $metaElement->setAttribute("type", "string");
+        $metaElement = $document->createElement("sphinx:field");
+        $metaElement->setAttribute("name", "tags");
         $schemaElement->appendChild($metaElement);
 
         $metaElement = $document->createElement("sphinx:attr");
-        $metaElement->setAttribute("name", "suspend");
-        $metaElement->setAttribute("type", "int");
-        $metaElement->setAttribute("bits", "1");
-        $metaElement->setAttribute('default', EnabledState::DISABLED);
+        $metaElement->setAttribute("name", "torrent_id");
+        $metaElement->setAttribute("type", "string");
         $schemaElement->appendChild($metaElement);
 
         $rootElement->appendChild($schemaElement);
@@ -63,15 +60,13 @@ class sphinxDataCommand extends CConsoleCommand
             $description = $dataElement->appendChild(new DOMElement("description"));
             $description->appendChild(new DOMCdataSection($torrent->description));
 
+            $tags = $dataElement->appendChild(new DOMElement("tags"));
+            $tags->appendChild(new DOMCdataSection(implode(' ', $torrent->tags)));
+
             /**
              * @desc torrnet_id
              */
             $dataElement->appendChild(new DOMElement("torrent_id", $torrent->torrentId));
-
-            /**
-             * @desc suspend
-             */
-            $dataElement->appendChild(new DOMElement("suspend", $torrent->suspend));
 
             $rootElement->appendChild($dataElement);
 

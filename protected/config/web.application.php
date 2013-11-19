@@ -23,6 +23,8 @@ return array(
         'application.modules.srbac.controllers.SBaseController', // SRBAC
         'ext.giix-components.*',
 
+        'application.extensions.yii-sphinx.*',
+
         'application.extensions.MongoYii.*',
         'application.extensions.MongoYii.validators.*',
         'application.extensions.MongoYii.behaviors.*',
@@ -63,17 +65,10 @@ return array(
 
 	// application components
 	'components'=>array(
-        'search' => array(
-            'class' => 'ext.yii-sphinx.components.DGSphinxSearch',
-            'server' => '127.0.0.1',
-            'port' => 9312,
-            'maxQueryTime' => 3000,
-            'enableProfiling'=>0,
-            'enableResultTrace'=>0,
-            'fieldWeights' => array(
-                'name' => 10000,
-                'keywords' => 100,
-            ),
+        'sphinx' => array(
+            'class' => 'EDbSphinxConnection',
+            'host' => '127.0.0.1',
+            'port' => 9317
         ),
         'session' => array(
             'class' => 'CHttpSession',

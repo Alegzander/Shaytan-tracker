@@ -17,7 +17,7 @@ class TorrentSearchForm extends CFormModel {
             array('phrase', 'required'),
             array('phrase', 'filter', 'filter' => 'trim'),
             array('phrase', 'filter', 'filter' => 'strip_tags'),
-            array('accuracy', 'in', 'range' => array(ESearchAccuracy::getEnums())),
+//            array('accuracy', 'in', 'range' => array(ESearchAccuracy::getEnums())),
             array('byTags, byName', 'boolean', 'allowEmpty' => true),
         );
     }
