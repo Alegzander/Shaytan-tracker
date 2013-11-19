@@ -113,6 +113,8 @@ class TorrentMeta extends EMongoDocument
 
         $searchForm->setAttributes($searchPost);
 
+        //TODO Check how it will work for multi page results and for bit data
+
         if ($searchForm->validate()){
             $search = \Yii::app()->sphinx;
 
