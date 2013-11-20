@@ -105,50 +105,79 @@ class TorrentMeta extends EMongoDocument
         $pagination = new CPagination();
         $pagination->setPageSize(100);
 
-        TorrentMeta::model()->count();
+        $dataProvider = new EMongoBigDataProvider($this);
+        $pagination->pageVar = $dataProvider->getId().'_page';
 
-        $dataProvider = new EMongoDataProvider($this);
-
-        $pageNumber = \Yii::app()->request->getQuery($dataProvider->getId().'_page', 1) - 1;
+        $search = \Yii::app()->sphinx;
 
         $searchForm->setAttributes($searchPost);
+        $foundTorrents = array();
 
         //TODO Check how it will work for multi page results and for bit data
 
         if ($searchForm->validate()){
-            $search = \Yii::app()->sphinx;
-
-            $result = $search->getDbConnection()
+            $search->getDbConnection()
             ->createCommand()
             ->select('torrent_id')
             ->from('torrent')
             ->where('MATCH(\'@(name,description,tags) "'.$searchForm->phrase.'"~4\')')
-            ->limit($pagination->getPageSize())
-            ->offset($pagination->getPageSize()*$pageNumber)
-            ->query();
+            ->execute();
 
             $metaData = $search->getDbConnection()->createCommand('SHOW META')->queryAll();
 
             foreach ($metaData as $data){
-                if ($data['Variable_name'] === 'total'){
+                if ($data['Variable_name'] === 'total_found'){
                     $pagination->setItemCount(intval($data['Value']));
                     break;
                 }
             }
 
-            $foundTorrents = array();
+            $result = $search->getDbConnection()
+                ->createCommand('   ')
+                ->select('torrent_id')
+                ->from('torrent')
+                ->where('MATCH(\'@(name,description,tags) "'.$searchForm->phrase.'"~4\')')
+                ->limit($pagination->getLimit())
+                ->offset($pagination->getOffset())
+                ->query();
+        } else {
+            $search->getDbConnection()
+                ->createCommand()
+                ->select('torrent_id')
+                ->from('torrent')
+                ->execute();
 
-            foreach ($result as $row){
-                array_push($foundTorrents, new MongoId($row['torrent_id']));
+            $metaData = $search->getDbConnection()->createCommand('SHOW META')->queryAll();
+
+            foreach ($metaData as $data){
+                if ($data['Variable_name'] === 'total_found'){
+                    $pagination->setItemCount(intval($data['Value']));
+                    break;
+                }
             }
 
-            if (count($foundTorrents) > 0) {
-                $tmpCriteria = new EMongoCriteria();
-                $tmpCriteria->addCondition('torrentId', $foundTorrents, '$in');
-                $this->mergeDbCriteria($tmpCriteria);
+            if ($pagination->getOffset() === 0)
+                $limit = $pagination->getLimit();
+            else
+                $limit = $pagination->getOffset().', '.$pagination->getLimit();
 
-                unset($tmpCriteria);
-            }
+            $result = $search->getDbConnection()
+                ->createCommand('SELECT torrent_id FROM torrent LIMIT '.$limit)
+                ->query();
+        }
+
+        foreach ($result as $row){
+            array_push($foundTorrents, new MongoId($row['torrent_id']));
+        }
+
+        if (count($foundTorrents) > 0) {
+            $tmpCriteria = new EMongoCriteria();
+            $tmpCriteria->addCondition('torrentId', $foundTorrents, '$in');
+            $this->mergeDbCriteria($tmpCriteria);
+
+            unset($tmpCriteria);
+        } else {
+            return new CArrayDataProvider(array());
         }
 
         $dataProvider->setPagination($pagination);

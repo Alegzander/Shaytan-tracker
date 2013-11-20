@@ -15,6 +15,21 @@ return CMap::mergeArray(
                 'server' => 'mongodb://localhost:27017',
                 'db' => 'shaytan'
             ),
-        )
+        ),
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning',
+                ),
+                array(
+                    'class' => 'CEmailLogRoute',
+                    'levels' => 'error',
+                    'utf8' => true,
+                    'email' => array('alexander.aka.alegz@gmail.com', 'webmaster@the-torrent.net')
+                )
+            ),
+        ),
     )
 );
